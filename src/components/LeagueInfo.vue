@@ -26,6 +26,15 @@ export default {
       stage: "stage"
     };
   },
+  methods:{
+
+  },
+  computed:{
+
+  },
+  mounted(){
+    
+  }
 }
 </script>
 

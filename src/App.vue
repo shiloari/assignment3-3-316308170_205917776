@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <b-navbar toggleable="lg" type="dark" variant="info">
-      <b-navbar-brand :to="{ name: 'main' }">Superliga Vue</b-navbar-brand>
+      <b-navbar-brand :to="{ name: 'main' }">Superliga</b-navbar-brand>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
 
@@ -17,7 +17,7 @@
             User
           </template>
           <b-dropdown-item href="#">Favorites</b-dropdown-item>
-          <b-dropdown-item href="#">Log Out</b-dropdown-item>
+          <b-dropdown-item @click="Logout" href="#">Log Out</b-dropdown-item>
         </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -31,6 +31,12 @@ export default {
   name: "App",
   methods: {
     Logout() {
+      try{
+        const response = this.axios.post("http://localhost:3000/Logout");
+      }
+      catch(err){
+        console.log(err.response);
+      }
       this.$root.store.logout();
       this.$root.toast("Logout", "User logged out successfully", "success");
 
