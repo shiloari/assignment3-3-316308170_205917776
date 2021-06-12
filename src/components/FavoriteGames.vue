@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="favorites">
     <GamePreview
         v-for="g in games"
         :Match_ID="g.Match_ID" 
@@ -77,4 +77,9 @@ export default {
 </script>
 
 <style>
+
+.favorties{
+  display: flex; /* or inline-flex */
+  flex-direction: row
+}
 </style>

@@ -1,20 +1,18 @@
 <template>
   <div class="container">
-    <h1 class="title">Main Page</h1>
-    <LeagueInfo></LeagueInfo>
-    <LoginPage v-if="!$root.store.username"></LoginPage>
+    <LoginPage id="login" v-if="!$root.store.username"></LoginPage>
     <FavoriteGames v-else></FavoriteGames>
-    
+    <!-- <LeagueInfo></LeagueInfo> -->
   </div>
 </template>
 
 <script>
-import LeagueInfo from "../components/LeagueInfo";
+// import LeagueInfo from "../components/LeagueInfo";
 import FavoriteGames from "../components/FavoriteGames";
 import LoginPage from "../pages/LoginPage";
 export default {
   components: {
-    LeagueInfo, 
+    // LeagueInfo, 
     LoginPage, 
     FavoriteGames
   }
@@ -33,4 +31,11 @@ export default {
   pointer-events: none;
   cursor: default;
 }
+
+#login{
+  position: absolute;
+  top: 20%;
+  left: 5%;
+}
+
 </style>
