@@ -1,5 +1,5 @@
 <template>
-  <div class="favorites">
+  <div class="favorites" v-show="this.games.length == this.ready_components">
     <GamePreview
         v-for="g in games"
         :Match_ID="g.Match_ID" 
@@ -25,41 +25,17 @@ export default {
   }, 
   data() {
     return {
-      games: [
-        // {
-        //   id:25,
-        //   hostTeam: "Maccabi Tel-Aviv",
-        //   guestTeam: "Hapoel Beer-Sheva",
-        //   date: "27/5/21",
-        //   hour: "20:00"
-        // },
-        // {
-        //   id:39,
-        //   hostTeam: "Hapoel Tel-Aviv",
-        //   guestTeam: "Maccabi Haifa",
-        //   date: "29/5/21",
-        //   hour: "20:00"
-        // },
-        // {
-        //   id:43,
-        //   hostTeam: "Maccabi Haifa",
-        //   guestTeam: "Maccabi Haifa",
-        //   date: "31/5/21",
-        //   hour: "20:00"
-        // }
-      ]
+      games: [],
+      ready_components : 0
     };
   },
   methods: {
     async updateGames(){
-      console.log("response");
       try {
         const response = await this.axios.get(
-          "http://localhost:3000/users/favoriteMatches",
+          `${this.$root.api_domain}/users/favoriteMatches`,
         );
-        console.log(JSON.stringify(response.data))
         this.games = response.data;
-        console.log(this.games[0])
         // this.games = [];
         // this.games.push(...games);
         // console.log(response);
@@ -70,7 +46,6 @@ export default {
     }
   }, 
   mounted(){
-    console.log("favorite games mounted");
     this.updateGames(); 
   }
 };

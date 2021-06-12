@@ -89,7 +89,8 @@ new Vue({
     router,
     data() {
         return {
-            store: shared_data
+            store: shared_data,
+            api_domain: "http://localhost:3000"
         };
     },
     methods: {

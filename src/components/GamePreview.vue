@@ -1,7 +1,7 @@
-<template>
+<template v-show="this.is_loaded">
   <div class="frosted_glass">
     <!-- <div :title="Match_ID" class="game-title"></div> -->
-    
+    <!-- {{ this.is_loaded }} -->
     <div id="teams">
     <div id="team_display">
       <div id="team_logo"><img v-bind:src= "home_team_logo"></div>
@@ -78,21 +78,23 @@ export default {
       home_team_logo : undefined,
       away_team_name: undefined,
       away_team_logo : undefined,
-      stage_name: undefined
-      
+      stage_name: undefined,
+      is_loaded : undefined
     }
   },
   methods:{
     async set_display(){
       try{
-        const home_team = (await this.axios.get(`http://localhost:3000/teams/${this.Home_Team_ID}/preview`)).data;
+        const home_team = (await this.axios.get(`${this.$root.api_domain}/teams/${this.Home_Team_ID}/preview`)).data;
         this.home_team_name = home_team.name;
         this.home_team_logo = home_team.logo_path;
-        const away_team = (await this.axios.get(`http://localhost:3000/teams/${this.Away_Team_ID}/preview`)).data;
+        const away_team = (await this.axios.get(`${this.$root.api_domain}/teams/${this.Away_Team_ID}/preview`)).data;
         this.away_team_name = away_team.name;
         this.away_team_logo = away_team.logo_path;
-        this.stage_name = (await this.axios.get(`http://localhost:3000/league/stages/${this.Stage}`)).data.name;
-
+        this.stage_name = (await this.axios.get(`${this.$root.api_domain}/league/stages/${this.Stage}`)).data.name;
+        
+        
+        // console.log(this.$parent.ready_components);
       }
       catch(err){
         console.log("in error")
@@ -101,7 +103,10 @@ export default {
     }
   },
   mounted(){
-      const teams = this.set_display();
+     this.set_display().then(()=>{
+       this.is_loaded = true
+       this.$parent.ready_components ++;
+     });
     } 
 };
 </script>

@@ -291,7 +291,7 @@ export default {
     async Register() {
       try {
         const response = await this.axios.post(
-          "http://localhost:3000/Register",
+          `${this.$root.api_domain}/Register`,
           {
             username: this.form.username,
             password: this.form.password,
