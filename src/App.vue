@@ -56,11 +56,12 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   min-height: 100vh;
-  background: url("./assets/background.jpg");
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
+  background: url("./assets/background3.jpg");
+  // -webkit-background-size: cover;
+  // -moz-background-size: cover;
+  // -o-background-size: cover;
   background-size: cover;
+  background-repeat: no-repeat;
   // filter: blur(2px);
   // -webkit-filter: blur(2px);
 
