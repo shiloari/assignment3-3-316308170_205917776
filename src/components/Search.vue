@@ -47,8 +47,8 @@ export default {
     },
     async startSearch(keyword){
         try {
-            await this.axios.get(
-                `${this.$root.api_domain}/${this.Sname}/search?keyword=${keyword}`)
+            await this.$root.server.get(
+                `${this.Sname}/search?keyword=${keyword}`)
             .then((response) => {
                 this.searches = response.data;
                 this.fixSearchers()

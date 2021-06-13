@@ -2,11 +2,14 @@ import Vue from "vue";
 import App from "./App.vue";
 import VueAxios from "vue-axios";
 import VueSession from 'vue-session'
+import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 var options = {
     persist: true
 }
 
 Vue.use(VueSession, options)
+Vue.use(BootstrapVue)
+Vue.use(BootstrapVueIcons)
 import axios from "axios";
 axios.defaults.withCredentials = true
 const baseURL = 'http://localhost:3000/';
