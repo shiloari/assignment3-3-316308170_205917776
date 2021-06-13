@@ -1,6 +1,6 @@
 <template>
   <div class="favorites" v-show="this.games.length == this.ready_components">
-    <GamePreview
+    <GamePreview id="favorite"
         v-for="g in games"
         :Match_ID="g.Match_ID" 
         :Home_Team_ID="g.Home_Team_ID" 
@@ -32,8 +32,8 @@ export default {
   methods: {
     async updateGames(){
       try {
-        const response = await this.axios.get(
-          `${this.$root.api_domain}/users/favoriteMatches`,
+        const response = await this.$root.server.get(
+          `users/favoriteMatches`,
         );
         this.games = response.data;
         // this.games = [];
@@ -56,5 +56,9 @@ export default {
 .favorties{
   display: flex; /* or inline-flex */
   flex-direction: row
+}
+
+#favorite{
+  margin-block: 10px;
 }
 </style>

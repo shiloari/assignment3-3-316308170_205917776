@@ -1,6 +1,7 @@
 <template>
-    <div>
+    <div class = "league_info">  
     <div id="league_details">
+      <img src="../assets/superliga.png" style="width: 150px; height: auto;">
       <h1><b>{{ this.leagueName }}</b></h1>
       <h2>{{ this.season }}</h2>
       <h3>{{ this.stage }}</h3>
@@ -43,9 +44,7 @@ export default {
   methods:{
     async getDetails(){
           try {
-            const response = await this.axios.get(
-              `${this.$root.api_domain}`,
-            );
+            const response = await this.$root.server.get();
             let details = response.data;
             this.leagueName = details.league_name;
             this.season = details.season_name,
@@ -75,28 +74,48 @@ export default {
 
 <style>
 
-#league_details{
-  /* border: solid 2px red; */
-  /* position: relative; */
-  /* top: 0; */
-  margin: 0 auto;
-  /* padding-top: 100px;
-  padding-bottom: 100px; */
-  /* padding-bottom: 1000%; */
-  z-index: -10;
-  text-align: center;
-  box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
-  /* filter: blur(1px); */
-  backdrop-filter: blur(10px);
-  /* margin: -20px; */
+.league_info{  
+  height: 100%;
+  width: max-content;
+  display: flex;
+  flex-direction: column; 
+  justify-content: space-between;
+
 }
 
-#league_details h1, #league_details h2, #league_details h3{
-  color: black;
+#league_details:before{
+  content: "";
+  position: absolute;
+  background: inherit;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+  filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+#league_details{
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2); 
+  border-radius: 5px;
+  position: relative;
+  z-index: 1;
+  background: inherit;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  padding-block: 10px;
 }
 
 #upcoming_game{
-  position: relative;
+    margin-bottom: 10%;
 }
+
+#league_details h1, #league_details h2, #league_details h3{
+  color: white;
+}
+
 
 </style>

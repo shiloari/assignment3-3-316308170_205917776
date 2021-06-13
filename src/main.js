@@ -1,8 +1,19 @@
 import Vue from "vue";
 import App from "./App.vue";
 import VueAxios from "vue-axios";
+import VueSession from 'vue-session'
+var options = {
+    persist: true
+}
+
+Vue.use(VueSession, options)
 import axios from "axios";
 axios.defaults.withCredentials = true
+const baseURL = 'http://localhost:3000/';
+const server = axios.create({
+    baseURL,
+    withCredentials: true
+})
 import routes from "./routes";
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
@@ -81,7 +92,6 @@ const shared_data = {
         this.username = undefined;
     }
 };
-console.log(shared_data);
 
 // Vue.prototype.$root.store = shared_data;
 
@@ -90,7 +100,8 @@ new Vue({
     data() {
         return {
             store: shared_data,
-            api_domain: "http://localhost:3000"
+            server: server,
+            // api_domain: "http://localhost:3000"
         };
     },
     methods: {
