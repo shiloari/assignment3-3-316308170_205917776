@@ -85,13 +85,13 @@ export default {
   methods:{
     async set_display(){
       try{
-        const home_team = (await this.axios.get(`${this.$root.api_domain}/teams/${this.Home_Team_ID}/preview`)).data;
+        const home_team = (await this.$root.server.get(`teams/${this.Home_Team_ID}/preview`)).data;
         this.home_team_name = home_team.name;
         this.home_team_logo = home_team.logo_path;
-        const away_team = (await this.axios.get(`${this.$root.api_domain}/teams/${this.Away_Team_ID}/preview`)).data;
+        const away_team = (await this.$root.server.get(`teams/${this.Away_Team_ID}/preview`)).data;
         this.away_team_name = away_team.name;
         this.away_team_logo = away_team.logo_path;
-        this.stage_name = (await this.axios.get(`${this.$root.api_domain}/league/stages/${this.Stage}`)).data.name;
+        this.stage_name = (await this.$root.server.get(`league/stages/${this.Stage}`)).data.name;
         
         
         // console.log(this.$parent.ready_components);
@@ -140,6 +140,14 @@ export default {
   height: auto;
 }
 
+#team_display h3{
+  color: black;
+  width: max-content;
+  box-shadow: inset 0 0 200px rgba(255, 255, 255, .5);
+  margin-block: 5px;
+
+}
+
 #vs{
   font-size: 50px;
   display: inline;
@@ -147,6 +155,8 @@ export default {
 
 #vs p{
   margin-top: 40px;
+     color: black;
+
 }
 
 #game_date{
@@ -159,6 +169,7 @@ export default {
    display: inline-block;
    margin-inline: 20px;
    font-size: 18px;
+   color: black;
 }
 
 #stadium{
@@ -203,7 +214,6 @@ export default {
   width: 650px;
   height: 300px;
   position: relative;
-  margin: 10px 10px;
   border-style: solid;
   border-radius: 10px;
   border-width: 5px;
@@ -224,26 +234,6 @@ export default {
     background: inherit;
     overflow: hidden;
     padding-bottom: 5px;
-    margin-top: 15px;
-    /* background: inherit;
-    border-radius: 5px;
-    overflow: hidden;
-    align-items: center;
-    display: inline-block;
-    vertical-align: middle;
-    margin: 10px 10px;
-    width: 650px;
-    height: 300px;
-    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2); 
-    border-radius: 5px;
-    position: relative;
-    z-index: 1;
-    background: inherit;
-    overflow: hidden;
-    justify-content: center;
-    /* flex-direction: column; */
-    /* text-align: center;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */ 
 }
 
 .frosted_glass:before {
@@ -258,25 +248,6 @@ export default {
     box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
     filter: blur(10px);
     backdrop-filter: blur(10px);
-    margin: -20px;
 }
-
-/* .frosted_glass:after{
-    content: '';
-    width: 300px;
-    height: 300px;
-    background: inherit; 
-    position: absolute;
-    left: -25px;
-    right: 0;
-    top: -25px;  
-    bottom: 0;
-    box-shadow: inset 20 20 20 20px rgb(255, 255, 255);
-    filter: blur(0px);
-} */
-
-
-
-
 
 </style>

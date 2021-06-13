@@ -1,12 +1,6 @@
 <template>
-<!-- <div id="player_details">
-    <h1>{{ this.name }}</h1>
-    <img v-bind:src= "photo_path">
-    <h2>{{ this.team_name }}</h2>
-    <h3>{{ this.position }}</h3>
-</div> -->
 
-<div class="col-lg-3 col-sm-6" id="card" >
+<div class="col-lg-3 col-sm-6">
     <div class="card hovercard" style="background:rgb(255,255,255,0.6);">
         <div class="cardheader">
             <img v-bind:src= "team_logo"> 
@@ -57,21 +51,21 @@ export default {
     },
     methods:{
         async getPreview(){
-            if (this.type == "player"){
-            const player_preview = (await this.axios.get(`${this.$root.api_domain}/players/${this.id}/preview`)).data
+            if (this.type == "players"){
+            const player_preview = (await this.$root.server.get(`players/${this.id}/preview`)).data
             this.name = player_preview.name;
             this.photo_path = player_preview.photo_path;
             this.team_name = player_preview.team_name;
-            const team = (await this.axios.get(`${this.$root.api_domain}/teams/${player_preview.team_id}/preview`)).data;
+            const team = (await  this.$root.server.get(`teams/${player_preview.team_id}/preview`)).data;
             this.team_logo = team.logo_path;
             this.position = player_preview.position;
             }
-            else if (this.type == "coach"){
-                const coach_preview = (await this.axios.get(`${this.$root.api_domain}/coaches/${this.id}/preview`)).data
+            else if (this.type == "coaches"){
+                const coach_preview = (await this.$root.server.get(`coaches/${this.id}/preview`)).data
                 this.name = coach_preview.name;
                 this.photo_path = coach_preview.photo_path;
                 this.team_name = coach_preview.team_name;
-                const team = (await this.axios.get(`${this.$root.api_domain}/teams/${coach_preview.team_id}/preview`)).data;
+                const team = (await this.$root.server.get(`teams/${coach_preview.team_id}/preview`)).data;
                 this.team_logo = team.logo_path;
                 this.position = "Coach"
             }
@@ -80,13 +74,11 @@ export default {
 }
 </script>
 <style>
-
-
 #card{
-    display:inline-block;
-    margin-inline: 5px;
-}
 
+    /* display:inline-block; */
+    /* margin-inline: 5px; */
+}
 .card {
     padding-top: 20px;
     margin: 10px 0 20px 0;
@@ -105,19 +97,16 @@ export default {
     min-width: 150px;
     min-height: 320px;
 }
-
 .card .card-heading {
     padding: 0 20px;
     margin: 0;
 }
-
 .card .card-heading.simple {
     font-size: 20px;
     font-weight: 300;
     color: #777;
     border-bottom: 1px solid #e5e5e5;
 }
-
 .card .card-heading.image img {
     display: inline-block;
     width: 46px;
@@ -129,24 +118,20 @@ export default {
     -moz-border-radius: 50%;
     border-radius: 50%;
 }
-
 .card .card-heading.image .card-heading-header {
     display: inline-block;
     vertical-align: top;
 }
-
 .card .card-heading.image .card-heading-header h3 {
     margin: 0;
     font-size: 14px;
     line-height: 16px;
     color: #262626;
 }
-
 .card .card-heading.image .card-heading-header span {
     font-size: 12px;
     color: #999999;
 }
-
 .card-top {
     position: absolute;
     top: 0;
@@ -156,15 +141,12 @@ export default {
     height: 150px;
     background-color: #ffffff;
 }
-
 .card-top.green {
     background-color: #53a93f;
 }
-
 .card-top.blue {
     background-color: #427fed;
 }
-
 .card-info {
     position: absolute;
     top: 150px;
@@ -177,7 +159,6 @@ export default {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
-
 .card-info .title {
     display: block;
     margin: 8px 14px 0 14px;
@@ -187,7 +168,6 @@ export default {
     line-height: 18px;
     color: #404040;
 }
-
 .title{
     margin: 4px;
 }
@@ -200,7 +180,6 @@ export default {
     color: #000000;
     text-overflow: ellipsis;
 }
-
 .card.hovercard {
     position: relative;
     padding-top: 0;
@@ -208,27 +187,21 @@ export default {
     text-align: center;
     background-color: rgba(214, 224, 226, 0.2);
 }
-
 .card.hovercard .cardheader {
     
     height: 90px;
 }
-
-
 .cardheader img{
     margin: 0 auto;
     width: 100%;
     padding-top: 20px;
     opacity: 0.2;
 }
-
 .card.hovercard .avatar {
     position: relative;
     top: -50px;
     margin-bottom: -50px;
 }
-
-
 .card.hovercard .avatar img {
     width: 110px;
     height: 110px;
@@ -239,11 +212,9 @@ export default {
     border-radius: 50%;
     border: 5px solid rgba(255,255,255,0.5);
 }
-
 .card.hovercard .info {
     padding: 4px 8px 10px;
 }
-
 .card.hovercard .info .title {
     margin-bottom: 4px;
     font-size: 24px;
@@ -251,8 +222,6 @@ export default {
     color: #262626;
     vertical-align: middle;
 }
-
-
 .card.hovercard .info .desc {
     overflow: hidden;
     font-size: 22px;
@@ -260,11 +229,8 @@ export default {
     color: #000000;
     text-overflow: ellipsis;
 }
-
 .card.hovercard  {
     padding: 0 20px;
     margin-bottom: 17px;
 }
-
-
 </style>

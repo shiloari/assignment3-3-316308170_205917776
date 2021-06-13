@@ -93,17 +93,18 @@ export default {
     },
     async Login() {
       try {
-        const response = await this.axios.post(
-          `${this.$root.api_domain}/Login`,
+        const response = await this.$root.server.post('Login',
           {
             username: this.form.username,
             password: this.form.password
             }
         )
-        this.$root.loggedIn = true;
+        this.$session.start()
+        console.log('session started')
         // console.log(this.$root.store.login);
         this.$root.store.login(this.form.username);
         // this.$router.push("/");
+        this.$router.go()
       } catch (err) {
         console.log(err.response);
         this.form.submitError = err.response.data.message;
@@ -120,6 +121,9 @@ export default {
 
       this.Login();
     }
+  },
+  mounted(){
+    //  this.$session.destroy()
   }
 };
 </script>
