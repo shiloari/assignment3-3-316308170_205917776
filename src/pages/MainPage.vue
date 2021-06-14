@@ -54,9 +54,7 @@ export default {
 
 .main_page{
   position: relative;
-  // border: solid 2px red;
   display:inline-flex;
-  // margin-inline: 5px;
   width: 100%;
   height: 100%;
 }
@@ -81,22 +79,16 @@ export default {
   margin-right: -100px;
 }
 
-// .row.no-gutter [class*='col-']:not(:first-child),
-// .row.no-gutter [class*='col-']:not(:last-child) {
-//   padding-right: 0;
-//   padding-left: 0;
+
+// .preview{
+//   height: max-content;
+//   transition: all .2s ease-in-out;
+//   width: max-content;
+//   margin: 10px;
 // }
 
-.preview{
-  height: max-content;
-  transition: all .2s ease-in-out;
-  width: max-content;
-  margin: 10px;
-  // border: solid 2px red;
-}
-
-.preview:hover{
-  transform: scale(1.05);
-}
+// .preview:hover{
+//   transform: scale(1.05);
+// }
 
 </style>

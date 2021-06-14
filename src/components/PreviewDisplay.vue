@@ -1,5 +1,6 @@
 <template>
-<div class="row no-gutters" style="width: max-content;">
+<div class="display">
+<div class="row no-gutters">
 <div class="col-lg-3 col-sm-6">
     <div class="card hovercard" style="background:rgb(255,255,255,0.6);">
         <div class="cardheader">
@@ -16,6 +17,7 @@
             <div class="desc">{{ this.description }}</div>  
         </div>
     </div>
+</div>
 </div>
 </div>
 </template>
@@ -83,6 +85,17 @@ export default {
 }
 </script>
 <style>
+
+.display{
+    margin: 10px;
+    height: max-content;
+    transition: all .2s ease-in-out;
+    width: max-content;
+}
+
+.display:hover{
+  transform: scale(1.05);
+}
 
 .card {
     /* padding-top: 20px; */
