@@ -1,13 +1,20 @@
 <template>
-    <div class="p_search" v-show="this.searches.length == this.ready_components">
-        <div v-if="this.start">
-            <PreviewDisplay 
+    <div class="p_search">  <!-- v-show="this.searches.length == this.ready_components"> -->
+        <div> <!-- v-if="this.start"> -->
+            <ul>
+                <li v-for="s in searches"
+                :key="s.id">
+                {{s.name}}
+                </li>
+            </ul>   
+            <!-- <PreviewDisplay 
                 v-for="s in searches"
                 :type="s.Sname"
                 :id="s.id"
                 :key="s.id">
-            </PreviewDisplay>
+            </PreviewDisplay> -->
         </div>
+        <div v-show="this.searches.length == 0 && this.start">None {{this.Sname}} found</div>
     </div>
 </template>
 
@@ -15,37 +22,37 @@
 import PreviewDisplay from "./PreviewDisplay.vue";
 export default {
   name: "Search",
-    components: {
-    PreviewDisplay
-  }, 
+//     components: {
+//     PreviewDisplay
+//   }, 
   data() {
     return {
       searches: [],
       ready_components : 0,
-      Sname : "",
+      Sname : "teams",
       filter : "",
+      sort: "",
       start: false
     };
   },
   methods: {
     fixSearchers: function (){
-        if(this.Sname == 'coaches'){
-            var array = [];
-            (this.searches).forEach(element => {
-                array.push({
-                    id : element.coach_id,
-                    coach_name : element.coach_name,
-                    Sname: "coaches"
-            })})
-            this.searches = array;
-        }
-        else{
-            (this.searches).forEach(element => {
-                element.Sname = this.Sname
+        (this.searches).forEach(element => {
+            element.Sname = this.Sname
+        })
+    },
+    sortSearchers: function () {
+        let sortBy = this.sort
+        if(sortBy){
+            this.searches.sort(function(a,b) {
+                return (a[sortBy] < b[sortBy]) ? -1 :
+                 (a[sortBy] > b[sortBy]) ? 1 : 0;
             })
         }
     },
     async startSearch(keyword){
+        this.searches = [];
+        this.ready_components = 0;
         try {
             await this.$root.server.get(
                 `${this.Sname}/search?keyword=${keyword}`)
@@ -53,14 +60,19 @@ export default {
                 this.searches = response.data;
                 this.fixSearchers()
                 console.log(this.searches);
+                this.sortSearchers()
+                console.log(this.searches);
                 this.start = true;
             })
         } catch (error) {
-            console.log("error in update games")
+            console.log("error in get search")
             console.log(error);
         }
     }
-  }, 
+  }
+//   watch:{
+//       ready_components:
+//   }
 
 };
 </script>
