@@ -7,17 +7,17 @@
     </div>
     <PreviewDisplay class="preview" v-if="this.$session.exists()"
     :type="'players'"
-    :id="26722"
+    :Display_ID="26722"
     >
     </PreviewDisplay>
     <PreviewDisplay class="preview" v-if="this.$session.exists()"
     :type="'coaches'"
-    :id="459045"
+    :Display_ID="459045"
     >
     </PreviewDisplay>
     <PreviewDisplay class="preview" v-if="this.$session.exists()"
     :type="'teams'"
-    :id="939"
+    :Display_ID="939"
     >
     </PreviewDisplay>
   </div>
@@ -63,7 +63,7 @@ export default {
   position: absolute;
   top: 0;
   right: 0;
-  height: 100%;
+  height: 100vh;
   box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
   backdrop-filter: blur(15px);
 }
@@ -78,17 +78,5 @@ export default {
   margin-left: -100px;
   margin-right: -100px;
 }
-
-
-// .preview{
-//   height: max-content;
-//   transition: all .2s ease-in-out;
-//   width: max-content;
-//   margin: 10px;
-// }
-
-// .preview:hover{
-//   transform: scale(1.05);
-// }
 
 </style>

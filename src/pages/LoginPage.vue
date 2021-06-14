@@ -104,7 +104,7 @@ export default {
         // console.log(this.$root.store.login);
         this.$root.store.login(this.form.username);
         this.$router.replace("/");
-        // this.$router.go(0)
+        this.$router.go(0)
       } catch (err) {
         console.log(err.response);
         this.form.submitError = err.response.data.message;

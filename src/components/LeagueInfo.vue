@@ -75,7 +75,7 @@ export default {
 <style>
 
 .league_info{  
-  height: 100%;
+  height: 100vh;
   width: max-content;
   display: flex;
   flex-direction: column; 
@@ -110,7 +110,7 @@ export default {
 }
 
 #upcoming_game{
-    margin-bottom: 10%;
+    margin-bottom: 15%;
 }
 
 #league_details h1, #league_details h2, #league_details h3{

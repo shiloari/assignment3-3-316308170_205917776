@@ -1,4 +1,5 @@
 <template>
+<router-link :to=page_route>
 <div class="display">
 <div class="row no-gutters">
 <div class="col-lg-3 col-sm-6">
@@ -20,6 +21,7 @@
 </div>
 </div>
 </div>
+</router-link>
 </template>
 
 <script>
@@ -32,7 +34,9 @@ export default {
             small_photo_path: undefined,
             description: undefined,
             background_photo_path : undefined,
-            is_loaded: false
+            is_loaded: false,
+            page_type: undefined,
+            page_route: `${this.type}/${this.Display_ID}`
         }
         
     },
@@ -47,7 +51,7 @@ export default {
             type: String,
             required: true
     },
-        id:{
+        Display_ID:{
             type: Number,
             required: true
     }
@@ -55,30 +59,33 @@ export default {
     methods:{
         async getPreview(){
             if (this.type == "players"){
-                const player_preview = (await this.$root.server.get(`players/${this.id}/preview`)).data
+                const player_preview = (await this.$root.server.get(`players/${this.Display_ID}/preview`)).data
                 this.main_name = player_preview.name;
                 this.small_photo_path = player_preview.photo_path;
                 this.secondary_name = player_preview.team_name;
                 const team = (await  this.$root.server.get(`teams/${player_preview.team_id}/preview`)).data;
                 this.background_photo_path = team.logo_path;
                 this.description = `Position: ${player_preview.position}`;
+                this.page_type = "players";
             }
             else if (this.type == "coaches"){
-                const coach_preview = (await this.$root.server.get(`coaches/${this.id}/preview`)).data
+                const coach_preview = (await this.$root.server.get(`coaches/${this.Display_ID}/preview`)).data
                 this.main_name = coach_preview.name;
                 this.small_photo_path = coach_preview.photo_path;
                 this.secondary_name = coach_preview.team_name;
                 const team = (await this.$root.server.get(`teams/${coach_preview.team_id}/preview`)).data;
                 this.background_photo_path = team.logo_path;
-                this.description = "Coach"
+                this.description = "Coach";
+                this.page_type = "coach";
             }
             else if (this.type == "teams"){
-                const team_preview = (await this.$root.server.get(`teams/${this.id}/preview`)).data
+                const team_preview = (await this.$root.server.get(`teams/${this.Display_ID}/preview`)).data
                 this.main_name = team_preview.short_code;
                 this.small_photo_path = team_preview.logo_path;
                 this.secondary_name = team_preview.name;
                 this.background_photo_path = team_preview.logo_path;
                 this.description = `Founded: ${team_preview.founded}`;
+                this.page_type = "team";
             }
         }
     }
@@ -87,14 +94,14 @@ export default {
 <style>
 
 .display{
-    margin: 10px;
+    margin: 15px;
     height: max-content;
     transition: all .2s ease-in-out;
     width: max-content;
 }
 
 .display:hover{
-  transform: scale(1.05);
+  transform: scale(1.1);
 }
 
 .card {

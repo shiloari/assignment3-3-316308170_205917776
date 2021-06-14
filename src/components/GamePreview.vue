@@ -5,14 +5,14 @@
     <div id="teams">
     <div id="team_display">
       <div id="team_logo"><img v-bind:src= "home_team_logo"></div>
-      <h3>{{ this.home_team_name }}</h3>
+      <h5>{{ this.home_team_name }}</h5>
     </div>
     <div id = "vs">
       <p><b> vs.</b> </p>
     </div>
     <div id="team_display">
       <div id="team_logo"><img v-bind:src= "away_team_logo"></div>
-      <h3>{{ this.away_team_name }}</h3>
+      <h5>{{ this.away_team_name }}</h5>
     </div>
     </div>
     <div id="game_details">
@@ -123,6 +123,7 @@ export default {
   display: flex;
   align-items: stretch;
   align-content: center;
+  margin-bottom: -10px;
 }
 
 #team_display{
@@ -140,7 +141,7 @@ export default {
   height: auto;
 }
 
-#team_display h3{
+#team_display h5{
   color: black;
   width: max-content;
   box-shadow: inset 0 0 200px rgba(255, 255, 255, .5);
@@ -149,7 +150,7 @@ export default {
 }
 
 #vs{
-  font-size: 50px;
+  font-size: 40px;
   display: inline;
   float: none;}
 
@@ -162,37 +163,40 @@ export default {
 #game_date{
   text-align: center;
   align-items: center;
-
+margin-bottom: -3px;
 }
 
 #game_date p{
    display: inline-block;
-   margin-inline: 20px;
-   font-size: 18px;
+   margin-inline: 10px;
+   font-size: 14px;
    color: black;
 }
 
 #stadium{
     text-align: center;
     align-items: center;
+margin-bottom: -2px;
 
 }
 
 #stadium p{
-    display: inline-block;
+   display: inline-block;
    margin-inline: 20px;
-   font-size: 24px;
+   font-size: 16px;
 }
 
 #stage{
     text-align: center;
     align-items: center;
+    margin-bottom: -2px;
+
 }
 
 #stage p{
     display: inline-block;
    margin-inline: 20px;
-   font-size: 18px;
+   font-size: 16px;
 }
 
 .game-preview .game-title {
@@ -211,8 +215,8 @@ export default {
   align-items: center;
   display: inline-block;
   vertical-align: middle;
-  width: 650px;
-  height: 300px;
+  width: 350px;
+  height: 180px;
   position: relative;
   border-style: solid;
   border-radius: 10px;
@@ -225,8 +229,8 @@ export default {
 }
 
 .frosted_glass {
-    width: 30rem;
-    height: 15rem;
+    width:max-content;
+    height: 11rem;
     box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2); 
     border-radius: 5px;
     position: relative;
@@ -234,6 +238,7 @@ export default {
     background: inherit;
     overflow: hidden;
     padding-bottom: 5px;
+    margin-block: 10px;
 }
 
 .frosted_glass:before {
