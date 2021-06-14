@@ -1,7 +1,7 @@
 <template>
   <div class="main_page">
     <LoginPage id="login" v-if="!this.$session.exists()"></LoginPage>
-    <FavoriteGames id="favorites"></FavoriteGames> 
+    <!-- <FavoriteGames id="favorites"></FavoriteGames>  -->
     <div id="right_side_display">
       <LeagueInfo id="league_info"></LeagueInfo>
     </div>
@@ -13,6 +13,11 @@
     <PreviewDisplay class="preview" v-if="this.$session.exists()"
     :type="'coaches'"
     :id="459045"
+    >
+    </PreviewDisplay>
+    <PreviewDisplay class="preview" v-if="this.$session.exists()"
+    :type="'teams'"
+    :id="939"
     >
     </PreviewDisplay>
   </div>
@@ -27,8 +32,8 @@ export default {
   components: {
     LeagueInfo, 
     LoginPage, 
-    FavoriteGames,
-    // PreviewDisplay
+    // FavoriteGames,
+    PreviewDisplay
   }
 };
 </script>
@@ -71,8 +76,27 @@ export default {
   height: 60%;
 }
 
+.row.no-gutter {
+  margin-left: -100px;
+  margin-right: -100px;
+}
+
+// .row.no-gutter [class*='col-']:not(:first-child),
+// .row.no-gutter [class*='col-']:not(:last-child) {
+//   padding-right: 0;
+//   padding-left: 0;
+// }
+
 .preview{
   height: max-content;
+  transition: all .2s ease-in-out;
+  width: max-content;
+  margin: 10px;
+  // border: solid 2px red;
+}
+
+.preview:hover{
+  transform: scale(1.05);
 }
 
 </style>

@@ -1,22 +1,22 @@
 <template>
-
+<div class="row no-gutters" style="width: max-content;">
 <div class="col-lg-3 col-sm-6">
     <div class="card hovercard" style="background:rgb(255,255,255,0.6);">
         <div class="cardheader">
-            <img v-bind:src= "team_logo"> 
+            <center><img v-bind:src= "background_photo_path"></center> 
         </div>
         <div class="avatar">
-            <img v-bind:src= "photo_path">
+            <img v-bind:src= "small_photo_path">
         </div>
         <div class="info">
             <div class="title">
-                <a target="_blank" href="#">{{ this.name }}</a>
+                <a target="_blank" href="#"><b>{{ this.main_name }}</b></a>
             </div>
-            <div class="desc">{{ this.position }}</div>
-            <div class="desc"><b>{{ this.team_name }}</b></div>
-            
+            <div class="desc"><b>{{ this.secondary_name }}</b></div>
+            <div class="desc">{{ this.description }}</div>  
         </div>
     </div>
+</div>
 </div>
 </template>
 
@@ -25,11 +25,11 @@ export default {
     name: "PreviewDisplay",
     data(){
         return{
-            name: undefined,
-            team_name: undefined,
-            photo_path: undefined,
-            position: undefined,
-            team_logo : undefined,
+            main_name: undefined,
+            secondary_name: undefined,
+            small_photo_path: undefined,
+            description: undefined,
+            background_photo_path : undefined,
             is_loaded: false
         }
         
@@ -37,6 +37,7 @@ export default {
     mounted(){
         this.getPreview().then(()=>{
             this.is_loaded = true;
+            this.$parent.ready_components++;
         });
     },
     props: {
@@ -52,36 +53,40 @@ export default {
     methods:{
         async getPreview(){
             if (this.type == "players"){
-            const player_preview = (await this.$root.server.get(`players/${this.id}/preview`)).data
-            this.name = player_preview.name;
-            this.photo_path = player_preview.photo_path;
-            this.team_name = player_preview.team_name;
-            const team = (await  this.$root.server.get(`teams/${player_preview.team_id}/preview`)).data;
-            this.team_logo = team.logo_path;
-            this.position = player_preview.position;
+                const player_preview = (await this.$root.server.get(`players/${this.id}/preview`)).data
+                this.main_name = player_preview.name;
+                this.small_photo_path = player_preview.photo_path;
+                this.secondary_name = player_preview.team_name;
+                const team = (await  this.$root.server.get(`teams/${player_preview.team_id}/preview`)).data;
+                this.background_photo_path = team.logo_path;
+                this.description = `Position: ${player_preview.position}`;
             }
             else if (this.type == "coaches"){
                 const coach_preview = (await this.$root.server.get(`coaches/${this.id}/preview`)).data
-                this.name = coach_preview.name;
-                this.photo_path = coach_preview.photo_path;
-                this.team_name = coach_preview.team_name;
+                this.main_name = coach_preview.name;
+                this.small_photo_path = coach_preview.photo_path;
+                this.secondary_name = coach_preview.team_name;
                 const team = (await this.$root.server.get(`teams/${coach_preview.team_id}/preview`)).data;
-                this.team_logo = team.logo_path;
-                this.position = "Coach"
+                this.background_photo_path = team.logo_path;
+                this.description = "Coach"
+            }
+            else if (this.type == "teams"){
+                const team_preview = (await this.$root.server.get(`teams/${this.id}/preview`)).data
+                this.main_name = team_preview.short_code;
+                this.small_photo_path = team_preview.logo_path;
+                this.secondary_name = team_preview.name;
+                this.background_photo_path = team_preview.logo_path;
+                this.description = `Founded: ${team_preview.founded}`;
             }
         }
     }
 }
 </script>
 <style>
-#card{
 
-    /* display:inline-block; */
-    /* margin-inline: 5px; */
-}
 .card {
-    padding-top: 20px;
-    margin: 10px 0 20px 0;
+    /* padding-top: 20px; */
+    /* margin: 0px 0 0px 0; */
     background-color: rgba(214, 224, 226, 0.2);
     border-top-width: 0;
     border-bottom-width: 2px;
@@ -94,12 +99,16 @@ export default {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    min-width: 150px;
-    min-height: 320px;
+    min-width: 140px;
+    min-height: 200px;
+    max-width: 180px;
+    max-height: 200px;
+    width: 180px;
+    height:200px;
 }
 .card .card-heading {
-    padding: 0 20px;
-    margin: 0;
+    /* padding: 0 20px; */
+    /* margin: 0; */
 }
 .card .card-heading.simple {
     font-size: 20px;
@@ -111,7 +120,7 @@ export default {
     display: inline-block;
     width: 46px;
     height: 46px;
-    margin-right: 15px;
+    /* margin-right: 15px; */
     vertical-align: top;
     border: 0;
     -webkit-border-radius: 50%;
@@ -123,7 +132,7 @@ export default {
     vertical-align: top;
 }
 .card .card-heading.image .card-heading-header h3 {
-    margin: 0;
+    /* margin: 0; */
     font-size: 14px;
     line-height: 16px;
     color: #262626;
@@ -151,8 +160,8 @@ export default {
     position: absolute;
     top: 150px;
     display: inline-block;
-    width: 100%;
-    height: 101px;
+    /* width: 100%; */
+    height: 100px;
     overflow: hidden;
     background: #ffffff;
     -webkit-box-sizing: border-box;
@@ -163,48 +172,58 @@ export default {
     display: block;
     margin: 8px 14px 0 14px;
     overflow: hidden;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
-    line-height: 18px;
+    line-height: 22px;
     color: #404040;
 }
 .title{
-    margin: 4px;
+    margin-top: 4px;
 }
 .card-info .desc {
     display: block;
     margin: 8px 14px 0 14px;
     overflow: hidden;
-    font-size: 22px;
-    line-height: 30px;
+    font-size: 16px;
+    line-height: 20px;
     color: #000000;
     text-overflow: ellipsis;
 }
 .card.hovercard {
     position: relative;
-    padding-top: 0;
     overflow: hidden;
     text-align: center;
     background-color: rgba(214, 224, 226, 0.2);
 }
 .card.hovercard .cardheader {
-    
-    height: 90px;
+    height: 200px;
+}
+
+.cardheader{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* height: 300px; */
 }
 .cardheader img{
-    margin: 0 auto;
+     /* display: block; */
+    /* margin: 10px auto 20px; */
+    /* display: block; */
+    /* margin: 0 auto; */
     width: 100%;
-    padding-top: 20px;
+    /* padding-top: 20px; */
     opacity: 0.2;
 }
-.card.hovercard .avatar {
-    position: relative;
-    top: -50px;
-    margin-bottom: -50px;
+
+.avatar{
+    position: absolute; 
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%,-80%);
 }
 .card.hovercard .avatar img {
-    width: 110px;
-    height: 110px;
+    width: 90px;
+    height: 90px;
     max-width: 150px;
     max-height: 150px;
     -webkit-border-radius: 50%;
@@ -213,24 +232,34 @@ export default {
     border: 5px solid rgba(255,255,255,0.5);
 }
 .card.hovercard .info {
-    padding: 4px 8px 10px;
+    /* padding: 4px 8px 10px; */
+}
+
+.info{
+    position: absolute; 
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-10%);
 }
 .card.hovercard .info .title {
     margin-bottom: 4px;
-    font-size: 24px;
+    font-size: 18px;
     line-height: 1;
     color: #262626;
     vertical-align: middle;
 }
 .card.hovercard .info .desc {
     overflow: hidden;
-    font-size: 22px;
-    line-height: 30px;
+    font-size: 16px;
+    line-height: 20px;
     color: #000000;
-    text-overflow: ellipsis;
+    width: 180px;
+    text-align: center;
 }
-.card.hovercard  {
-    padding: 0 20px;
-    margin-bottom: 17px;
+
+.padding-0{
+    padding:0;
+    border: solid 2px red;
 }
+
 </style>

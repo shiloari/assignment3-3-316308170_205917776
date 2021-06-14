@@ -103,8 +103,8 @@ export default {
         console.log('session started')
         // console.log(this.$root.store.login);
         this.$root.store.login(this.form.username);
-        // this.$router.push("/");
-        this.$router.go()
+        this.$router.replace("/");
+        // this.$router.go(0)
       } catch (err) {
         console.log(err.response);
         this.form.submitError = err.response.data.message;
