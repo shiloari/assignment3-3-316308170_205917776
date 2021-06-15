@@ -110,7 +110,6 @@ new Vue({
             });
         },
         async get_data() {
-            console.log('before api')
             const all_data = (await this.$root.server.get("league/getAll")).data;
             localStorage.setItem("all_teams", JSON.stringify(all_data[0]));
             localStorage.setItem("all_players", JSON.stringify(all_data[1]));
@@ -119,7 +118,7 @@ new Vue({
         }
     },
     created() {
-        this.get_data().then(console.log('after'))
+        this.get_data()
     },
     render: (h) => h(App)
 }).$mount("#app");

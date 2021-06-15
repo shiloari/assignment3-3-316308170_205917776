@@ -97,6 +97,9 @@ export default {
           {
             username: this.form.username,
             password: this.form.password
+            },
+            {
+              withCredentials : true
             }
         )
         this.$session.start()

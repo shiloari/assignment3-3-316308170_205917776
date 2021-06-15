@@ -26,6 +26,8 @@ const shared_data = {
         let all_coaches = JSON.parse(localStorage.getItem("all_coaches"));
         let all_teams = JSON.parse(localStorage.getItem("all_teams"));
         const coach = all_coaches.filter(coach => coach.id == coach_id)[0];
+        if (coach.photo_path == null)
+            coach.photo_path = 'https://i0.wp.com/www.team360baseball.com/wp-content/uploads/sites/1832/2019/07/profile-placeholder-1.png?resize=385%2C409';
         const team = all_teams.filter(team => team.id == coach.team_id)[0];
         if (team) {
             coach.team_name = team.name;
@@ -42,7 +44,6 @@ const shared_data = {
         const team_players = all_players.filter(player => player.team_id == team.id);
         const team_coach = all_coaches.filter(coach => coach.team_id == team.id)[0];
         team.players = team_players;
-        console.log(team.players)
         team.coach = team_coach;
         return team;
     }
