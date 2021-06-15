@@ -17,6 +17,8 @@ const server = axios.create({
     baseURL,
     withCredentials: true
 })
+
+import { shared_data } from "./store"
 import routes from "./routes";
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
@@ -82,19 +84,6 @@ Vue.use(VueAxios, axios);
 
 Vue.config.productionTip = false;
 
-const shared_data = {
-    // username: localStorage.username,
-    username: undefined,
-    login(username) {
-        localStorage.setItem("username", username);
-        this.username = username;
-    },
-    logout() {
-        console.log("logout");
-        localStorage.removeItem("username");
-        this.username = undefined;
-    }
-};
 
 // Vue.prototype.$root.store = shared_data;
 
@@ -104,6 +93,8 @@ new Vue({
         return {
             store: shared_data,
             server: server,
+            // variables: variables,
+            // methods: methods
             // api_domain: "http://localhost:3000"
         };
     },
@@ -117,7 +108,18 @@ new Vue({
                 appendToast: append,
                 autoHideDelay: 3000
             });
+        },
+        async get_data() {
+            console.log('before api')
+            const all_data = (await this.$root.server.get("league/getAll")).data;
+            localStorage.setItem("all_teams", JSON.stringify(all_data[0]));
+            localStorage.setItem("all_players", JSON.stringify(all_data[1]));
+            localStorage.setItem("all_coaches", JSON.stringify(all_data[2]));
+
         }
+    },
+    created() {
+        this.get_data().then(console.log('after'))
     },
     render: (h) => h(App)
 }).$mount("#app");

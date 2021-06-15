@@ -85,10 +85,12 @@ export default {
   methods:{
     async set_display(){
       try{
-        const home_team = (await this.$root.server.get(`teams/${this.Home_Team_ID}/preview`)).data;
+        const home_team = await this.$root.store.get_team_full_data(this.Home_Team_ID);
+        // const home_team = (await this.$root.server.get(`teams/${this.Home_Team_ID}/preview`)).data;
         this.home_team_name = home_team.name;
         this.home_team_logo = home_team.logo_path;
-        const away_team = (await this.$root.server.get(`teams/${this.Away_Team_ID}/preview`)).data;
+        // const away_team = (await this.$root.server.get(`teams/${this.Away_Team_ID}/preview`)).data;
+        const away_team = await this.$root.store.get_team_full_data(this.Away_Team_ID);
         this.away_team_name = away_team.name;
         this.away_team_logo = away_team.logo_path;
         this.stage_name = (await this.$root.server.get(`league/stages/${this.Stage}`)).data.name;

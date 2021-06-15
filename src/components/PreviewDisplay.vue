@@ -36,7 +36,7 @@ export default {
             background_photo_path : undefined,
             is_loaded: false,
             page_type: undefined,
-            page_route: `${this.type}/${this.Display_ID}`
+            page_route: `/${this.type}/${this.Display_ID}`
         }
         
     },
@@ -59,27 +59,25 @@ export default {
     methods:{
         async getPreview(){
             if (this.type == "players"){
-                const player_preview = (await this.$root.server.get(`players/${this.Display_ID}/preview`)).data
+                const player_preview = this.$root.store.get_player_full_data(this.Display_ID);
                 this.main_name = player_preview.name;
                 this.small_photo_path = player_preview.photo_path;
                 this.secondary_name = player_preview.team_name;
-                const team = (await  this.$root.server.get(`teams/${player_preview.team_id}/preview`)).data;
-                this.background_photo_path = team.logo_path;
+                this.background_photo_path = player_preview.team_photo;
                 this.description = `Position: ${player_preview.position}`;
                 this.page_type = "players";
             }
             else if (this.type == "coaches"){
-                const coach_preview = (await this.$root.server.get(`coaches/${this.Display_ID}/preview`)).data
+                const coach_preview = this.$root.store.get_coach_full_data(this.Display_ID);
                 this.main_name = coach_preview.name;
                 this.small_photo_path = coach_preview.photo_path;
                 this.secondary_name = coach_preview.team_name;
-                const team = (await this.$root.server.get(`teams/${coach_preview.team_id}/preview`)).data;
-                this.background_photo_path = team.logo_path;
+                this.background_photo_path = coach_preview.team_photo;
                 this.description = "Coach";
                 this.page_type = "coach";
             }
             else if (this.type == "teams"){
-                const team_preview = (await this.$root.server.get(`teams/${this.Display_ID}/preview`)).data
+                const team_preview = this.$root.store.get_team_full_data(this.Display_ID);
                 this.main_name = team_preview.short_code;
                 this.small_photo_path = team_preview.logo_path;
                 this.secondary_name = team_preview.name;

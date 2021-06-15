@@ -1,13 +1,15 @@
 <template>
 <div class="columns is-multiline">
-    <div class="column is-half" v-for="p in players" :key="p.id">
+     <div class="row" v-for="i in Math.ceil(players.length /5)" :key="i.id">
+    <div class="column is-half" v-for="p in players.slice((i - 1) * 5, i * 5)" :key="p.id">
         <PreviewDisplay id="favorite"
-        :Display_ID="p.player_id" 
+        :Display_ID="p.id" 
         :type="'players'" 
         >
       </PreviewDisplay>
         </div>
     </div>
+</div>
 </template>
 
 <script>
@@ -31,14 +33,16 @@ export default {
     },
     methods:{
         async getFullData(){
-            const team_full_data = (await this.$root.server.get(`teams/${this.$route.params.id}`)).data;
-            const team_preview = (await  this.$root.server.get(`teams/${this.$route.params.id}/preview`)).data;
-            this.name = team_preview.name;
-            this.photo = team_preview.logo_path;
-            this.common_name = team_preview.short_code;
-            this.founded = team_preview.founded;
-            this.players = team_full_data.team;
+            const team_full_data = this.$root.store.get_team_full_data(this.$route.params.id);
+            // const team_full_data = (await this.$root.server.get(`teams/${this.$route.params.id}`)).data;
+            // const team_preview = (await  this.$root.server.get(`teams/${this.$route.params.id}/preview`)).data;
+            this.name = team_full_data.name;
+            this.photo = team_full_data.logo_path;
+            this.short_code = team_full_data.short_code;
+            this.founded = team_full_data.founded;
+            this.players = team_full_data.players;
             this.coach = team_full_data.coach;
+            this.stadium = team_full_data.stadium;
         }
     },
     components:{

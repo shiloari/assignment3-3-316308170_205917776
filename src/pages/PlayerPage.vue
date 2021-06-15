@@ -63,14 +63,14 @@ export default {
     },
     methods:{
         async getFullData(){
-            const player_full_data = (await this.$root.server.get(`players/${this.$route.params.id}/full_data`)).data;
+            const player_full_data = this.$root.store.get_player_full_data(this.$route.params.id);
+            // const player_full_data = (await this.$root.server.get(`players/${this.$route.params.id}/full_data`)).data;
             this.name = player_full_data.name;
             this.photo = player_full_data.photo_path;
             this.team_name = player_full_data.team_name;
             this.common_name = player_full_data.common_name;
-            const team = (await  this.$root.server.get(`teams/${player_full_data.team_id}/preview`)).data;
-            this.team_logo_path = team.logo_path;
-            this.team_common_name = team.short_code;
+            this.team_logo_path = player_full_data.team_photo;
+            this.team_common_name = player_full_data.team_short_code;
             this.position = player_full_data.position;
             this.birthdate = player_full_data.birthdate;
             this.birth_country = player_full_data.birth_country;

@@ -1,11 +1,11 @@
 <template>
     <div class="p_search" v-show="this.searches.length == this.ready_components">
         <div class ="PD_search" v-if="this.start">
-            <div class="row" v-for="i in Math.ceil(searches.length / 6)" :key="i.id">
+            <div class="row" v-for="i in Math.ceil(searches.length /5)" :key="i.id">
                 <PreviewDisplay 
-                    v-for="s in searches.slice((i - 1) * 6, i * 6)"
+                    v-for="s in searches.slice((i - 1) * 5, i * 5)"
                     :type="s.Sname"
-                    :id="s.id"
+                    :Display_ID="s.id"
                     :key="s.id">
                 </PreviewDisplay>
             </div>
@@ -37,6 +37,16 @@ export default {
     };
   },
   methods: {
+    search_by_name: function (keyword, searched) {
+        let filtered = []
+        searched.map(
+            (element) => {
+                if (element.name != null && element.name.includes(keyword))
+                    filtered.push(element)
+        }
+    )
+        return filtered;
+    },
     fixSearchers: function (){
         (this.searches).forEach(element => {
             element.Sname = this.Sname
@@ -56,14 +66,12 @@ export default {
         this.searches = [];
         this.ready_components = 0;
         try {
-            await this.$root.server.get(
-                `${this.Sname}/search?keyword=${keyword}`)
-            .then((response) => {
-                this.searches = response.data;
-                this.fixSearchers()
-                this.sortSearchers()
-                this.start = true;
-            })
+            const searched =  JSON.parse(localStorage.getItem(`all_${this.Sname}`))
+            this.searches = this.search_by_name(keyword, searched)
+            this.fixSearchers()
+            this.sortSearchers()
+            this.start = true;
+            
         } catch (error) {
             console.log("error in get search")
             console.log(error);
