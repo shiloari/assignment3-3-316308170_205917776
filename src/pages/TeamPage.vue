@@ -1,6 +1,118 @@
 <template>
-<div class="columns is-multiline">
-     <div class="row" v-for="i in Math.ceil(players.length /5)" :key="i.id">
+<div >
+    <div class="main">
+    <b-container fluid="sm"  >
+        <!-- <b-row >
+            {{ r_index }}
+            <b-col v-for="c_index in (r_index,r_index+3)" :key="c_index">
+                {{ players[c_index] }} -->
+                <!-- <v-card>
+                <PreviewDisplay
+                :Display_ID="this.players[index].id" 
+                :type="'players'"
+                >
+                </PreviewDisplay>
+                 </v-card> -->
+            <!-- </b-col> -->
+            <!-- <b-col>col</b-col>
+            <b-col>col</b-col>
+            <b-col>col</b-col> -->
+        <!-- </b-row> -->
+        <div v-for="index in (0,players.length)" :key="index">
+            <b-row v-if="index%4==0">
+                 <b-col>
+                    <PreviewDisplay
+                        :Display_ID="parseInt(players[index]['id'])" 
+                        :type="'players'"
+                    >
+                    </PreviewDisplay>
+                </b-col>
+                 <b-col>
+                    <PreviewDisplay
+                        :Display_ID="parseInt(players[index-1]['id'])" 
+                        :type="'players'"
+                    >
+                    </PreviewDisplay>
+                </b-col>
+                 <b-col>
+                    <PreviewDisplay
+                        :Display_ID="parseInt(players[index-2]['id'])" 
+                        :type="'players'"
+                    >
+                    </PreviewDisplay>
+                </b-col>
+                 <b-col>
+                    <PreviewDisplay
+                        :Display_ID="parseInt(players[index-3]['id'])" 
+                        :type="'players'"
+                    >
+                    </PreviewDisplay>
+                </b-col>
+                 
+            </b-row>
+            <!-- <b-col>col</b-col> -->
+            <!-- <b-col>col</b-col>
+            <b-col>col</b-col>
+            <b-col>col</b-col> -->
+        </div>
+        <!-- <b-row>
+            <b-col>col</b-col>
+            <b-col>col</b-col>
+            <b-col>col</b-col>
+            <b-col>col</b-col>
+        </b-row> -->
+        <!-- <b-row v-for="index in 4" :key="index">
+            <b-col >
+                <v-card>
+                <PreviewDisplay
+                :Display_ID="players[index].id" 
+                :type="'players'"
+                >
+                </PreviewDisplay>
+                </v-card>
+                <v-card>
+                <PreviewDisplay
+                :Display_ID="players[index+1].id" 
+                :type="'players'"
+                >
+                </PreviewDisplay>
+                </v-card>
+            </b-col>
+        </b-row>
+         <b-row v-for="index in 4" :key="index">
+            <b-col >
+                <v-card>
+                <PreviewDisplay
+                :Display_ID="players[index].id" 
+                :type="'players'"
+                >
+                </PreviewDisplay>
+                </v-card>
+                <v-card>
+                <PreviewDisplay
+                :Display_ID="players[index+1].id" 
+                :type="'players'"
+                >
+                </PreviewDisplay>
+                </v-card>
+            </b-col>
+        </b-row> -->
+         
+    </b-container>
+    <!-- <div id="previews">
+        <PreviewDisplay v-for="p in players"
+        :Display_ID="p.id" 
+        :type="'players'"
+        :key="p.id" 
+        >
+        </PreviewDisplay>
+    </div> -->
+
+  </div>
+</div>
+    
+    
+    <!-- <div class="row" v-for="i in Math.ceil(players.length /5)" :key="i.id">
     <div class="column is-half" v-for="p in players.slice((i - 1) * 5, i * 5)" :key="p.id">
         <PreviewDisplay id="favorite"
         :Display_ID="p.id" 
@@ -8,8 +120,7 @@
         >
       </PreviewDisplay>
         </div>
-    </div>
-</div>
+    </div> -->
 </template>
 
 <script>
@@ -32,6 +143,9 @@ export default {
         }
     },
     methods:{
+        linkGen(pageNum) {
+        return pageNum === 1 ? '?' : `?page=${pageNum}`
+        },
         async getFullData(){
             const team_full_data = this.$root.store.get_team_full_data(this.$route.params.id);
             // const team_full_data = (await this.$root.server.get(`teams/${this.$route.params.id}`)).data;
@@ -165,4 +279,8 @@ export default {
     margin-top:20px;
 }
 
+.main{
+    border: solid 2px red;
+    overflow: scroll;
+}
 </style>
