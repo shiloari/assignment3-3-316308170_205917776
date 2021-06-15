@@ -1,30 +1,31 @@
 <template>
-    <div class="p_search">  <!-- v-show="this.searches.length == this.ready_components"> -->
-        <div> <!-- v-if="this.start"> -->
-            <ul>
+    <div class="p_search" v-show="this.searches.length == this.ready_components">
+        <div class ="PD_search" v-if="this.start">
+            <div class="row" v-for="i in Math.ceil(searches.length / 6)" :key="i.id">
+                <PreviewDisplay 
+                    v-for="s in searches.slice((i - 1) * 6, i * 6)"
+                    :type="s.Sname"
+                    :id="s.id"
+                    :key="s.id">
+                </PreviewDisplay>
+            </div>
+        </div>
+    </div>
+    <!-- <ul>
                 <li v-for="s in searches"
                 :key="s.id">
                 {{s.name}}
                 </li>
-            </ul>   
-            <!-- <PreviewDisplay 
-                v-for="s in searches"
-                :type="s.Sname"
-                :id="s.id"
-                :key="s.id">
-            </PreviewDisplay> -->
-        </div>
-        <div v-show="this.searches.length == 0 && this.start">None {{this.Sname}} found</div>
-    </div>
+            </ul>    -->
 </template>
 
 <script>
 import PreviewDisplay from "./PreviewDisplay.vue";
 export default {
   name: "Search",
-//     components: {
-//     PreviewDisplay
-//   }, 
+    components: {
+    PreviewDisplay
+  }, 
   data() {
     return {
       searches: [],
@@ -51,6 +52,7 @@ export default {
         }
     },
     async startSearch(keyword){
+        this.start = false;
         this.searches = [];
         this.ready_components = 0;
         try {
@@ -59,9 +61,7 @@ export default {
             .then((response) => {
                 this.searches = response.data;
                 this.fixSearchers()
-                console.log(this.searches);
                 this.sortSearchers()
-                console.log(this.searches);
                 this.start = true;
             })
         } catch (error) {
@@ -69,18 +69,19 @@ export default {
             console.log(error);
         }
     }
+  },
+  watch:{
+      start : function () {
+          if(this.start && this.searches.length == 0 ){
+                this.$root.toast("Search", `None ${this.Sname} found !`, "warning");}
+      }
   }
-//   watch:{
-//       ready_components:
-//   }
-
 };
 </script>
 
 <style>
 
-.favorties{
-  display: flex; /* or inline-flex */
-  flex-direction: row
+.PD_search{
+    margin-left: 25px;
 }
 </style>

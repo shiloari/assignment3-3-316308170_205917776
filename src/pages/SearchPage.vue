@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class = "search_page">
     <h1 class="title">Search Page</h1>
     <b-form-select
       v-model="PCT_selected"
@@ -72,8 +72,10 @@ export default {
   },
   methods:{
     runSearch: function (){
-      // await new Promise(r => setTimeout(r, 1000));
-      this.$refs.child.startSearch(this.searchQuery);
+      if(this.searchQuery.length > 0)
+          this.$refs.child.startSearch(this.searchQuery);
+      else
+          this.$root.toast("Search", "No given Queary to serach !", "warning");
     }
   },
   watch:{
@@ -134,6 +136,11 @@ export default {
 </script>
 
 <style scoped>
+.search_page{
+  overflow: scroll;
+  height: 100vh;
+  margin-left: 15px;
+}
 
 #stam {
   margin-left: 20px; 

@@ -6,6 +6,7 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
           <b-nav-item :to="{ name: 'search' }">Search</b-nav-item>
+          <b-nav-item :to="{ name: 'standing' }">Standing</b-nav-item>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto" v-if="!this.$session.exists()">
             <b-nav-item :to="{ name: 'login' }">Login</b-nav-item>
