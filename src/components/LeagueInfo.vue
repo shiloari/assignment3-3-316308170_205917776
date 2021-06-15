@@ -66,7 +66,7 @@ export default {
   computed:{
 
   },
-  mounted(){
+  created(){
     this.getDetails();
   }
 }
