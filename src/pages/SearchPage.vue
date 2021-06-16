@@ -33,8 +33,25 @@
             text-field="name"
             disabled-field="notEnabled"
           ></b-form-checkbox-group>
+      </div> 
+      <div id="option" v-if="this.PCT_selected != 'teams' && fp_selected[0] == 'position'">
+          <b-form-select
+            v-model="f_selected"
+            :options="f_options"
+            class="mt-3"
+            value-field="item"
+            text-field="name"
+          ></b-form-select>
       </div>
-      
+      <div id="option" v-if="this.PCT_selected != 'teams' && fp_selected[0] == 'team_id'">
+          <b-form-select
+            v-model="team_selected"
+            :options="team_options"
+            class="mt-3"
+            value-field="item"
+            text-field="name"
+          ></b-form-select>
+      </div>
     </div>
     <b-input-group prepend="Search Query:" id="search-input">
       <b-form-input v-model="searchQuery"></b-form-input>
@@ -63,26 +80,57 @@ export default {
       fp_selected: [],
       fp_options: [
         { item: 'position', name: "Position",notEnabled: false },
-        { item: 'team', name: "Team Name" ,notEnabled: false}],
+        { item: 'team_id', name: "Team Name" ,notEnabled: false}],
       s_selected: [],
       s_options: [
         { item: 'name', name: "Alpha",notEnabled: false },
-        { item: 'team', name: "Team Name" ,notEnabled: true}]
+        { item: 'team', name: "Team Name" ,notEnabled: true}],
+      f_selected: '1',
+      f_options : [
+        { item: '1', name: '1' },
+        { item: '2', name: '2' },
+        { item: '3', name: '3' },
+        { item: '4', name: '4' },
+        { item: '5', name: '5' },
+        { item: '6', name: '6' },
+        { item: '7', name: '7' },
+        { item: '8', name: '8' },
+        { item: '9', name: '9' },
+        { item: '10', name: '10' },
+        { item: '11', name: '11' }],
+      team_selected: '',
+      team_options : []
     };
   },
   methods:{
     runSearch: function (){
-      if(this.searchQuery.length > 0)
+      if(this.searchQuery.length > 0){
+          if(this.$refs.child.filter == 'position')
+              this.$refs.child.filterBy = this.f_selected
+          else if(this.$refs.child.filter == 'team_id')
+              this.$refs.child.filterBy = this.team_selected
           this.$refs.child.startSearch(this.searchQuery);
+      }
       else
           this.$root.toast("Search", "No given Queary to serach !", "warning");
     }
   },
-  watch:{
+  created(){
+      let all_teams = JSON.parse(localStorage.getItem("all_teams"));
+      this.team_selected = all_teams[0].id;
+      all_teams.map( team => {
+        this.team_options.push({
+          item : team.id,
+          name : team.name
+        })
+      })
+  },
+  watch:{ 
     PCT_selected: function(newValue) {
       this.$refs.child.Sname = this.PCT_selected
       this.$refs.child.filter = this.fp_selected[0]
       this.$refs.child.sort = this.s_selected[0]
+      this.team_selected = this.team_options[0].item
       this.fp_selected = [];
       this.s_selected = [];
       this.fp_options[1].notEnabled = false;
@@ -103,13 +151,16 @@ export default {
       this.$refs.child.filter = this.fp_selected[0];
       if(this.PCT_selected == 'players'){
         if(newValue.includes('position')) {
+            this.$refs.child.filterBy = this.f_selected;
             this.fp_options[1].notEnabled = true;
             
         }    
-        else if (newValue.includes('team')){
+        else if (newValue.includes('team_id')){
+            this.$refs.child.filterBy = this.team_selected;
             this.fp_options[0].notEnabled = true;
         }
         else{
+          this.$refs.child.filterBy = '';
           this.fp_options[1].notEnabled = false;
           this.fp_options[0].notEnabled = false;
         }
@@ -152,6 +203,9 @@ export default {
   display:inline-block;
 }
 #checked_filter{
+  display:inline-block;
+}
+#option{
   display:inline-block;
 }
 .mt-3{

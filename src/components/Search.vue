@@ -1,5 +1,5 @@
 <template>
-    <div class="p_search" v-show="this.searches.length == this.ready_components">
+    <div class="p_search" >
         <div class ="PD_search" v-if="this.start">
             <div class="row" v-for="i in Math.ceil(searches.length /5)" :key="i.id">
                 <PreviewDisplay 
@@ -32,6 +32,7 @@ export default {
       ready_components : 0,
       Sname : "teams",
       filter : "",
+      filterBy : "",
       sort: "",
       start: false
     };
@@ -39,12 +40,14 @@ export default {
   methods: {
     search_by_name: function (keyword, searched) {
         let filtered = []
+        console.log(searched);
         searched.map(
             (element) => {
                 if (element.name != null && element.name.includes(keyword))
                     filtered.push(element)
         }
     )
+        console.log(filtered);
         return filtered;
     },
     fixSearchers: function (){
@@ -53,7 +56,7 @@ export default {
         })
     },
     sortSearchers: function () {
-        let sortBy = this.sort
+        var sortBy = this.sort
         if(sortBy){
             this.searches.sort(function(a,b) {
                 return (a[sortBy] < b[sortBy]) ? -1 :
@@ -61,7 +64,21 @@ export default {
             })
         }
     },
-    async startSearch(keyword){
+    filterSearches: function (){
+        if(this.filter){
+            let filtered = []
+            this.searches.map(
+                (element) => {
+                    // console.log(element);
+                    // console.log(this.filter)
+                    // console.log(this.filterBy)
+                    if (element[this.filter] != null && element[this.filter] == this.filterBy)
+                        filtered.push(element)
+                        })
+            this.searches = filtered
+        }      
+    },
+    startSearch: function(keyword){
         this.start = false;
         this.searches = [];
         this.ready_components = 0;
@@ -70,6 +87,7 @@ export default {
             this.searches = this.search_by_name(keyword, searched)
             this.fixSearchers()
             this.sortSearchers()
+            this.filterSearches()
             this.start = true;
             
         } catch (error) {
