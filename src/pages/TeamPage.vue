@@ -1,126 +1,54 @@
 <template>
 <div >
     <div class="main">
-    <b-container fluid="sm"  >
-        <!-- <b-row >
-            {{ r_index }}
-            <b-col v-for="c_index in (r_index,r_index+3)" :key="c_index">
-                {{ players[c_index] }} -->
-                <!-- <v-card>
-                <PreviewDisplay
-                :Display_ID="this.players[index].id" 
-                :type="'players'"
-                >
-                </PreviewDisplay>
-                 </v-card> -->
-            <!-- </b-col> -->
-            <!-- <b-col>col</b-col>
-            <b-col>col</b-col>
-            <b-col>col</b-col> -->
-        <!-- </b-row> -->
-        <div v-for="index in (0,players.length)" :key="index">
-            <b-row v-if="index%4==0">
-                 <b-col>
-                    <PreviewDisplay
-                        :Display_ID="parseInt(players[index]['id'])" 
-                        :type="'players'"
-                    >
-                    </PreviewDisplay>
-                </b-col>
-                 <b-col>
-                    <PreviewDisplay
-                        :Display_ID="parseInt(players[index-1]['id'])" 
-                        :type="'players'"
-                    >
-                    </PreviewDisplay>
-                </b-col>
-                 <b-col>
-                    <PreviewDisplay
-                        :Display_ID="parseInt(players[index-2]['id'])" 
-                        :type="'players'"
-                    >
-                    </PreviewDisplay>
-                </b-col>
-                 <b-col>
-                    <PreviewDisplay
-                        :Display_ID="parseInt(players[index-3]['id'])" 
-                        :type="'players'"
-                    >
-                    </PreviewDisplay>
-                </b-col>
-                 
-            </b-row>
-            <!-- <b-col>col</b-col> -->
-            <!-- <b-col>col</b-col>
-            <b-col>col</b-col>
-            <b-col>col</b-col> -->
-        </div>
-        <!-- <b-row>
-            <b-col>col</b-col>
-            <b-col>col</b-col>
-            <b-col>col</b-col>
-            <b-col>col</b-col>
-        </b-row> -->
-        <!-- <b-row v-for="index in 4" :key="index">
-            <b-col >
-                <v-card>
-                <PreviewDisplay
-                :Display_ID="players[index].id" 
-                :type="'players'"
-                >
-                </PreviewDisplay>
-                </v-card>
-                <v-card>
-                <PreviewDisplay
-                :Display_ID="players[index+1].id" 
-                :type="'players'"
-                >
-                </PreviewDisplay>
-                </v-card>
-            </b-col>
-        </b-row>
-         <b-row v-for="index in 4" :key="index">
-            <b-col >
-                <v-card>
-                <PreviewDisplay
-                :Display_ID="players[index].id" 
-                :type="'players'"
-                >
-                </PreviewDisplay>
-                </v-card>
-                <v-card>
-                <PreviewDisplay
-                :Display_ID="players[index+1].id" 
-                :type="'players'"
-                >
-                </PreviewDisplay>
-                </v-card>
-            </b-col>
-        </b-row> -->
-         
-    </b-container>
-    <!-- <div id="previews">
-        <PreviewDisplay v-for="p in players"
-        :Display_ID="p.id" 
-        :type="'players'"
-        :key="p.id" 
-        >
-        </PreviewDisplay>
-    </div> -->
-
+        <b-container fluid="sm"  >
+            <div v-for="index in (0,players.length)" :key="index" class="row_container">
+                <div v-if="index<current_player+9 && index > current_player" class="row_container2">
+                    <b-row v-if="index%4==0" class="row_container3">
+                        <b-col cols="12" md="2" v-show="index<players.length">
+                            <PreviewDisplay
+                                :Display_ID="parseInt(players[index]['id'])" 
+                                :type="'players'"
+                            >
+                            </PreviewDisplay>
+                        </b-col>
+                        <b-col cols="12" md="2" v-show="index-1<players.length">
+                            <PreviewDisplay
+                                :Display_ID="parseInt(players[index-1]['id'])" 
+                                :type="'players'"
+                            >
+                            </PreviewDisplay>
+                        </b-col>
+                        <b-col cols="12" md="2" v-show="index-2<players.length">
+                            <PreviewDisplay
+                                :Display_ID="parseInt(players[index-2]['id'])" 
+                                :type="'players'"
+                            >
+                            </PreviewDisplay>
+                        </b-col>
+                        <b-col cols="12" md="2" v-show="index-3<players.length">
+                            <PreviewDisplay
+                                :Display_ID="parseInt(players[index-3]['id'])" 
+                                :type="'players'"
+                            >
+                            </PreviewDisplay>
+                        </b-col>
+                    </b-row>
+                </div>
+            </div>
+        </b-container>
+    <div class="nav_button">
+  <b-button-toolbar key-nav aria-label="Toolbar with button groups">
+    <b-button-group class="mx-1">
+      <b-button @click="decrementDisplay">&lsaquo;</b-button>
+    </b-button-group>
+    <b-button-group class="mx-1">
+      <b-button @click="incrementDisplay">&rsaquo;</b-button>
+    </b-button-group>
+  </b-button-toolbar>
+</div>
   </div>
 </div>
-    
-    
-    <!-- <div class="row" v-for="i in Math.ceil(players.length /5)" :key="i.id">
-    <div class="column is-half" v-for="p in players.slice((i - 1) * 5, i * 5)" :key="p.id">
-        <PreviewDisplay id="favorite"
-        :Display_ID="p.id" 
-        :type="'players'" 
-        >
-      </PreviewDisplay>
-        </div>
-    </div> -->
 </template>
 
 <script>
@@ -138,13 +66,26 @@ export default {
             coach: undefined,
             matches: [],
             is_loaded : false,
+            current_player: 0,
             perPage: 3,
             currentPage: 1
         }
     },
     methods:{
-        linkGen(pageNum) {
-        return pageNum === 1 ? '?' : `?page=${pageNum}`
+        decrementDisplay(){
+            if (this.current_player - 8 >= 0)
+                this.current_player = this.current_player - 8;
+        },
+        incrementDisplay(){
+            let addition = 0;
+            while (this.current_player + 8 < this.players.length-1 && addition < 8){
+                addition++;
+            }   
+            if (addition%8 == 0){
+                this.current_player = this.current_player + addition;
+
+            }
+            
         },
         async getFullData(){
             const team_full_data = this.$root.store.get_team_full_data(this.$route.params.id);
@@ -280,7 +221,19 @@ export default {
 }
 
 .main{
-    border: solid 2px red;
-    overflow: scroll;
+    /* border: solid 2px red; */
+    margin: 0 auto;
+    margin-block: 30px;
+}
+
+.row_container3{
+    /* border: solid 2px green; */
+    justify-content: center ;
+    margin: -10px;
+}
+
+.nav_button{
+    margin: 0 auto;
+    max-width: max-content;
 }
 </style>
