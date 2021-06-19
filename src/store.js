@@ -1,14 +1,19 @@
 const shared_data = {
     // username: localStorage.username,
     username: undefined,
-    login(username) {
+    role: undefined,
+    login(username, role) {
         localStorage.setItem("username", username);
+        localStorage.setItem("role", role);
         this.username = username;
+        this.role = role;
     },
     logout() {
         console.log("logout");
         localStorage.removeItem("username");
+        localStorage.removeItem("role");
         this.username = undefined;
+        this.role = undefined;
     },
     get_player_full_data(player_id) {
         let all_players = JSON.parse(localStorage.getItem("all_players"));

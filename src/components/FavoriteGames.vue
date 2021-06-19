@@ -20,6 +20,12 @@
 import GamePreview from "./GamePreview.vue";
 export default {
   name: "FavoriteGames",
+  props:{
+    size: {
+        type: Number,
+        required: true
+      }
+  },
   components: {
     GamePreview
   }, 
@@ -35,7 +41,7 @@ export default {
         const response = await this.$root.server.get(
           `users/favoriteMatches`,
         );
-        this.games = response.data;
+        this.games = response.data.slice(0,Math.min(3,response.data.length));
         // this.games = [];
         // this.games.push(...games);
         // console.log(response);
@@ -53,9 +59,9 @@ export default {
 
 <style>
 
-.favorties{
-  display: flex; /* or inline-flex */
-  flex-direction: row
+.favorites{
+  margin-top: 15px;
+  margin-bottom: 100px;
 }
 
 #favorite{

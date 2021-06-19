@@ -15,7 +15,7 @@
           <b-navbar-nav class="ml-auto" v-else>
           <b-nav-item-dropdown right>
             <template #button-content>
-              User
+              {{ username }}
             </template>
             <b-dropdown-item href="#">Favorites</b-dropdown-item>
             <b-dropdown-item @click="Logout" href="#">Log Out</b-dropdown-item>
@@ -33,11 +33,25 @@
 <script>
 export default {
   name: "App",
+  data(){
+    return{
+        username: undefined
+    }
+   
+  },
+  created(){
+    this.username = localStorage.getItem("username");
+  },
+  watch:{
+      username: function(){
+    this.username = localStorage.getItem("username");
+      }
+  },
   methods: {
     async Logout() {
       try{
         // const response = this.$root.server.post("Logout");
-        const response = await this.axios.post('http://localhost:3000/Logout', {
+        const response = await this.$root.server.post('Logout', {
           withCredentials: true
           })
         this.$session.destroy()

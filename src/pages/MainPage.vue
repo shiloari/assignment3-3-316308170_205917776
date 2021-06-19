@@ -1,7 +1,10 @@
 <template>
   <div class="main_page">
     <LoginPage id="login" v-if="!this.$session.exists()"></LoginPage>
-    <!-- <FavoriteGames id="favorites"></FavoriteGames>  -->
+    <div v-else id="favorites">
+      <h1 id="header">Your favorite matches</h1>
+      <FavoriteGames :size="3"></FavoriteGames> 
+    </div>
     <div id="right_side_display">
       <LeagueInfo id="league_info"></LeagueInfo>
     </div>
@@ -32,7 +35,7 @@ export default {
   components: {
     LeagueInfo, 
     LoginPage, 
-    // FavoriteGames,
+    FavoriteGames
     // PreviewDisplay
   }
 };
@@ -53,6 +56,7 @@ export default {
 
 
 .main_page{
+  overflow: scroll;
   position: relative;
   display:inline-flex;
   width: 100%;
@@ -63,7 +67,7 @@ export default {
   position: absolute;
   top: 0;
   right: 0;
-  height: 100vh;
+  height: 120%;
   box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
   backdrop-filter: blur(15px);
 }
@@ -79,4 +83,15 @@ export default {
   margin-right: -100px;
 }
 
+.favorites{
+  height: 110%;
+  margin-left: 30px;
+  // margin-bottom: 50px;
+}
+
+#header{
+  color: white;
+    margin-left: 30px;
+
+}
 </style>

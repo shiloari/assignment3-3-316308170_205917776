@@ -102,10 +102,11 @@ export default {
               withCredentials : true
             }
         )
+
         this.$session.start()
         console.log('session started')
         // console.log(this.$root.store.login);
-        this.$root.store.login(this.form.username);
+        this.$root.store.login(this.form.username, response.data);
         this.$router.replace("/");
         this.$router.go(0)
       } catch (err) {

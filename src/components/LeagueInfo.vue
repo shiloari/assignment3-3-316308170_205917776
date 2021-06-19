@@ -12,7 +12,10 @@
       <h2>{{ this.season }}</h2>
       <h3>{{ this.stage }}</h3>
     </div>
-    <div >
+    <div id="next_game">
+      <h2><b>Next Game</b></h2>
+    </div>
+    <div>
       <GamePreview id="upcoming_game" v-if="upcoming_game.Match_ID"
         :Match_ID="this.upcoming_game.Match_ID" 
         :Home_Team_ID="this.upcoming_game.Home_Team_ID" 
@@ -88,6 +91,14 @@ export default {
 </script>
 
 <style>
+
+#next_game{
+  color: rgb(0, 0, 0);
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+  margin-block: 5px;
+}
 
 .league_info{  
   height: 100vh;
