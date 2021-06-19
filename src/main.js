@@ -114,7 +114,6 @@ new Vue({
             localStorage.setItem("all_teams", JSON.stringify(all_data[0]));
             localStorage.setItem("all_players", JSON.stringify(all_data[1]));
             localStorage.setItem("all_coaches", JSON.stringify(all_data[2]));
-
         }
     },
     created() {

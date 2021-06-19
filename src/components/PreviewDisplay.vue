@@ -46,7 +46,7 @@ export default {
             page_type: undefined,
             page_route: `/${this.type}/${this.Display_ID}`,
             hover_favorite: false,
-            favorite_state: undefined
+            favorite_state: "favorite_unchecked"
         }
         
     },
@@ -79,14 +79,14 @@ export default {
             this.hover_favorite = true;
             if (this.favorite_state == "favorite_unchecked"){
                 try{
-                const response = await this.$root.server.post(`users/favorite${relative_path}`, {
-                    user_id: undefined,
-                    id: this.Display_ID   
-                }, {
-                     withCredentials: true
-                });
-                this.favorite_state = "favorite_checked";
-                return;
+                    this.favorite_state = "favorite_checked";
+                    const response = await this.$root.server.post(`users/favorite${relative_path}`, {
+                        user_id: undefined,
+                        id: this.Display_ID   
+                    }, {
+                        withCredentials: true
+                    });
+                     return;
                 }
                 catch(error){
 
@@ -94,14 +94,14 @@ export default {
             }
             else 
                 try{
-                const response = await this.$root.server.delete(`users/favorite${relative_path}/${this.Display_ID}`, {
-                     withCredentials: true
-                });
+                    this.favorite_state = "favorite_unchecked";
+                    const response = await this.$root.server.delete(`users/favorite${relative_path}/${this.Display_ID}`, {
+                        withCredentials: true
+                    });
                 }
                 catch(error){
 
                 }
-                this.favorite_state = "favorite_unchecked";
                 return;
         },
         async getPreview(){
@@ -351,7 +351,7 @@ export default {
 .favorite_checked{
     width: max-content;
     position: absolute;
-    float: right;
+    /* float: right; */
 }
 
 .favorite_checked svg{
@@ -361,7 +361,7 @@ export default {
 .favorite_unchecked{
     width: max-content;
     position: absolute;
-    float: right;
+    /* float: right; */
 }
 
 .favorite_unchecked svg{
@@ -369,7 +369,7 @@ export default {
 }
 
 .star{
-    float: right;
+    /* float: right; */
     transition: all .3s ease-in-out;
     margin: 5px;
     

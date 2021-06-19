@@ -1,11 +1,18 @@
 <template>
-    <div class = "league_info">  
+    <div class = "league_info"> 
+    <div class="d-flex justify-content-center" v-if="!this.is_loaded" style="margin-top: 25vh;">
+        <div id="waiting" class="spinner-border text-light" style="width: 5rem; height: 5rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div> 
+    <div v-if="this.is_loaded">
     <div id="league_details">
       <img src="../assets/superliga.png" style="width: 150px; height: auto;">
       <h1><b>{{ this.leagueName }}</b></h1>
       <h2>{{ this.season }}</h2>
       <h3>{{ this.stage }}</h3>
     </div>
+    <div >
       <GamePreview id="upcoming_game" v-if="upcoming_game.Match_ID"
         :Match_ID="this.upcoming_game.Match_ID" 
         :Home_Team_ID="this.upcoming_game.Home_Team_ID" 
@@ -16,6 +23,8 @@
         :Stage="this.upcoming_game.Stage"
        >
       </GamePreview>
+    </div>
+    </div>
     </div>
 </template>
 
@@ -35,7 +44,8 @@ export default {
         Hour: undefined,
         Stadium: undefined,
         Stage: undefined
-      }
+      },
+      is_loaded: false
     };
   },
   components:{
@@ -67,7 +77,12 @@ export default {
 
   },
   created(){
-    this.getDetails();
+    this.getDetails().then(
+      ()=>{
+        setTimeout(
+          ()=>{this.is_loaded = true;}
+        ),1500 }
+    );
   }
 }
 </script>
@@ -76,7 +91,7 @@ export default {
 
 .league_info{  
   height: 100vh;
-  width: max-content;
+  width: 25rem;
   display: flex;
   flex-direction: column; 
   justify-content: space-between;

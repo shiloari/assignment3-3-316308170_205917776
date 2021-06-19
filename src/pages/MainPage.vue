@@ -5,7 +5,7 @@
     <div id="right_side_display">
       <LeagueInfo id="league_info"></LeagueInfo>
     </div>
-    <PreviewDisplay class="preview" v-if="this.$session.exists()"
+    <!-- <PreviewDisplay class="preview" v-if="this.$session.exists()"
     :type="'players'"
     :Display_ID="26722"
     >
@@ -19,7 +19,7 @@
     :type="'teams'"
     :Display_ID="939"
     >
-    </PreviewDisplay>
+    </PreviewDisplay> -->
   </div>
 </template>
 
@@ -33,7 +33,7 @@ export default {
     LeagueInfo, 
     LoginPage, 
     // FavoriteGames,
-    PreviewDisplay
+    // PreviewDisplay
   }
 };
 </script>

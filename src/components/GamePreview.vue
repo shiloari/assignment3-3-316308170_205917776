@@ -231,7 +231,7 @@ margin-bottom: -2px;
 }
 
 .frosted_glass {
-    width:max-content;
+    width:25rem;
     height: 11rem;
     box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2); 
     border-radius: 5px;

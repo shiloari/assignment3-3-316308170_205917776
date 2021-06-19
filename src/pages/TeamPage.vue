@@ -1,7 +1,18 @@
 <template>
-    <div class="main" >
+<div class="main">
+    <div v-if="!this.is_loaded" class="d-flex justify-content-center" style="margin-top: 15%;">
+        <div id="waiting" class="spinner-border text-dark" style="width: 5rem; height: 5rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <div v-show="this.is_loaded" >
         <div class="top_content">
         <div class="team_section">
+            <div v-bind:class="favorite_state" v-show="this.$session.exists()" id="team_star" @click="check_star">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-star star"  viewBox="0 0 16 16">
+                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+                </svg>
+            </div>
             <img v-bind:src= "team_logo_path">
             <h2>{{ this.short_code }}</h2>
             <h1>{{ this.team_name }}</h1>
@@ -96,6 +107,7 @@
             </div>
         </div>    
     </div>
+</div>
 </template>
 
 <script>
@@ -114,11 +126,63 @@ export default {
             matches: [],
             is_loaded : false,
             current_player: 0,
-            perPage: 3,
-            currentPage: 1
+            ready_components: 0,
+            favorite_state: undefined
         }
     },
     methods:{
+        async check_star(){
+            if (this.favorite_state == "favorite_unchecked"){
+                try{
+                    this.favorite_state = "favorite_checked";
+                    const response = await this.$root.server.post(`users/favoriteTeams`, {
+                        user_id: undefined,
+                        id: this.$route.params.id   
+                    }, {
+                        withCredentials: true
+                    });
+                    return;
+                }
+                catch(error){
+
+                }
+            }
+            else 
+                try{
+                     this.favorite_state = "favorite_unchecked";
+                    const response = await this.$root.server.delete(`users/favoriteTeams/${this.$route.params.id}`, {
+                        withCredentials: true
+                    });
+                }
+                catch(error){
+
+                }
+               
+                return;
+        },
+        async set_favorite_status(){
+            try{
+                console.log('here')
+                // document.getElementById("team_star").style.pointerEvents = "none";
+                 console.log('here2')
+                const response = (await this.$root.server.get(`users/favoriteTeams`, {
+                    withCredentials: true
+                })).data;
+                const favorites_in_list = response.filter(favorite => favorite == this.$route.params.id);
+                if (favorites_in_list.length == 0){
+                    this.favorite_state = "favorite_unchecked"
+                }
+                else{
+                    this.favorite_state = "favorite_checked"
+                }
+                // document.getElementById("team_star").style.pointerEvents = "auto";
+            }
+            catch(error){
+               this.favorite_state = "favorite_unchecked";
+            //    document.getElementById("team_star").style.pointerEvents = "auto";
+            }
+           
+        },
         decrementDisplay(){
             if (this.current_player - 8 >= 0)
                 this.current_player = this.current_player - 8;
@@ -126,13 +190,6 @@ export default {
         incrementDisplay(){
             if (this.current_player + 8 < this.players.length)
                 this.current_player = this.current_player + 8;
-            // let addition = 0;
-            // while (this.current_player + 8 < this.players.length-1 && addition < 8){
-            //     addition++;
-            // }   
-            // if (addition%8 == 0){
-            //     this.current_player = this.current_player + addition;
-            // }
         },   
         async getFullData(){
             const team_full_data = this.$root.store.get_team_full_data(this.$route.params.id);
@@ -151,9 +208,19 @@ export default {
         PreviewDisplay
     },
     mounted(){
-        this.getFullData().then(()=>{
-            this.is_loaded = true;
-        });
+        this.set_favorite_status().then(
+            ()=>{
+                this.getFullData().then(
+                    ()=>{
+                        setTimeout(
+                            ()=>{
+                                this.is_loaded = true;
+                            }, 2000
+                        )
+                    }
+                )
+            }
+        )
     },
 }
 </script>
@@ -161,7 +228,7 @@ export default {
 <style>
 
 .main_container{
-    background: rgba(5, 5, 5, 0.76);
+    background: rgba(5, 5, 5, 0.507);
     /* border: solid 2px red; */
     width: 50vw;
     height: 85vh;
@@ -185,12 +252,13 @@ export default {
 .top_content{
     display: flex;
     justify-content: space-around;
-    margin-bottom: 30px;
+    /* margin-bottom: 30px; */
+    /* backdrop-filter: blur(5px); */
 }
 
 .coach_section{
     /* border: solid 2px purple; */
-    background: rgba(5, 5, 5, 0.76);
+    background-color: rgba(245, 255, 208, 0.705);
     /* margin-left: 150px; */
     margin-top: 15px;
     padding: 20px;
@@ -198,11 +266,13 @@ export default {
     height: 55vh; */
     backdrop-filter: blur(10px);
     border-radius: 5%;
+
 }
+
 
 .coach_section h1{
     text-align: center;
-    color: white;
+    color: black;
    
 }
 
@@ -278,6 +348,7 @@ export default {
     /* margin: 0 auto; */
     height: 100%;
     overflow:scroll;
+    backdrop-filter: blur(5px);
     /* margin-block: 30px; */
     /* display: flex; */
 }
@@ -298,7 +369,7 @@ export default {
 .team_section{
     width: max-content;
     display: block;
-    background: rgba(5, 5, 5, 0.76);
+    background-color: rgba(245, 255, 208, 0.705);
     width: 30vw;
     height: 55vh;
     backdrop-filter: blur(10px);
@@ -316,7 +387,7 @@ export default {
 
 .team_section h1, .team_section h2, .team_section h4{
     text-align: center;
-    color: white;
+    color: black;
     margin-block: 5px;
 }
 
@@ -325,27 +396,67 @@ export default {
 }
 
 .players{
-    margin-top: 40px;
+    /* margin-top: 40px; */
     margin-bottom: 150px;
     /* margin-left: 100px; */
     padding-block: 5px;
-    width: 80vw;
+    width: 100vw;
     margin-inline: auto;
     /* height: 80vh; */
     /* margin: 0 auto; */
-    /* border: solid 2px blue; */
-    background: rgba(5, 5, 5, 0.76);
+    /* border: solid 0.5px black; */
+    /* background: rgba(5, 5, 5, 0.76); */
     height: max-content;
     /* width: 30vw;
     height: 65vh; */
-    backdrop-filter: blur(5px);
+    /* backdrop-filter: blur(5px); */
     border-radius: 3%;
-    z-index: -10;
+    /* z-index: -10; */
 }
 
 .players h1{
     text-align: center;
-    color: white;
+    color: black;
     margin: 10px;
+}
+
+
+.favorite_checked{
+    width: max-content;
+    position: absolute;
+    /* float: right; */
+}
+
+.favorite_checked svg{
+    color: orange;
+}
+
+.favorite_unchecked{
+    width: max-content;
+    position: absolute;
+    /* float: right; */
+}
+
+.favorite_unchecked svg{
+    color: black;
+}
+
+#team_star{
+    /* float: right; */
+    transition: all .3s ease-in-out;
+    margin-top: 5px;
+    margin-left: 15px;
+}
+
+#team_star:hover{
+    transform: scale(1.2);
+    z-index: 100;
+    cursor: pointer;
+    
+}
+
+#waiting{
+    /* border: solid 2px red; */
+    margin: 0 auto;
 }
 </style>
