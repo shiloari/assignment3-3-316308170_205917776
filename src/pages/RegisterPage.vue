@@ -189,7 +189,7 @@
         <router-link to="login"> Log in here</router-link>
       </div>
     </b-form>
-    <b-alert
+    <!-- <b-alert
       class="mt-2"
       v-if="form.submitError"
       variant="warning"
@@ -197,7 +197,7 @@
       show
     >
       Register failed: {{ form.submitError }}
-    </b-alert>
+    </b-alert> -->
     <!-- <b-card class="mt-3 md-3" header="Form Data Result">
       <pre class="m-0"><strong>form:</strong> {{ form }}</pre>
       <pre class="m-0"><strong>$v.form:</strong> {{ $v.form }}</pre>
@@ -302,10 +302,13 @@ export default {
             photo_url: this.form.photo_url
           }
         );
+        this.$root.toast("Successfully Registered", `${this.form.username} successfully registered `, "success");
         this.$router.push("/login");
         // console.log(response);
       } catch (err) {
         this.form.submitError = err.response.data;
+        this.form.submitError = err.response.data;
+        this.$root.toast("Error Register", err.response.data, "danger");
       }
     },
     onRegister() {

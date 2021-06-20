@@ -11,7 +11,8 @@
                 </template>
                 <template #cell(Favorite) = "data" >
                      <button type="button" class="btn btn-primary" style="background:none;border:none;" @click="addMatchToFavorite(data)" >
-                         <b-icon id="star" icon="star" aria-hidden="true" style="background:none;fill:black;"></b-icon>
+                         <div v-if="data.item.Favorite"><b-icon  icon="star" aria-hidden="true" style="background:none;fill:black;" ></b-icon></div>
+                         <div  v-else><b-icon  icon="star" aria-hidden="true" style="background:none;fill:black;"></b-icon></div>  
                      </button>
                 </template>
             </b-table>
@@ -108,25 +109,31 @@ export default {
     },
     methods: {
         addMatchToFavorite : async function(data){
-            const match_id = data.item.Match_ID
-            if(!data.item.Favorite){
-                 const response = await this.$root.server.post(`users/favoriteMatches`, {
-                    id: match_id
-                }, {
-                     withCredentials: true
-                });
-                console.log(response);
-                data.item.Favorite = true
-                this.$root.toast("Add Match to Favorite", "Match add successfully", "success");
+            try{
+                const match_id = data.item.Match_ID
+                if(!data.item.Favorite){
+                        const response = await this.$root.server.post(`users/favoriteMatches`, {
+                        id: match_id
+                    }, {
+                            withCredentials: true
+                    });
+                    console.log(response);
+                    data.item.Favorite = true
+                    this.$root.toast("Add Match to Favorite", "Match add successfully", "success");
+                }
+                else{
+                        const response = await this.$root.server.delete(`users/favoriteMatches/${match_id}`, {
+                            withCredentials: true
+                    });
+                    console.log(response);
+                    data.item.Favorite = false
+                    this.$root.toast("Delete Match to Favorite", "Match deleted successfully", "success");
+                }
             }
-            else{
-                  const response = await this.$root.server.delete(`users/favoriteMatches/${match_id}`, {
-                     withCredentials: true
-                });
-                console.log(response);
-                data.item.Favorite = false
-                this.$root.toast("Delete Match to Favorite", "Match deleted successfully", "success");
+            catch(error){
+                this.$root.toast("Not logged", "user need to login for adding Match to favorite!", "danger");
             }
+
         },
         async set_favorite_status(){
             try{
