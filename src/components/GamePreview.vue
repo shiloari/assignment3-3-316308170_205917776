@@ -257,4 +257,7 @@ margin-bottom: -2px;
     backdrop-filter: blur(10px);
 }
 
+#game_details p{
+  color: black;
+}
 </style>

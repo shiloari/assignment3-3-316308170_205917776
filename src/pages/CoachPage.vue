@@ -14,7 +14,7 @@
                 <img v-bind:src="this.team_logo_path">
                 <div class="team_name">
                      <h3> {{ this.team_name }} </h3>
-                     <h3> ({{ this.team_common_name }})</h3>
+                     <h3 v-if="this.team_common_name"> {{ this.team_common_name }}</h3>
                 </div>
                 <h4> Coach </h4>
             </div>
@@ -29,8 +29,8 @@
                         <h5> <p>Birth Country</p> {{ this.birth_country }}</h5>
                     </div>
                      <div class="row_info">
-                        <h5> <p>Weight</p> {{ this.weight }}</h5>
-                        <h5> <p>Height</p> {{ this.height }}</h5>
+                        <h5> <p v-if="this.weight">Weight</p> {{ this.weight }}</h5>
+                        <h5> <p v-if="this.height">Height</p> {{ this.height }}</h5>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-<template>
+<template>  
   <div class="main_page">
     <LoginPage id="login" v-if="!this.$session.exists()"></LoginPage>
     <div v-else id="favorites">

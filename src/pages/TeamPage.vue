@@ -7,103 +7,154 @@
     </div>
     <div v-show="this.is_loaded" >
         <div class="top_content">
-        <div class="team_section">
-            <div v-bind:class="favorite_state" v-show="this.$session.exists()" id="team_star" @click="check_star">
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-star star"  viewBox="0 0 16 16">
-                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
-                </svg>
-            </div>
-            <img v-bind:src= "team_logo_path">
-            <h2>{{ this.short_code }}</h2>
-            <h1>{{ this.team_name }}</h1>
-            <h4> Founded: {{ this.founded }} </h4>
-        </div>
-        <div class="coach_section">
-            <h1> Team's Coach </h1>
-            <PreviewDisplay class="coach_display"
-                :Display_ID="parseInt(this.coach.id)" 
-                :type="'coaches'"
-            >
-            </PreviewDisplay>
-        </div>
-        </div>
-        <div>
-            <div class="players">
-            <h1>Our Players</h1>
-            <b-container fluid="sm" >
-                <div class="row_container2">
-                    <b-row class="row_container3">
-                        <b-col cols="12" md="2" v-if="current_player<players.length" :key="this.current_player" class="preview">
-                            <PreviewDisplay
-                                :Display_ID="parseInt(players[current_player]['id'])" 
-                                :type="'players'"
-                            >
-                            </PreviewDisplay>
-                        </b-col>
-                        <b-col cols="12" md="2" v-if="current_player+1<players.length" :key="this.current_player" class="preview">
-                            <PreviewDisplay
-                                :Display_ID="parseInt(players[current_player+1]['id'])" 
-                                :type="'players'"
-                            >
-                            </PreviewDisplay>
-                        </b-col>
-                        <b-col cols="12" md="2" v-if="current_player+2<players.length" :key="this.current_player" class="preview">
-                            <PreviewDisplay
-                                :Display_ID="parseInt(players[current_player+2]['id'])" 
-                                :type="'players'"
-                            >
-                            </PreviewDisplay>
-                        </b-col>
-                        <b-col cols="12" md="2" v-if="current_player+3<players.length" :key="this.current_player" class="preview">
-                            <PreviewDisplay
-                                :Display_ID="parseInt(players[current_player+3]['id'])" 
-                                :type="'players'"
-                            >
-                            </PreviewDisplay>
-                        </b-col>
-                    </b-row>
-                    <b-row class="row_container3">
-                        <b-col cols="12" md="2" v-if="current_player+4<players.length" :key="this.current_player" class="preview">
-                            <PreviewDisplay
-                                :Display_ID="parseInt(players[current_player+4]['id'])" 
-                                :type="'players'"
-                            >
-                            </PreviewDisplay>
-                        </b-col>
-                        <b-col cols="12" md="2" v-if="current_player+5<players.length" :key="this.current_player" class="preview">
-                            <PreviewDisplay
-                                :Display_ID="parseInt(players[current_player+5]['id'])" 
-                                :type="'players'"
-                            >
-                            </PreviewDisplay>
-                        </b-col>
-                        <b-col cols="12" md="2" v-if="current_player+6<players.length" :key="this.current_player" class="preview">
-                            <PreviewDisplay
-                                :Display_ID="parseInt(players[current_player+6]['id'])" 
-                                :type="'players'"
-                            >
-                            </PreviewDisplay>
-                        </b-col>
-                        <b-col cols="12" md="2" v-if="current_player+7<players.length" :key="this.current_player" class="preview">
-                            <PreviewDisplay
-                                :Display_ID="parseInt(players[current_player+7]['id'])" 
-                                :type="'players'"
-                            >
-                            </PreviewDisplay>
-                        </b-col>
-                    </b-row>
+            <div class="team_section">
+                <div v-bind:class="favorite_state" v-show="this.$session.exists()" id="team_star" @click="check_star">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-star star"  viewBox="0 0 16 16">
+                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+                    </svg>
                 </div>
-            </b-container>
+                <img v-bind:src= "team_logo_path">
+                <h2>{{ this.short_code }}</h2>
+                <h1>{{ this.team_name }}</h1>
+                <h4> Founded: {{ this.founded }} </h4>
+            </div>
+            <div class="coach_section">
+                <h1> Team's Coach </h1>
+                <PreviewDisplay class="coach_display"
+                    :Display_ID="parseInt(this.coach.id)" 
+                    :type="'coaches'"
+                >
+                </PreviewDisplay>
+            </div>
+        </div>
+        <div class="middle_content">
+            <div class="players">
+                <h1>Team's Players</h1>
+                <b-container fluid="sm" style="margin-top:10px;" >
+                    <div class="row_container2">
+                        <b-row class="row_container3">
+                            <b-col cols="12" md="2" v-if="current_player<players.length" :key="this.current_player" class="preview">
+                                <PreviewDisplay
+                                    :Display_ID="parseInt(players[current_player]['id'])" 
+                                    :type="'players'"
+                                >
+                                </PreviewDisplay>
+                            </b-col>
+                            <b-col cols="12" md="2" v-if="current_player+1<players.length" :key="this.current_player" class="preview">
+                                <PreviewDisplay
+                                    :Display_ID="parseInt(players[current_player+1]['id'])" 
+                                    :type="'players'"
+                                >
+                                </PreviewDisplay>
+                            </b-col>
+                            <b-col cols="12" md="2" v-if="current_player+2<players.length" :key="this.current_player" class="preview">
+                                <PreviewDisplay
+                                    :Display_ID="parseInt(players[current_player+2]['id'])" 
+                                    :type="'players'"
+                                >
+                                </PreviewDisplay>
+                            </b-col>
+                            <b-col cols="12" md="2" v-if="current_player+3<players.length" :key="this.current_player" class="preview">
+                                <PreviewDisplay
+                                    :Display_ID="parseInt(players[current_player+3]['id'])" 
+                                    :type="'players'"
+                                >
+                                </PreviewDisplay>
+                            </b-col>
+                        </b-row>
+                        <b-row class="row_container3">
+                            <b-col cols="12" md="2" v-if="current_player+4<players.length" :key="this.current_player" class="preview">
+                                <PreviewDisplay
+                                    :Display_ID="parseInt(players[current_player+4]['id'])" 
+                                    :type="'players'"
+                                >
+                                </PreviewDisplay>
+                            </b-col>
+                            <b-col cols="12" md="2" v-if="current_player+5<players.length" :key="this.current_player" class="preview">
+                                <PreviewDisplay
+                                    :Display_ID="parseInt(players[current_player+5]['id'])" 
+                                    :type="'players'"
+                                >
+                                </PreviewDisplay>
+                            </b-col>
+                            <b-col cols="12" md="2" v-if="current_player+6<players.length" :key="this.current_player" class="preview">
+                                <PreviewDisplay
+                                    :Display_ID="parseInt(players[current_player+6]['id'])" 
+                                    :type="'players'"
+                                >
+                                </PreviewDisplay>
+                            </b-col>
+                            <b-col cols="12" md="2" v-if="current_player+7<players.length" :key="this.current_player" class="preview">
+                                <PreviewDisplay
+                                    :Display_ID="parseInt(players[current_player+7]['id'])" 
+                                    :type="'players'"
+                                >
+                                </PreviewDisplay>
+                            </b-col>
+                        </b-row>
+                    </div>
+                </b-container>
+                <div class="nav_button">
+                    <b-button-toolbar key-nav aria-label="Toolbar with button groups">
+                        <b-button-group class="mx-1">
+                        <b-button @click="decrementDisplay">&lsaquo;</b-button>
+                        </b-button-group>
+                        <b-button-group class="mx-1">
+                        <b-button @click="incrementDisplay">&rsaquo;</b-button>
+                        </b-button-group>
+                    </b-button-toolbar>
+                </div>
+            </div>
+            <h1>Team's Matches</h1>
+            <div class="matches_section">
+                <b-container fluid="sm" >
+                    <div class="row_container2">
+                        <b-row class="row_container3">
+                            <div class="game_preview">
+                            <b-col  v-if="current_match < matches.length" :key="this.current_match">
+                                <GamePreview id="favorite"
+                                    :Match_ID="matches[current_match]['Match_ID']" 
+                                    :Home_Team_ID="matches[current_match]['Home_Team_ID']" 
+                                    :Away_Team_ID="matches[current_match]['Away_Team_ID']" 
+                                    :Match_Date="matches[current_match]['Match_Date']" 
+                                    :Hour="matches[current_match]['Hour']" 
+                                    :Stadium="matches[current_match]['Stadium']"
+                                    :Stage="matches[current_match]['Stage']"
+                                    :Score="matches[current_match]['Score']"
+                                    :EventBook="matches[current_match]['EventBook']"
+                                    >
+                                </GamePreview>
+                            </b-col>
+                            </div>
+                            <div class="game_preview">
+                            <b-col  v-if="current_match + 1 <matches.length" :key="this.current_match">
+                                <GamePreview id="favorite"
+                                    :Match_ID="matches[current_match+1]['Match_ID']" 
+                                    :Home_Team_ID="matches[current_match+1]['Home_Team_ID']" 
+                                    :Away_Team_ID="matches[current_match+1]['Away_Team_ID']" 
+                                    :Match_Date="matches[current_match+1]['Match_Date']" 
+                                    :Hour="matches[current_match+1]['Hour']" 
+                                    :Stadium="matches[current_match+1]['Stadium']"
+                                    :Stage="matches[current_match+1]['Stage']"
+                                    :Score="matches[current_match+1]['Score']"
+                                    :EventBook="matches[current_match+1]['EventBook']"
+                                    >
+                                </GamePreview>
+                            </b-col>
+                            </div>
+                        </b-row>
+                    </div>
+                </b-container>
+            </div>
             <div class="nav_button">
                 <b-button-toolbar key-nav aria-label="Toolbar with button groups">
                     <b-button-group class="mx-1">
-                    <b-button @click="decrementDisplay">&lsaquo;</b-button>
+                    <b-button @click="decrementDisplayMatches">&lsaquo;</b-button>
                     </b-button-group>
                     <b-button-group class="mx-1">
-                    <b-button @click="incrementDisplay">&rsaquo;</b-button>
+                    <b-button @click="incrementDisplayMatches">&rsaquo;</b-button>
                     </b-button-group>
                 </b-button-toolbar>
-            </div>
             </div>
         </div>    
     </div>
@@ -112,6 +163,7 @@
 
 <script>
 import PreviewDisplay from "../components/PreviewDisplay"
+import GamePreview from "../components/GamePreview.vue"
 export default {
     
     name: "teams",
@@ -126,6 +178,7 @@ export default {
             matches: [],
             is_loaded : false,
             current_player: 0,
+            current_match: 0,
             ready_components: 0,
             favorite_state: undefined
         }
@@ -162,9 +215,7 @@ export default {
         },
         async set_favorite_status(){
             try{
-                console.log('here')
                 // document.getElementById("team_star").style.pointerEvents = "none";
-                 console.log('here2')
                 const response = (await this.$root.server.get(`users/favoriteTeams`, {
                     withCredentials: true
                 })).data;
@@ -190,6 +241,14 @@ export default {
         incrementDisplay(){
             if (this.current_player + 8 < this.players.length)
                 this.current_player = this.current_player + 8;
+        },  
+        decrementDisplayMatches(){
+            if (this.current_match - 2 >= 0)
+                this.current_match = this.current_match - 2;
+        },
+        incrementDisplayMatches(){
+            if (this.current_match + 2 < this.matches.length)
+                this.current_match = this.current_match + 2;
         },   
         async getFullData(){
             const team_full_data = this.$root.store.get_team_full_data(this.$route.params.id);
@@ -202,10 +261,20 @@ export default {
             this.players = team_full_data.players;
             this.coach = team_full_data.coach;
             this.stadium = team_full_data.stadium;
+        },
+        async getTeamMatches(){
+            const matches = (await this.$root.server.get(
+                `teams/${this.$route.params.id}/matches`
+            )).data
+            this.matches = matches;
         }
     },
     components:{
-        PreviewDisplay
+        PreviewDisplay,
+        GamePreview
+    },
+    created(){
+        this.getTeamMatches();
     },
     mounted(){
         this.set_favorite_status().then(
@@ -217,7 +286,7 @@ export default {
                                 this.is_loaded = true;
                             }, 2000
                         )
-                    }
+                    }    
                 )
             }
         )
@@ -257,22 +326,33 @@ export default {
 }
 
 .coach_section{
-    /* border: solid 2px purple; */
-    background-color: rgba(245, 255, 208, 0.705);
-    /* margin-left: 150px; */
+    background-color: rgba(255, 255, 255, 0.199);
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2); 
     margin-top: 15px;
     padding: 20px;
-    /* width: 30vw;
-    height: 55vh; */
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px);
     border-radius: 5%;
+    z-index: 1;
 
 }
 
+.coach_section:before{
+    box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+    filter: blur(10px);
+    backdrop-filter: blur(10px);
+    z-index: -1;
+
+}
 
 .coach_section h1{
     text-align: center;
     color: black;
+    box-shadow: inset 0 0 200px rgba(255, 255, 255, .5);
+    width: max-content;
+    margin: 0 auto;
+    padding-inline: 15px;
+    padding-block: 1px;
+    border-radius: 5px;
    
 }
 
@@ -280,7 +360,7 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
-    transform: translate(20%, 25%);
+    transform: translate(25%, 25%);
     margin-top: 20px;
 }
 
@@ -362,21 +442,35 @@ export default {
 .nav_button{
     margin: 0 auto;
     max-width: max-content;
-    margin-bottom: 100px;
-    margin-top: 40px;
+    margin-bottom: 50px;
+    margin-top: 15px;
 }
 
 .team_section{
     width: max-content;
     display: block;
-    background-color: rgba(245, 255, 208, 0.705);
+    /* background-color: rgba(245, 255, 208, 0.068); */
     width: 30vw;
     height: 55vh;
-    backdrop-filter: blur(10px);
+    /* backdrop-filter: blur(10px); */
     border-radius: 5%;
     margin-top: 15px;
     /* margin-left: 100px; */
     padding-top: 15px;
+    background-color: rgba(255, 255, 255, 0.199);
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2); 
+    /* margin-top: 15px; */
+    padding: 20px;
+    backdrop-filter: blur(20px);
+    /* border-radius: 5%; */
+    z-index: 1;
+}
+
+.team_section:before{
+    box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+    filter: blur(10px);
+    backdrop-filter: blur(10px);
+    z-index: -1;
 }
 
 .team_section img{
@@ -391,15 +485,17 @@ export default {
     margin-block: 5px;
 }
 
+
+
 .preview{
     margin-inline: 20px;
 }
 
 .players{
-    /* margin-top: 40px; */
-    margin-bottom: 150px;
+    margin-top: 15px;
+    margin-bottom: 0px;
     /* margin-left: 100px; */
-    padding-block: 5px;
+    /* padding-block: 5px; */
     width: 100vw;
     margin-inline: auto;
     /* height: 80vh; */
@@ -417,7 +513,12 @@ export default {
 .players h1{
     text-align: center;
     color: black;
-    margin: 10px;
+    /* margin-block: 30px; */
+    box-shadow: inset 0 0 200px rgba(255, 255, 255, .5);
+    width: max-content;
+    /* margin: 0 auto; */
+    /* padding-inline: 15px; */
+    /* padding-block: 1px; */
 }
 
 
@@ -444,8 +545,6 @@ export default {
 #team_star{
     /* float: right; */
     transition: all .3s ease-in-out;
-    margin-top: 5px;
-    margin-left: 15px;
 }
 
 #team_star:hover{
@@ -459,4 +558,31 @@ export default {
     /* border: solid 2px red; */
     margin: 0 auto;
 }
+
+.matches_section{
+    /* border: solid 2px red; */
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.game_preview{
+    /* border: solid 2px blue; */
+    margin-inline: 30px;
+    margin-bottom: 10px;
+    /* width: 25rem; */
+}
+
+.middle_content h1{
+    color: black;
+    text-align: center;
+    box-shadow: inset 0 0 200px rgba(255, 255, 255, .5);
+    width: max-content;
+    margin: 0 auto;
+    padding-inline: 15px;
+    padding-bottom: 5px;
+    border-radius: 5px;
+
+}
+
 </style>

@@ -13,8 +13,8 @@
             <img v-bind:src= "small_photo_path">
         </div>
         <div class="info">
-            <div class="title">
-                <a target="_blank" href="#"><b>{{ this.main_name }}</b></a>
+            <div class="title" style=" margin-top: 10px; padding-inline: 5px;">
+                <a style="color:#0083BE;"><b>{{ this.main_name }}</b></a>
             </div>
             <div class="desc"><b>{{ this.secondary_name }}</b></div>
             <div class="desc">{{ this.description }}</div>  
