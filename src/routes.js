@@ -4,6 +4,7 @@ import Login from "./pages/LoginPage";
 import PlayerPage from "./pages/PlayerPage";
 import CoachPage from "./pages/CoachPage";
 import TeamPage from "./pages/TeamPage";
+import RepresentativePage from "./pages/RepresentativePage"
 
 const routes = [{
         path: "/",
@@ -47,6 +48,11 @@ const routes = [{
         path: "/teams/:id",
         name: "teams",
         component: TeamPage
+    },
+    {
+        path: "/representative",
+        name: "representative",
+        component: RepresentativePage
     },
     {
         path: "*",

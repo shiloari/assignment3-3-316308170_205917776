@@ -18,6 +18,7 @@
               {{ username }}
             </template>
             <b-dropdown-item href="#">Favorites</b-dropdown-item>
+            <b-dropdown-item v-show="this.role && this.role == 'Representative'" :to="{ name: 'representative' }">Manage</b-dropdown-item>
             <b-dropdown-item @click="Logout" href="#">Log Out</b-dropdown-item>
           </b-nav-item-dropdown>
           </b-navbar-nav>
@@ -35,16 +36,19 @@ export default {
   name: "App",
   data(){
     return{
-        username: undefined
+        username: undefined,
+        role: undefined
     }
    
   },
   created(){
     this.username = localStorage.getItem("username");
+    this.role = localStorage.getItem("role");
   },
   watch:{
       username: function(){
-    this.username = localStorage.getItem("username");
+        this.username = localStorage.getItem("username");
+        this.role = localStorage.getItem("role")
       }
   },
   methods: {
