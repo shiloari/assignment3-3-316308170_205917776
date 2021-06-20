@@ -1,34 +1,45 @@
 <template>
-    <div id="app" style="overflow:scroll;">
-        <div id="table1" v-show="this.items && this.totalItems == this.items.length  && this.finished">
-            <h1>Standing Current</h1>
-            <b-table ref="table" hover head-variant="dark" show-empty :items="Matches" :fields="fields" :current-page="currentPage" :per-page="perPage" style="background-color:white">
-                <template #cell(Home_Team_name)="data">
-                    <a :href="'/#/teams/'+ teleportToTeam(data.value)">{{ data.value }}</a>
-                </template>
-                <template #cell(Away_Team_name)="data">
-                    <a :href="'/#/teams/'+ teleportToTeam(data.value)">{{ data.value }}</a>
-                </template>
-                <template #cell(Favorite) = "data" >
-                     <button type="button" class="btn btn-primary" style="background:none;border:none;" @click="addMatchToFavorite(data)" >
-                         <div v-if="data.item.Favorite"><b-icon  icon="star" aria-hidden="true" style="background:none;fill:black;" ></b-icon></div>
-                         <div  v-else><b-icon  icon="star" aria-hidden="true" style="background:none;fill:black;"></b-icon></div>  
-                     </button>
-                </template>
-            </b-table>
-            <b-pagination size="md" :total-rows="Matches.length" v-model="currentPage" :per-page="perPage"></b-pagination>
+    <div class="main_page">
+        <div v-if="!this.finished" class="d-flex justify-content-center" style="margin-top: 15%;">
+            <div id="waiting" class="spinner-border text-dark" style="width: 5rem; height: 5rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
         </div>
-        <div id="table2" v-if="this.items && this.totalItems == this.items.length && this.finished">
-            <h1>Standing History</h1>
-            <b-table hover head-variant="dark" show-empty :items="oldMatches" :fields="oldfields" :current-page="oldCurrentPage" :per-page="perPage" style="background-color:white">
-                <template #cell(Home_Team_name)="data">
-                    <a :href="'/#/teams/'+ teleportToTeam(data.value)">{{ data.value }}</a>
-                </template>
-                <template #cell(Away_Team_name)="data">
-                    <a :href="'/#/teams/'+ teleportToTeam(data.value)">{{ data.value }}</a>
-                </template>
-            </b-table>
-            <b-pagination size="md" :total-rows="oldMatches.length" v-model="oldCurrentPage" :per-page="perPage"></b-pagination>
+        <div class="standings">
+            <div id="table1" v-show="this.items && this.totalItems == this.items.length  && this.finished">
+                <h1>Current Standings</h1>
+                <b-table ref="table" hover head-variant="dark" show-empty :items="Matches" :fields="fields" :current-page="currentPage" :per-page="perPage" style="background-color:white">
+                    <template #cell(Home_Team_name)="data">
+                        <a :href="'/#/teams/'+ teleportToTeam(data.value)">{{ data.value }}</a>
+                    </template>
+                    <template #cell(Away_Team_name)="data">
+                        <a :href="'/#/teams/'+ teleportToTeam(data.value)">{{ data.value }}</a>
+                    </template>
+                    <template #cell(Favorite) = "data" >
+                        <button type="button" class="btn btn-primary" style="background:none;border:none;" @click="addMatchToFavorite(data)" >
+                            <div v-if="data.item.Favorite"><b-icon  icon="star" aria-hidden="true" style="background:none;fill:black;" ></b-icon></div>
+                            <div  v-else><b-icon  icon="star" aria-hidden="true" style="background:none;fill:black;"></b-icon></div>  
+                        </button>
+                    </template>
+                </b-table>
+                <div class="paginiation">
+                    <b-pagination size="md" :total-rows="Matches.length" v-model="currentPage" :per-page="perPage"></b-pagination>
+                </div>
+            </div>
+            <div id="table2" v-if="this.items && this.totalItems == this.items.length && this.finished">
+                <h1>History Standings</h1>
+                <b-table hover head-variant="dark" show-empty :items="oldMatches" :fields="oldfields" :current-page="oldCurrentPage" :per-page="perPage" style="background-color:white">
+                    <template #cell(Home_Team_name)="data">
+                        <a :href="'/#/teams/'+ teleportToTeam(data.value)">{{ data.value }}</a>
+                    </template>
+                    <template #cell(Away_Team_name)="data">
+                        <a :href="'/#/teams/'+ teleportToTeam(data.value)">{{ data.value }}</a>
+                    </template>
+                </b-table>
+                <div class="paginiation">
+                    <b-pagination size="md" :total-rows="oldMatches.length" v-model="oldCurrentPage" :per-page="perPage"></b-pagination>
+                </div>
+            </div>
         </div>
     </div>  
 </template>
@@ -97,7 +108,12 @@ export default {
                         this.Matches.push(match);
                 })
                 this.set_favorite_status()
-                this.finished = true
+                setTimeout(
+                    ()=>{
+                        this.finished = true
+                    }, 1000
+                )
+ 
                 
             }
         }
@@ -206,5 +222,36 @@ export default {
 .star:hover{
     transform: scale(1.2);
     z-index: 100;
+}
+
+.main_page{
+    width: 100%;
+    height: 100%;
+    overflow:scroll;
+    backdrop-filter: blur(5px);
+}
+
+#table1 h1{
+    color: white;
+    margin-block: 20px;
+    text-align: center;
+}
+
+#table2 h1{
+    color: white;
+    margin-block: 20px;
+    text-align: center;
+}
+
+
+.paginiation{
+    margin: 0 auto;
+    display: block;
+    width: max-content;
+}
+
+.standings{
+    margin-bottom: 100px;
+    padding-inline: 20px;
 }
 </style>

@@ -1,11 +1,11 @@
 <template>
     <div class = "league_info"> 
-    <div class="d-flex justify-content-center" v-if="!this.is_loaded" style="margin-top: 25vh;">
+    <!-- <div class="d-flex justify-content-center" v-if="!this.is_loaded" style="margin-top: 25vh;">
         <div id="waiting" class="spinner-border text-light" style="width: 5rem; height: 5rem;" role="status">
             <span class="sr-only">Loading...</span>
         </div>
-    </div> 
-    <div v-if="this.is_loaded">
+    </div>  -->
+    <div>
     <div id="league_details">
       <img src="../assets/superliga.png" style="width: 150px; height: auto;">
       <h1><b>{{ this.leagueName }}</b></h1>
@@ -83,7 +83,7 @@ export default {
     this.getDetails().then(
       ()=>{
         setTimeout(
-          ()=>{this.is_loaded = true;}
+          ()=>{this.$emit('eventname')}
         ),1500 }
     );
   }

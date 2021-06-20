@@ -1,28 +1,20 @@
 <template>  
   <div class="main_page">
-    <LoginPage id="login" v-if="!this.$session.exists()"></LoginPage>
-    <div v-else id="favorites">
-      <h1 id="header">Your favorite matches</h1>
-      <FavoriteGames :size="3"></FavoriteGames> 
+    <div v-if="!this.is_loaded" class="d-flex justify-content-center" style="margin-top: 15%;">
+      <div id="waiting" class="spinner-border text-dark" style="width: 5rem; height: 5rem;" role="status">
+          <span class="sr-only">Loading...</span>
+      </div>
     </div>
-    <div id="right_side_display">
-      <LeagueInfo id="league_info"></LeagueInfo>
+    <div v-show="this.is_loaded" >
+      <LoginPage id="login" v-if="!this.$session.exists()"></LoginPage>
+      <div v-else id="favorites">
+          <h1 id="header">Your favorite matches</h1>
+          <FavoriteGames :size="3"></FavoriteGames> 
+      </div>
+      <div id="right_side_display">
+          <LeagueInfo @eventname="updateparent" id="league_info"></LeagueInfo>
+      </div>
     </div>
-    <!-- <PreviewDisplay class="preview" v-if="this.$session.exists()"
-    :type="'players'"
-    :Display_ID="26722"
-    >
-    </PreviewDisplay>
-    <PreviewDisplay class="preview" v-if="this.$session.exists()"
-    :type="'coaches'"
-    :Display_ID="459045"
-    >
-    </PreviewDisplay>
-    <PreviewDisplay class="preview" v-if="this.$session.exists()"
-    :type="'teams'"
-    :Display_ID="939"
-    >
-    </PreviewDisplay> -->
   </div>
 </template>
 
@@ -32,6 +24,17 @@ import FavoriteGames from "../components/FavoriteGames";
 import LoginPage from "../pages/LoginPage";
 import PreviewDisplay from "../components/PreviewDisplay"
 export default {
+  data(){
+    return{
+      is_loaded: false
+    }
+    
+  },
+  methods:{
+    updateparent() {
+        this.is_loaded = true;
+    }
+  },
   components: {
     LeagueInfo, 
     LoginPage, 
@@ -57,8 +60,8 @@ export default {
 
 .main_page{
   overflow: scroll;
-  position: relative;
-  display:inline-flex;
+  // position: relative;
+  // display:inline-flex;
   width: 100%;
   height: 100%;
 }
@@ -85,13 +88,24 @@ export default {
 
 .favorites{
   height: 110%;
-  margin-left: 30px;
+  margin-left: 40px;
   // margin-bottom: 50px;
 }
 
+
+
 #header{
-  color: white;
-    margin-left: 30px;
+  // color: white;
+  margin-left: 30px;
+  margin-top: 20px;
+  // text-align: center;
+  color: black;
+  box-shadow: inset 0 0 200px rgba(255, 255, 255, .5);
+  width: max-content;
+  // margin: 0 auto;
+  padding-inline: 15px;
+  padding-block: 1px;
+  border-radius: 5px;
 
 }
 </style>

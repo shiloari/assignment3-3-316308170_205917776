@@ -13,6 +13,9 @@
             <b-nav-item :to="{ name: 'register' }">Register</b-nav-item>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto" v-else>
+          <b-navbar-brand style="font-size:16px; margin-right: -5px; opacity:0.5; margin-top:3px;"
+          >Hello,&nbsp;
+          </b-navbar-brand>
           <b-nav-item-dropdown right>
             <template #button-content>
               {{ username }}
