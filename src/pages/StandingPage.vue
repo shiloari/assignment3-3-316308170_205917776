@@ -8,7 +8,7 @@
         <div class="standings">
             <div id="table1" v-show="this.items && this.totalItems == this.items.length  && this.finished">
                 <h1>Current Standings</h1>
-                <b-table ref="table" hover head-variant="dark" show-empty :items="Matches" :fields="fields" :current-page="currentPage" :per-page="perPage" style="background-color:white">
+                <b-table id="table_1" ref="table" hover head-variant="dark" show-empty :items="Matches" :fields="fields" :current-page="currentPage" :per-page="perPage" style="background-color:white">
                     <template #cell(Home_Team_name)="data">
                         <a :href="'/#/teams/'+ teleportToTeam(data.value)">{{ data.value }}</a>
                     </template>
@@ -23,7 +23,7 @@
                     </template>
                 </b-table>
                 <div class="paginiation">
-                    <b-pagination size="md" :total-rows="Matches.length" v-model="currentPage" :per-page="perPage"></b-pagination>
+                    <b-pagination aria-controls="table_1" size="md" :total-rows="Matches.length" v-model="currentPage" :per-page="perPage"></b-pagination>
                 </div>
             </div>
             <div id="table2" v-if="this.items && this.totalItems == this.items.length && this.finished">

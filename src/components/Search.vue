@@ -5,28 +5,28 @@
                     <div class="row_container2">
                         <b-row class="row_container3">
                             <b-col cols="12" md="2" v-if="current_display<searches.length" :key="this.current_display" class="preview">
-                                <PreviewDisplay
+                                <PreviewDisplay :key="re_render"
                                     :Display_ID="parseInt(searches[current_display]['id'])" 
                                     :type="searches[current_display].Sname"
                                 >
                                 </PreviewDisplay>
                             </b-col>
                             <b-col cols="12" md="2" v-if="current_display+1<searches.length" :key="this.current_display" class="preview">
-                                 <PreviewDisplay
+                                 <PreviewDisplay  :key="re_render"
                                     :Display_ID="parseInt(searches[current_display+1]['id'])" 
                                     :type="searches[current_display+1].Sname"
                                 >
                                 </PreviewDisplay>
                             </b-col>
                             <b-col cols="12" md="2" v-if="current_display+2<searches.length" :key="this.current_display" class="preview">
-                                 <PreviewDisplay
+                                 <PreviewDisplay  :key="re_render"
                                     :Display_ID="parseInt(searches[current_display+2]['id'])" 
                                     :type="searches[current_display+2].Sname"
                                 >
                                 </PreviewDisplay>
                             </b-col>
                             <b-col cols="12" md="2" v-if="current_display+3<searches.length" :key="this.current_display" class="preview">
-                                 <PreviewDisplay
+                                 <PreviewDisplay  :key="re_render"
                                     :Display_ID="parseInt(searches[current_display+3]['id'])" 
                                     :type="searches[current_display+3].Sname"
                                 >
@@ -64,6 +64,7 @@ export default {
   }, 
   data() {
     return {
+      re_render: 0,
       searches: [],
       ready_components : 0,
       Sname : "teams",
@@ -73,6 +74,11 @@ export default {
       start: false,
       current_display: 0
     };
+  },
+  watch:{
+      searches: function(){
+          
+      }
   },
   methods: {
     decrementDisplay(){
@@ -126,6 +132,8 @@ export default {
     startSearch: function(keyword){
         this.start = false;
         this.searches = [];
+        this.re_render++;
+        this.current_display = 0;
         this.ready_components = 0;
         try {
             const searched =  JSON.parse(localStorage.getItem(`all_${this.Sname}`))

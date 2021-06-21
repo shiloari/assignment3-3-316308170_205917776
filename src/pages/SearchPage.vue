@@ -1,64 +1,72 @@
 <template>
   <div class = "search_page">
     <h1 class="title">Search Page</h1>
-    <b-form-select
-      v-model="PCT_selected"
-      :options="PCT_options"
-      class="mt-3"
-      value-field="item"
-      text-field="name"
-      id="stam"
-    ></b-form-select>
-    <div id="checkers">
-      <div id="checked_sort">
-        <div class="mt-3">Sort by:</div>
-          <b-form-checkbox-group
-            v-model="s_selected"
-            :options="s_options"
-            class="mb-3"
-            style="margin-left: 20px;"
-            value-field="item"
-            text-field="name"
-            disabled-field="notEnabled"
-          ></b-form-checkbox-group>
+    <div class="search_def">
+    <div class = "chose_type">
+             <b-form-select
+        v-model="PCT_selected"
+        :options="PCT_options"
+        class="mt-3"
+        value-field="item"
+        text-field="name"
+        id="stam"
+      ></b-form-select>
       </div>
-      <div id="checked_filter" v-if="this.PCT_selected != 'teams'">
-        <div class="mt-3">Filter by:</div>
-          <b-form-checkbox-group
-            v-model="fp_selected"
-            :options="fp_options"
-            class="mb-3"
-            style="margin-left: 20px;"
-            value-field="item"
-            text-field="name"
-            disabled-field="notEnabled"
-          ></b-form-checkbox-group>
-      </div> 
-      <div id="option" v-if="this.PCT_selected != 'teams' && fp_selected[0] == 'position'">
-          <b-form-select
-            v-model="f_selected"
-            :options="f_options"
-            class="mt-3"
-            value-field="item"
-            text-field="name"
-          ></b-form-select>
+    <div class="search_const">
+      <div id="checkers">
+        <div id="checked_sort">
+          <div class="mt-3">Sort by:</div>
+            <b-form-checkbox-group
+              v-model="s_selected"
+              :options="s_options"
+              class="mb-3"
+              style="margin-left: 20px;"
+              value-field="item"
+              text-field="name"
+              disabled-field="notEnabled"
+            ></b-form-checkbox-group>
+        </div>
+        <div id="checked_filter" v-if="this.PCT_selected != 'teams'">
+          <div class="mt-3">Filter by:</div>
+            <b-form-checkbox-group
+              v-model="fp_selected"
+              :options="fp_options"
+              class="mb-3"
+              style="margin-left: 20px;"
+              value-field="item"
+              text-field="name"
+              disabled-field="notEnabled"
+            ></b-form-checkbox-group>
+        </div> 
+        <div id="option" v-if="this.PCT_selected != 'teams' && fp_selected[0] == 'position'">
+            <b-form-select
+              v-model="f_selected"
+              :options="f_options"
+              class="mt-3"
+              value-field="item"
+              text-field="name"
+            ></b-form-select>
+        </div>
       </div>
-      <div id="option" v-if="this.PCT_selected != 'teams' && fp_selected[0] == 'team_id'">
-          <b-form-select
-            v-model="team_selected"
-            :options="team_options"
-            class="mt-3"
-            value-field="item"
-            text-field="name"
-          ></b-form-select>
+      <b-input-group prepend="Search Query:" id="search-input">
+        <b-form-input v-model="searchQuery"></b-form-input>
+        <b-input-group-append>
+          <b-button variant="success" @click="runSearch">Search</b-button>
+        </b-input-group-append>
+      </b-input-group>
+    </div>
+    <div class="search_changeable">
+ <div id="option" v-if="this.PCT_selected != 'teams' && fp_selected[0] == 'team_id'">
+            <b-form-select
+              v-model="team_selected"
+              :options="team_options"
+              class="mt-3"
+              value-field="item"
+              text-field="name"
+            ></b-form-select>
       </div>
     </div>
-    <b-input-group prepend="Search Query:" id="search-input">
-      <b-form-input v-model="searchQuery"></b-form-input>
-      <b-input-group-append>
-        <b-button variant="success" @click="runSearch">Search</b-button>
-      </b-input-group-append>
-    </b-input-group>
+    </div>
     <Search ref="child" id="search"></Search>
   </div>
   
@@ -90,14 +98,7 @@ export default {
         { item: '1', name: '1' },
         { item: '2', name: '2' },
         { item: '3', name: '3' },
-        { item: '4', name: '4' },
-        { item: '5', name: '5' },
-        { item: '6', name: '6' },
-        { item: '7', name: '7' },
-        { item: '8', name: '8' },
-        { item: '9', name: '9' },
-        { item: '10', name: '10' },
-        { item: '11', name: '11' }],
+        { item: '4', name: '4' }],
       team_selected: '',
       team_options : []
     };
@@ -190,23 +191,77 @@ export default {
 .search_page{
   overflow: scroll;
   height: 100vh;
-  margin-left: 15px;
+  /* margin-left: 15px; */
+}
+
+h1{
+  text-align: center;
+  color: white;
+  margin-top: 20px;
+}
+
+.search_def{
+  height: 60vh;
+  width: 85%;
+  margin-inline: auto;
+  margin-top: 30px;
+  text-align: center;
+  display: flex;
+  color: black;
+  box-shadow: inset 0 0 200px rgba(255, 255, 255, .5);
+   /* box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5); */
+  backdrop-filter: blur(15px);
+  border-radius: 5px;
+  
+  /* border: solid 2px red; */
+}
+
+.search_const{
+  /* border: solid 2px blue; */
+  width: 60%;
+  margin-top:50px
+  /* margin-left:20%; */
+  /* margin-right: 5%; */
+}
+
+.chose_type{
+  width:30%;
+  height: max-content;
+  margin-block: auto;
+  /* border: solid 2px red; */
 }
 
 #stam {
-  margin-left: 20px; 
-  margin-bottom: 5px;
-  margin-top: 20px;
+  /* margin-left: 20px; 
+  margin-bottom: 5px; */
+  margin-top: 100px;
   width: 150px; 
+  float: right;
+  /* border: solid 2px purple; */
 }
+
+.search_changeable{
+  width: 20%;
+  /* position: relative;
+  right: 0; */
+  /* border: solid 2px purple; */
+}
+
+
 #checked_sort{
   display:inline-block;
+  margin-top:50px;
 }
 #checked_filter{
   display:inline-block;
+  margin-top:50px;
 }
 #option{
-  display:inline-block;
+  /* position:relative; */
+  /* top: 0; */
+  /* display: flex; */
+  /* margin-block: 50px; */
+  /* float:right; */
 }
 .mt-3{
   margin-left: 20px; 
@@ -214,7 +269,9 @@ export default {
   width: 150px; 
 }
 #search-input {
-  margin-left: 20px; 
+  margin-inline: auto;
+  margin-top:10px;
+  /* margin-left: 20px;  */
   width: 500px; 
 }
 </style>
