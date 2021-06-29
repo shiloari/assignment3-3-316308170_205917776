@@ -20,7 +20,7 @@
             <template #button-content>
               {{ username }}
             </template>
-            <b-dropdown-item href="#">Favorites</b-dropdown-item>
+            <b-dropdown-item :to="{ name: 'favorites' }">Favorites</b-dropdown-item>
             <b-dropdown-item v-show="this.role && this.role == 'Representative'" :to="{ name: 'representative' }">Manage</b-dropdown-item>
             <b-dropdown-item @click="Logout" href="#">Log Out</b-dropdown-item>
           </b-nav-item-dropdown>

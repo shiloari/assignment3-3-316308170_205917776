@@ -41,7 +41,7 @@ export default {
         const response = await this.$root.server.get(
           `users/favoriteMatches`,
         );
-        this.games = response.data.slice(0,Math.min(3,response.data.length));
+        this.games = response.data.slice(0,Math.min(this.size,response.data.length));
         // this.games = [];
         // this.games.push(...games);
         // console.log(response);

@@ -5,6 +5,7 @@ import PlayerPage from "./pages/PlayerPage";
 import CoachPage from "./pages/CoachPage";
 import TeamPage from "./pages/TeamPage";
 import RepresentativePage from "./pages/RepresentativePage"
+import FavoritesPage from "./pages/FavoritesPage"
 
 const routes = [{
         path: "/",
@@ -53,6 +54,11 @@ const routes = [{
         path: "/representative",
         name: "representative",
         component: RepresentativePage
+    },
+    {
+        path: "/favorites",
+        name: "favorites",
+        component: FavoritesPage
     },
     {
         path: "*",

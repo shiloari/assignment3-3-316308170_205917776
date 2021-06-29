@@ -86,7 +86,7 @@ export default {
                     }, {
                         withCredentials: true
                     });
-                     return;
+                    return;
                 }
                 catch(error){
 
@@ -98,6 +98,7 @@ export default {
                     const response = await this.$root.server.delete(`users/favorite${relative_path}/${this.Display_ID}`, {
                         withCredentials: true
                     });
+                    this.$emit("deleted_favorite")
                 }
                 catch(error){
 

@@ -91,14 +91,12 @@ export default {
     },  
     search_by_name: function (keyword, searched) {
         let filtered = []
-        console.log(searched);
         searched.map(
             (element) => {
                 if (element.name != null && element.name.includes(keyword))
                     filtered.push(element)
         }
     )
-        console.log(filtered);
         return filtered;
     },
     fixSearchers: function (){

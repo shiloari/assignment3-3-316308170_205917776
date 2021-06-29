@@ -17,8 +17,8 @@
                     </template>
                     <template #cell(Favorite) = "data" >
                         <button type="button" class="btn btn-primary" style="background:none;border:none;" @click="addMatchToFavorite(data)" >
-                            <div v-if="data.item.Favorite"><b-icon  icon="star" aria-hidden="true" style="background:none;fill:black;" ></b-icon></div>
-                            <div  v-else><b-icon  icon="star" aria-hidden="true" style="background:none;fill:black;"></b-icon></div>  
+                            <b-icon v-bind:id="data.index" icon="star" aria-hidden="true" style="background:none;fill:black;" ></b-icon>
+                            <!-- <div  v-else><b-icon  icon="star" aria-hidden="true" style="background:none;fill:black;"></b-icon></div>   -->
                         </button>
                     </template>
                 </b-table>
@@ -126,6 +126,7 @@ export default {
     methods: {
         addMatchToFavorite : async function(data){
             try{
+                document.getElementById(data.index).style.backgroundColor = "yellow";
                 const match_id = data.item.Match_ID
                 if(!data.item.Favorite){
                         const response = await this.$root.server.post(`users/favoriteMatches`, {
