@@ -1,18 +1,31 @@
 <template>
     <div class="main_fav_container">
-        <div>
-            <b-nav>
-                <b-nav-item class="nav_tab"><div @click="changeCategory('teams')" class="inner_text">Teams</div></b-nav-item>
-                <b-nav-item class="nav_tab"><div @click="changeCategory('players')" class="inner_text">Players</div></b-nav-item>
-                <b-nav-item class="nav_tab"><div @click="changeCategory('coaches')" class="inner_text">Coaches</div></b-nav-item>
-                <b-nav-item class="nav_tab"><div @click="changeCategory('matches')" class="inner_text">Matches</div></b-nav-item>
-            </b-nav>
+        <div class="top_section">
+            <div class="user_section">
+                <div class="user">
+                    <img v-bind:src="user_photo">
+                </div>
+
+            </div>
+            <div style="text-align: center; color: #2c3e50;">
+                <h1>{{ this.username }}'s Favorites</h1>
+                <div>
+                    <b-nav>
+                        <b-nav-item class="nav_tab"><div @click="changeCategory('teams')" class="inner_text">Teams</div></b-nav-item>
+                        <b-nav-item class="nav_tab"><div @click="changeCategory('players')" class="inner_text">Players</div></b-nav-item>
+                        <b-nav-item class="nav_tab"><div @click="changeCategory('coaches')" class="inner_text">Coaches</div></b-nav-item>
+                        <b-nav-item class="nav_tab"><div @click="changeCategory('matches')" class="inner_text">Matches</div></b-nav-item>
+                    </b-nav>
+                </div>
+            </div>
         </div>
         <div class="favorites">
+            <transition name="fade">
+            <div :key="[this.current_display_matches,this.current_category]">
             <b-container v-if="current_category =='matches'" fluid="sm" style="width: max-content" >
                         <b-row class="matches_row">
                             <b-col v-if="current_display_matches<current_favorites.length" :key="this.current_display_matches" class="preview">
-                                 <GamePreview
+                                 <GamePreview @deleted_favorite="deleted_match(0)"
                                     :Match_ID="current_favorites[current_display_matches].Match_ID" 
                                     :Home_Team_ID="current_favorites[current_display_matches].Home_Team_ID" 
                                     :Away_Team_ID="current_favorites[current_display_matches].Away_Team_ID" 
@@ -22,11 +35,11 @@
                                     :Stage="current_favorites[current_display_matches].Stage"
                                     :Score="current_favorites[current_display_matches].Score"
                                     :EventBook="current_favorites[current_display_matches].EventBook"
-                                    :key="current_favorites[current_display_matches].id">
+                                    >
                                 </GamePreview>    
                             </b-col>
-                            <b-col  v-if="current_display_matches<current_favorites.length" :key="this.current_display_matches" class="preview">
-                                 <GamePreview
+                            <b-col  v-if="current_display_matches+1<current_favorites.length" :key="this.current_display_matches" class="preview">
+                                 <GamePreview  @deleted_favorite="deleted_match(1)"
                                     :Match_ID="current_favorites[current_display_matches+1].Match_ID" 
                                     :Home_Team_ID="current_favorites[current_display_matches+1].Home_Team_ID" 
                                     :Away_Team_ID="current_favorites[current_display_matches+1].Away_Team_ID" 
@@ -36,12 +49,16 @@
                                     :Stage="current_favorites[current_display_matches+1].Stage"
                                     :Score="current_favorites[current_display_matches+1].Score"
                                     :EventBook="current_favorites[current_display_matches+1].EventBook"
-                                    :key="current_favorites[current_display_matches+1].id">
+                                    >
                                 </GamePreview>    
                             </b-col>
                         </b-row>
             </b-container>
-            <b-container v-else fluid="sm" style="margin-top:10px;" >
+            </div>
+             </transition>
+            <transition name="fade">
+            <div v-if="current_category !='matches'" :key="[this.current_display,this.current_category]">
+            <b-container fluid="sm" style="margin-top:10px;" >
                     <div class="row_container2">
                         <b-row class="row_container3">
                             <b-col cols="12" md="2" v-if="current_display<current_favorites.length" :key="this.current_display" class="preview">
@@ -75,15 +92,17 @@
                         </b-row>
                     </div>
             </b-container>
+            </div>
+            </transition>
             <div class="nav_button">
-                    <b-button-toolbar key-nav aria-label="Toolbar with button groups">
-                        <b-button-group class="mx-1">
-                        <b-button @click="decrementDisplay">&lsaquo;</b-button>
-                        </b-button-group>
-                        <b-button-group class="mx-1">
-                        <b-button @click="incrementDisplay">&rsaquo;</b-button>
-                        </b-button-group>
-                    </b-button-toolbar>
+                <b-button-toolbar key-nav aria-label="Toolbar with button groups">
+                    <b-button-group class="mx-1">
+                    <b-button @click="decrementDisplay">&lsaquo;</b-button>
+                    </b-button-group>
+                    <b-button-group class="mx-1">
+                    <b-button @click="incrementDisplay">&rsaquo;</b-button>
+                    </b-button-group>
+                </b-button-toolbar>
             </div>
         </div>
     </div>
@@ -107,10 +126,21 @@ export default {
             fav_players: [],
             fav_coaches: [],
             fav_teams: [],
-            fav_matches: []
+            fav_matches: [],
+            user_photo: undefined,
+            username: undefined
         }
     },
     methods:{
+        setPhoto(){
+            this.user_photo = (localStorage.getItem("user_photo") == null) ? this.$root.user_photo : "https://www.tenforums.com/geek/gars/images/2/types/thumb_15951118880user.png"
+            this.username = localStorage.getItem("username");
+       },
+        deleted_match(offset){
+            this.current_favorites.splice(this.current_display_match+offset,1)
+            this.re_render++;
+            
+        },
         deleted(offset){
             this.current_favorites.splice(this.current_display+offset,1)
             this.re_render++;
@@ -156,6 +186,10 @@ export default {
                     withCredentials: true
                 })).data
                 this.fav_players = players_response
+                const coaches_response = (await this.$root.server.get(`users/favoriteCoaches`, {
+                    withCredentials: true
+                })).data
+                this.fav_coaches = coaches_response
                 const teams_response = (await this.$root.server.get(`users/favoriteTeams`, {
                     withCredentials: true
                 })).data;
@@ -176,6 +210,7 @@ export default {
     },
     created(){
       this.fetchFavorites();
+      this.setPhoto();
 
     }
 }
@@ -223,7 +258,7 @@ export default {
 }
 
 .main_fav_container{
-    overflow: scroll;
+    /* overflow: scroll; */
     width: 100%;
     height: 100%;
 }
@@ -241,5 +276,39 @@ export default {
     justify-content: space-evenly;
     width: max-content;
     margin-inline: auto;
+}
+
+.user{
+    /* border: solid 2px blue; */
+    width: max-content;
+    border-radius: 50%;
+    margin-inline: auto;
+    
+}
+
+.user img{
+    width: 150px;
+    height: auto;
+    border-radius: 50%;
+    border: 10px groove rgb(255, 255, 255);
+    margin: 10px;
+
+}
+
+.top_section{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    vertical-align:middle;
+    width: max-content;
+    margin-inline: auto;
+    margin-top: 10px;
+}
+
+.fade-enter-active {
+  transition: opacity 1s;
+}
+.fade-enter {
+  opacity: 0;
 }
 </style>

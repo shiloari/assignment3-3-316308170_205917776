@@ -1,7 +1,9 @@
 <template>
     <div class="p_search" >
-        <div class ="PD_search" v-if="this.start">
-            <b-container fluid="sm" style="margin-top:10px;" >
+        <div class ="PD_search" > 
+            <transition name="fade_search">
+            <div  v-if="this.start" :key="[this.current_display, this.start]">
+            <b-container fluid="sm" style="margin-top:10px;">
                     <div class="row_container2">
                         <b-row class="row_container3">
                             <b-col cols="12" md="2" v-if="current_display<searches.length" :key="this.current_display" class="preview">
@@ -35,6 +37,9 @@
                         </b-row>
                     </div>
             </b-container>
+            </div>
+            </transition>
+
             <div class="nav_button">
                     <b-button-toolbar key-nav aria-label="Toolbar with button groups">
                         <b-button-group class="mx-1">
@@ -46,13 +51,8 @@
                     </b-button-toolbar>
             </div>
         </div>
+
     </div>
-    <!-- <ul>
-                <li v-for="s in searches"
-                :key="s.id">
-                {{s.name}}
-                </li>
-            </ul>    -->
 </template>
 
 <script>
@@ -160,5 +160,12 @@ export default {
 
 .PD_search{
     margin-left: 25px;
+}
+
+.fade_search-enter-active {
+  transition: opacity 1s;
+}
+.fade_search-enter {
+  opacity: 0;
 }
 </style>

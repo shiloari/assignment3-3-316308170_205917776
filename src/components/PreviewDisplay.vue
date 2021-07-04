@@ -50,9 +50,6 @@ export default {
         }
         
     },
-    created(){
-             
-    },
     mounted(){
         this.set_favorite_status();  
         this.getPreview().then(()=>{

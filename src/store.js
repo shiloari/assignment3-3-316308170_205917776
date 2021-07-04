@@ -2,18 +2,23 @@ const shared_data = {
     // username: localStorage.username,
     username: undefined,
     role: undefined,
-    login(username, role) {
+    user_photo: undefined,
+    login(username, response) {
         localStorage.setItem("username", username);
-        localStorage.setItem("role", role);
+        localStorage.setItem("role", response.role);
+        localStorage.setItem("user_photo", response.photo)
         this.username = username;
-        this.role = role;
+        this.role = response.role;
+        this.user_photo = response.photo;
     },
     logout() {
         console.log("logout");
         localStorage.removeItem("username");
         localStorage.removeItem("role");
+        localStorage.removeItem("user_photo")
         this.username = undefined;
         this.role = undefined;
+        this.user_photo = undefined;
     },
     get_player_full_data(player_id) {
         let all_players = JSON.parse(localStorage.getItem("all_players"));

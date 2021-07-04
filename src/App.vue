@@ -40,18 +40,21 @@ export default {
   data(){
     return{
         username: undefined,
-        role: undefined
+        role: undefined,
+        user_photo: undefined
     }
    
   },
   created(){
     this.username = localStorage.getItem("username");
     this.role = localStorage.getItem("role");
+    this.user_photo = localStorage.getItem("user_photo");
   },
   watch:{
       username: function(){
         this.username = localStorage.getItem("username");
-        this.role = localStorage.getItem("role")
+        this.role = localStorage.getItem("role");
+        this.user_photo = localStorage.getItem("user_photo");
       }
   },
   methods: {

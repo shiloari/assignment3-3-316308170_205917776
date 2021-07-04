@@ -3,6 +3,11 @@
     <!-- <div :title="Match_ID" class="game-title"></div> -->
     <!-- {{ this.is_loaded }} -->
     <div id="teams">
+    <div v-bind:class="favorite_state" v-show="this.$session.exists()" id="star" @click="check_star" @mouseleave="disable_favorite">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-star star"  viewBox="0 0 16 16">
+            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+        </svg>
+    </div>
     <div id="team_display">
       <div id="team_logo"><img v-bind:src= "home_team_logo"></div>
       <h5>{{ this.home_team_name }}</h5>
@@ -79,32 +84,89 @@ export default {
       away_team_name: undefined,
       away_team_logo : undefined,
       stage_name: undefined,
-      is_loaded : undefined
+      is_loaded : undefined,
+      favorite_state: undefined
     }
   },
   methods:{
-    async set_display(){
-      try{
-        const home_team = await this.$root.store.get_team_full_data(this.Home_Team_ID);
-        // const home_team = (await this.$root.server.get(`teams/${this.Home_Team_ID}/preview`)).data;
-        this.home_team_name = home_team.name;
-        this.home_team_logo = home_team.logo_path;
-        // const away_team = (await this.$root.server.get(`teams/${this.Away_Team_ID}/preview`)).data;
-        const away_team = await this.$root.store.get_team_full_data(this.Away_Team_ID);
-        this.away_team_name = away_team.name;
-        this.away_team_logo = away_team.logo_path;
-        this.stage_name = (await this.$root.server.get(`league/stages/${this.Stage}`)).data.name;
-        
-        
-        // console.log(this.$parent.ready_components);
+        disable_favorite(){
+            this.hover_favorite = false;
+        },
+        async check_star(){
+            if (this.favorite_state == "favorite_unchecked"){
+                try{
+                    this.favorite_state = "favorite_checked";
+                    const response = await this.$root.server.post(`users/favoriteMatches`, {
+                        user_id: undefined,
+                        id: this.Match_ID  
+                    }, {
+                        withCredentials: true
+                    });
+                    return;
+                }
+                catch(error){
+
+                }
+            }
+            else 
+                try{
+                     this.favorite_state = "favorite_unchecked";
+                    const response = await this.$root.server.delete(`users/favoriteMatches/${this.Match_ID}`, {
+                        withCredentials: true
+                    });
+                    this.$emit("deleted_favorite")
+
+                }
+                catch(error){
+
+                }
+               
+                return;
+        },
+        async set_favorite_status(){
+            try{
+                document.getElementById("star").style.pointerEvents = "none";
+                const response = (await this.$root.server.get(`users/favoriteMatches`, {
+                    withCredentials: true
+                })).data;
+                const favorites_in_list = response.filter(favorite => favorite.Match_ID == this.Match_ID);
+                if (favorites_in_list.length == 0){
+                    this.favorite_state = "favorite_unchecked"
+                }
+                else{
+                    this.favorite_state = "favorite_checked"
+                }
+                document.getElementById("star").style.pointerEvents = "auto";
+            }
+            catch(error){
+               this.favorite_state = "favorite_unchecked";
+               document.getElementById("star").style.pointerEvents = "auto";
+            }
+           
+        },
+      async set_display(){
+        try{
+          const home_team = await this.$root.store.get_team_full_data(this.Home_Team_ID);
+          // const home_team = (await this.$root.server.get(`teams/${this.Home_Team_ID}/preview`)).data;
+          this.home_team_name = home_team.name;
+          this.home_team_logo = home_team.logo_path;
+          // const away_team = (await this.$root.server.get(`teams/${this.Away_Team_ID}/preview`)).data;
+          const away_team = await this.$root.store.get_team_full_data(this.Away_Team_ID);
+          this.away_team_name = away_team.name;
+          this.away_team_logo = away_team.logo_path;
+          this.stage_name = (await this.$root.server.get(`league/stages/${this.Stage}`)).data.name;
+          
+          
+          // console.log(this.$parent.ready_components);
+        }
+        catch(err){
+          console.log("in error")
+          console.log(err.response)
+        }
       }
-      catch(err){
-        console.log("in error")
-        console.log(err.response)
-      }
-    }
   },
   mounted(){
+     this.set_favorite_status();  
      this.set_display().then(()=>{
        this.is_loaded = true
        this.$parent.ready_components ++;
@@ -260,4 +322,39 @@ margin-bottom: -2px;
 #game_details p{
   color: black;
 }
+
+
+.favorite_checked{
+    width: max-content;
+    position: absolute;
+    /* float: right; */
+}
+
+.favorite_checked svg{
+    color: orange;
+}
+
+.favorite_unchecked{
+    width: max-content;
+    position: absolute;
+    /* float: right; */
+}
+
+.favorite_unchecked svg{
+    color: black;
+}
+
+.star{
+    /* float: right; */
+    transition: all .3s ease-in-out;
+    margin: 5px;
+    
+}
+
+.star:hover{
+    transform: scale(1.2);
+    z-index: 100;
+}
+
+
 </style>

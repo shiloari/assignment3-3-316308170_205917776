@@ -1,6 +1,7 @@
 <template>
-  <div class="favorites" v-show="this.games.length == this.ready_components">
-    <GamePreview id="favorite"
+<div>
+  <div class="favorites" v-show="this.games.length == this.ready_components" :key="re_render">
+    <GamePreview id="favorite" @deleted_favorite="deleted(g.Match_ID)" 
         v-for="g in games"
         :Match_ID="g.Match_ID" 
         :Home_Team_ID="g.Home_Team_ID" 
@@ -14,6 +15,10 @@
         :key="g.id">
       </GamePreview>
   </div>
+  <div v-if="this.no_favorites" style="margin-left: 80px; width: max-content;" :key="re_render">
+    <h4>No Available Favorite Games</h4>
+  </div>
+</div>
 </template>
 
 <script>
@@ -32,22 +37,27 @@ export default {
   data() {
     return {
       games: [],
-      ready_components : 0
+      ready_components : 0,
+      re_render: 0,
+      no_favorites: undefined
     };
   },
   methods: {
+    deleted(Match_ID){
+      this.games = this.games.filter(game => game.Match_ID == Match_ID)
+      this.re_render++;
+    },
     async updateGames(){
       try {
         const response = await this.$root.server.get(
           `users/favoriteMatches`,
         );
         this.games = response.data.slice(0,Math.min(this.size,response.data.length));
-        // this.games = [];
-        // this.games.push(...games);
-        // console.log(response);
+        this.no_favorites = false;
+        console.log(this.no_favorites);
       } catch (error) {
-        console.log("error in update games")
-        console.log(error);
+        console.log("in error");
+        this.no_favorites = true;
       }
     }
   }, 
@@ -66,5 +76,6 @@ export default {
 
 #favorite{
   margin-block: 10px;
+  margin-left: 40px;
 }
 </style>

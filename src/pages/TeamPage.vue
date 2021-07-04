@@ -106,55 +106,60 @@
                 </div>
             </div>
             <h1>Team's Matches</h1>
-            <div class="matches_section">
-                <b-container fluid="sm" >
-                    <div class="row_container2">
-                        <b-row class="row_container3">
-                            <div class="game_preview">
-                            <b-col  v-if="current_match < matches.length" :key="this.current_match">
-                                <GamePreview id="favorite"
-                                    :Match_ID="matches[current_match]['Match_ID']" 
-                                    :Home_Team_ID="matches[current_match]['Home_Team_ID']" 
-                                    :Away_Team_ID="matches[current_match]['Away_Team_ID']" 
-                                    :Match_Date="matches[current_match]['Match_Date']" 
-                                    :Hour="matches[current_match]['Hour']" 
-                                    :Stadium="matches[current_match]['Stadium']"
-                                    :Stage="matches[current_match]['Stage']"
-                                    :Score="matches[current_match]['Score']"
-                                    :EventBook="matches[current_match]['EventBook']"
-                                    >
-                                </GamePreview>
-                            </b-col>
-                            </div>
-                            <div class="game_preview">
-                            <b-col  v-if="current_match + 1 <matches.length" :key="this.current_match">
-                                <GamePreview id="favorite"
-                                    :Match_ID="matches[current_match+1]['Match_ID']" 
-                                    :Home_Team_ID="matches[current_match+1]['Home_Team_ID']" 
-                                    :Away_Team_ID="matches[current_match+1]['Away_Team_ID']" 
-                                    :Match_Date="matches[current_match+1]['Match_Date']" 
-                                    :Hour="matches[current_match+1]['Hour']" 
-                                    :Stadium="matches[current_match+1]['Stadium']"
-                                    :Stage="matches[current_match+1]['Stage']"
-                                    :Score="matches[current_match+1]['Score']"
-                                    :EventBook="matches[current_match+1]['EventBook']"
-                                    >
-                                </GamePreview>
-                            </b-col>
-                            </div>
-                        </b-row>
-                    </div>
-                </b-container>
+            <div v-if="this.matches.length > 0">
+                <div class="matches_section">
+                    <b-container fluid="sm" >
+                        <div class="row_container2">
+                            <b-row class="row_container3">
+                                <div class="game_preview">
+                                <b-col  v-if="current_match < matches.length" :key="this.current_match">
+                                    <GamePreview id="favorite"
+                                        :Match_ID="matches[current_match]['Match_ID']" 
+                                        :Home_Team_ID="matches[current_match]['Home_Team_ID']" 
+                                        :Away_Team_ID="matches[current_match]['Away_Team_ID']" 
+                                        :Match_Date="matches[current_match]['Match_Date']" 
+                                        :Hour="matches[current_match]['Hour']" 
+                                        :Stadium="matches[current_match]['Stadium']"
+                                        :Stage="matches[current_match]['Stage']"
+                                        :Score="matches[current_match]['Score']"
+                                        :EventBook="matches[current_match]['EventBook']"
+                                        >
+                                    </GamePreview>
+                                </b-col>
+                                </div>
+                                <div class="game_preview">
+                                <b-col  v-if="current_match + 1 <matches.length" :key="this.current_match">
+                                    <GamePreview id="favorite"
+                                        :Match_ID="matches[current_match+1]['Match_ID']" 
+                                        :Home_Team_ID="matches[current_match+1]['Home_Team_ID']" 
+                                        :Away_Team_ID="matches[current_match+1]['Away_Team_ID']" 
+                                        :Match_Date="matches[current_match+1]['Match_Date']" 
+                                        :Hour="matches[current_match+1]['Hour']" 
+                                        :Stadium="matches[current_match+1]['Stadium']"
+                                        :Stage="matches[current_match+1]['Stage']"
+                                        :Score="matches[current_match+1]['Score']"
+                                        :EventBook="matches[current_match+1]['EventBook']"
+                                        >
+                                    </GamePreview>
+                                </b-col>
+                                </div>
+                            </b-row>
+                        </div>
+                    </b-container>
+                </div>
+                <div class="nav_button">
+                    <b-button-toolbar key-nav aria-label="Toolbar with button groups">
+                        <b-button-group class="mx-1">
+                        <b-button @click="decrementDisplayMatches">&lsaquo;</b-button>
+                        </b-button-group>
+                        <b-button-group class="mx-1">
+                        <b-button @click="incrementDisplayMatches">&rsaquo;</b-button>
+                        </b-button-group>
+                    </b-button-toolbar>
+                </div>
             </div>
-            <div class="nav_button">
-                <b-button-toolbar key-nav aria-label="Toolbar with button groups">
-                    <b-button-group class="mx-1">
-                    <b-button @click="decrementDisplayMatches">&lsaquo;</b-button>
-                    </b-button-group>
-                    <b-button-group class="mx-1">
-                    <b-button @click="incrementDisplayMatches">&rsaquo;</b-button>
-                    </b-button-group>
-                </b-button-toolbar>
+            <div v-else style="margin-bottom: 100px; text-align:center;">
+                <h4 style="margin-top: 20px;">No Avaiable Matches</h4>
             </div>
         </div>    
     </div>
