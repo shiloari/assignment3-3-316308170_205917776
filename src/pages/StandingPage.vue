@@ -18,7 +18,6 @@
                     <template #cell(Favorite) = "data" >
                         <button type="button" class="btn btn-primary" style="background:none;border:none;" @click="addMatchToFavorite(data)" >
                             <b-icon v-bind:id="data.index" icon="star" aria-hidden="true" style="background:none;fill:black;" ></b-icon>
-                            <!-- <div  v-else><b-icon  icon="star" aria-hidden="true" style="background:none;fill:black;"></b-icon></div>   -->
                         </button>
                     </template>
                 </b-table>
@@ -107,7 +106,6 @@ export default {
                     else
                         this.Matches.push(match);
                 })
-                this.set_favorite_status()
                 setTimeout(
                     ()=>{
                         this.finished = true
@@ -123,10 +121,41 @@ export default {
         console.error(error)
         })
     },
+    async mounted(){
+        // ************************************************************************************************************
+        // ************************************************************************************************************
+        //                                           ARiel this we need to fix
+        // ************************************************************************************************************
+        // ************************************************************************************************************
+          try{
+                const response = (await this.$root.server.get(`users/favoriteMatches`, {
+                    withCredentials: true
+                })).data;
+                console(this.Matches)
+                response.forEach(element => {
+                    // console.log(element);
+                    // console(this.Matches)
+                    // debugger;
+                    this.Matches.map((match,index)=>{
+                        if(element.Match_ID == match.Match_ID){
+                            match.Favorite = true
+                            document.getElementById(index).style.fill = 'yellow'
+                        }
+                    })
+                });
+                console.log("**************");
+                console(this.Matches)
+                console.log("**************");
+            }
+            catch(error){
+               console.log(error);
+            }      
+    },
     methods: {
         addMatchToFavorite : async function(data){
             try{
-                document.getElementById(data.index).style.backgroundColor = "yellow";
+                // console.log(document.getElementById(data.index));
+                // document.getElementById(data.index).style.backgroundColor = "yellow";
                 const match_id = data.item.Match_ID
                 if(!data.item.Favorite){
                         const response = await this.$root.server.post(`users/favoriteMatches`, {
@@ -134,16 +163,18 @@ export default {
                     }, {
                             withCredentials: true
                     });
-                    console.log(response);
+                    // console.log(response);
                     data.item.Favorite = true
+                    document.getElementById(data.index).style.fill = "orange"
                     this.$root.toast("Add Match to Favorite", "Match add successfully", "success");
                 }
                 else{
                         const response = await this.$root.server.delete(`users/favoriteMatches/${match_id}`, {
                             withCredentials: true
                     });
-                    console.log(response);
+                    // console.log(response);
                     data.item.Favorite = false
+                    document.getElementById(data.index).style.fill = "black"
                     this.$root.toast("Delete Match to Favorite", "Match deleted successfully", "success");
                 }
             }
@@ -151,22 +182,6 @@ export default {
                 this.$root.toast("Not logged", "user need to login for adding Match to favorite!", "danger");
             }
 
-        },
-        async set_favorite_status(){
-            try{
-                const response = (await this.$root.server.get(`users/favoriteMatches`, {
-                    withCredentials: true
-                })).data;
-                response.forEach(element => {
-                    this.Matches.map((match)=>{
-                        if(element.Match_ID == match.Match_ID)
-                            match.Favorite = true
-                    })
-                });
-            }
-            catch(error){
-               console.log(error);
-            }      
         },
         teleportToTeam : function (team_name){
             var matches = this.items
@@ -179,13 +194,15 @@ export default {
                 }
         },
         async fetchData() {
-        this.items = await this.$root.server.get(`matches/get_all_matches`)
+        this.items = await this.$root.server.get(`matches/get_all_matches`, {
+                    withCredentials: true})
             .then(async (res) =>{       
                 const data = res.data;
                 this.totalItems = data.length
                 var result = new Array();
                 await data.forEach(async(element) => {
-                    const match = ((await this.$root.server.get(`matches/${element}`)).data[0])
+                    const match = ((await this.$root.server.get(`matches/${element}`, {
+                    withCredentials: true})).data[0])
                     result.push(match)
                     this.items = result
                 })          
