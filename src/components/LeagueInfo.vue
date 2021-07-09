@@ -24,7 +24,8 @@
         :Hour="this.upcoming_game.Hour" 
         :Stadium="this.upcoming_game.Stadium"
         :Stage="this.upcoming_game.Stage"
-       >
+      @added_favorite="added_favorite_re_render()"
+        @deleted_favorite="deleted_favorite_re_render()">
       </GamePreview>
     </div>
     </div>
@@ -40,21 +41,30 @@ export default {
       season: undefined, 
       stage: undefined,
       upcoming_game: {
-        Match_ID: undefined,
-        Home_Team_ID: undefined,
-        Away_Team_ID: undefined,
-        Match_Date: undefined,
-        Hour: undefined,
-        Stadium: undefined,
-        Stage: undefined
+      Match_ID: undefined,
+      Home_Team_ID: undefined,
+      Away_Team_ID: undefined,
+      Match_Date: undefined,
+      Hour: undefined,
+      Stadium: undefined,
+      Stage: undefined
       },
-      is_loaded: false
+      is_loaded: false,
+      re_render: 0
     };
   },
   components:{
     GamePreview
   },
   methods:{
+    added_favorite_re_render(){
+      this.$emit('added_favorite')
+      this.re_render++;
+    },
+    deleted_favorite_re_render(){
+      this.$emit('deleted_favorite')
+      this.re_render++
+    },
     async getDetails(){
           try {
             const response = await this.$root.server.get();
@@ -83,7 +93,7 @@ export default {
     this.getDetails().then(
       ()=>{
         setTimeout(
-          ()=>{this.$emit('eventname')}
+          ()=>{this.$emit('loaded')}
         ),1500 }
     );
   }
@@ -142,6 +152,5 @@ export default {
 #league_details h1, #league_details h2, #league_details h3{
   color: white;
 }
-
 
 </style>

@@ -9,10 +9,14 @@
       <LoginPage id="login" v-if="!this.$session.exists()"></LoginPage>
       <div v-else id="favorites">
           <h1 id="header">Your favorite matches</h1>
-          <FavoriteGames :size="3"></FavoriteGames> 
+          <transition name="fade">
+            <FavoriteGames  @deleted_favorite="re_render_page()" :key="re_render" :size="3"></FavoriteGames> 
+          </transition>
       </div>
       <div id="right_side_display">
-          <LeagueInfo @eventname="updateparent" id="league_info"></LeagueInfo>
+          <LeagueInfo :key="re_render" @loaded="updateparent"
+           @added_favorite="re_render_page()" @deleted_favorite="re_render_page()"
+           id="league_info"></LeagueInfo>
       </div>
     </div>
   </div>
@@ -26,11 +30,15 @@ import PreviewDisplay from "../components/PreviewDisplay"
 export default {
   data(){
     return{
-      is_loaded: false
+      is_loaded: false,
+      re_render: 0
     }
     
   },
   methods:{
+    re_render_page(){
+      this.re_render++;
+    },
     updateparent() {
         this.is_loaded = true;
     }
@@ -96,7 +104,7 @@ export default {
 
 #header{
   // color: white;
-  margin-left: 30px;
+  margin-left: 190px;
   margin-top: 20px;
   // text-align: center;
   color: black;
@@ -108,4 +116,12 @@ export default {
   border-radius: 5px;
 
 }
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
 </style>

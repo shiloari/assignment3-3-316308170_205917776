@@ -110,7 +110,7 @@ export default {
         this.$router.replace("/");
         this.$router.go(0)
       } catch (err) {
-        console.log(err.response);
+        this.$root.toast("Failed to log in", "Username or password are incorrect", "danger");
         this.form.submitError = err.response.data.message;
       }
     },

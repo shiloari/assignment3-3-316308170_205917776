@@ -1,5 +1,6 @@
 <template>
-  <div class="container">
+<div class="main_register_container">
+  <div class="frosted_glass_register">
     <h1 class="title">Register</h1>
     <b-form @submit.prevent="onRegister" @reset.prevent="onReset">
       <b-form-group
@@ -21,14 +22,14 @@
           Username length should be between 3-8 characters long
         </b-form-invalid-feedback>
         <b-form-invalid-feedback v-if="!$v.form.username.alpha">
-          Username alpha
+          user name should be alphabetical only!
         </b-form-invalid-feedback>
       </b-form-group>
 
       <b-form-group
         id="input-group-firstname"
         label-cols-sm="3"
-        label="Firstname:"
+        label="First Name:"
         label-for="firstname"
       >
         <b-form-input
@@ -44,14 +45,14 @@
           Firstname length should be at most 20 characters long
         </b-form-invalid-feedback>
         <b-form-invalid-feedback v-if="!$v.form.firstname.alpha">
-          Firstname alpha
+          first name name should be alphabetical only!
         </b-form-invalid-feedback>
       </b-form-group>
 
       <b-form-group
         id="input-group-lastname"
         label-cols-sm="3"
-        label="Lastname:"
+        label="Last Name:"
         label-for="lastname"
       >
         <b-form-input
@@ -67,7 +68,7 @@
           Lastname length should be at most 20 characters long
         </b-form-invalid-feedback>
         <b-form-invalid-feedback v-if="!$v.form.lastname.alpha">
-          Lastname alpha
+          last name should be alphabetical only!
         </b-form-invalid-feedback>
       </b-form-group>
 
@@ -203,6 +204,7 @@
       <pre class="m-0"><strong>$v.form:</strong> {{ $v.form }}</pre>
     </b-card> -->
   </div>
+</div>
 </template>
 
 <script>
@@ -304,7 +306,6 @@ export default {
         );
         this.$root.toast("Successfully Registered", `${this.form.username} successfully registered `, "success");
         this.$router.push("/login");
-        // console.log(response);
       } catch (err) {
         this.form.submitError = err.response.data;
         this.form.submitError = err.response.data;
@@ -339,7 +340,48 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.container {
-  max-width: 500px;
+
+.frosted_glass_register *{
+  margin-inline: auto;
+  margin-block: 15px;
+  text-align: center;
 }
+
+.frosted_glass_register {
+    width:max-content;
+    height: auto;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2); 
+    border-radius: 5px;
+    position: relative;
+    z-index: 1;
+    background: inherit;
+    overflow: hidden;
+    padding-bottom: 5px;
+    margin-top: 40px;
+    margin-inline: auto;
+    margin-bottom: 100px;
+    padding-left: 80px;
+    padding-right: 30px;
+}
+
+.frosted_glass_register:before {
+    content: "";
+    position: absolute;
+    background: inherit;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+    filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+.main_register_container{
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+}
+
 </style>

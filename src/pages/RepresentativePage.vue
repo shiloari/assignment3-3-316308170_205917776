@@ -1,5 +1,5 @@
 <template>
-    <div id="main_page">
+    <div id="main_page_rep">
         <div v-if="!this.finished" class="d-flex justify-content-center" style="margin-top: 15%;">
             <div id="waiting" class="spinner-border text-dark" style="width: 5rem; height: 5rem;" role="status">
                 <span class="sr-only">Loading...</span>
@@ -298,9 +298,9 @@ export default {
 }
 </script>
 <style scoped>
-.main_page{
+#main_page_rep{
     width: 100%;
-    height: 100%;
+    height: 101%;
     overflow:scroll;
     backdrop-filter: blur(5px);
 }

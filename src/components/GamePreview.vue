@@ -102,6 +102,7 @@ export default {
                     }, {
                         withCredentials: true
                     });
+                    this.$emit("added_favorite")
                     return;
                 }
                 catch(error){

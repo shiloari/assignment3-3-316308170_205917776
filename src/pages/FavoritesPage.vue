@@ -1,108 +1,118 @@
 <template>
     <div class="main_fav_container">
-        <div class="top_section">
-            <div class="user_section">
-                <div class="user">
-                    <img v-bind:src="user_photo">
-                </div>
-
-            </div>
-            <div style="text-align: center; color: #2c3e50;">
-                <h1>{{ this.username }}'s Favorites</h1>
-                <div>
-                    <b-nav>
-                        <b-nav-item class="nav_tab"><div @click="changeCategory('teams')" class="inner_text">Teams</div></b-nav-item>
-                        <b-nav-item class="nav_tab"><div @click="changeCategory('players')" class="inner_text">Players</div></b-nav-item>
-                        <b-nav-item class="nav_tab"><div @click="changeCategory('coaches')" class="inner_text">Coaches</div></b-nav-item>
-                        <b-nav-item class="nav_tab"><div @click="changeCategory('matches')" class="inner_text">Matches</div></b-nav-item>
-                    </b-nav>
-                </div>
+        <div v-if="this.current_category==undefined" class="d-flex justify-content-center" style="margin-top: 15%;">
+            <div id="waiting" class="spinner-border text-dark" style="width: 5rem; height: 5rem;" role="status">
+                <span class="sr-only">Loading...</span>
             </div>
         </div>
-        <div class="favorites">
-            <transition name="fade">
-            <div :key="[this.current_display_matches,this.current_category]">
-            <b-container v-if="current_category =='matches'" fluid="sm" style="width: max-content" >
-                        <b-row class="matches_row">
-                            <b-col v-if="current_display_matches<current_favorites.length" :key="this.current_display_matches" class="preview">
-                                 <GamePreview @deleted_favorite="deleted_match(0)"
-                                    :Match_ID="current_favorites[current_display_matches].Match_ID" 
-                                    :Home_Team_ID="current_favorites[current_display_matches].Home_Team_ID" 
-                                    :Away_Team_ID="current_favorites[current_display_matches].Away_Team_ID" 
-                                    :Match_Date="current_favorites[current_display_matches].Match_Date" 
-                                    :Hour="current_favorites[current_display_matches].Hour" 
-                                    :Stadium="current_favorites[current_display_matches].Stadium"
-                                    :Stage="current_favorites[current_display_matches].Stage"
-                                    :Score="current_favorites[current_display_matches].Score"
-                                    :EventBook="current_favorites[current_display_matches].EventBook"
-                                    >
-                                </GamePreview>    
-                            </b-col>
-                            <b-col  v-if="current_display_matches+1<current_favorites.length" :key="this.current_display_matches" class="preview">
-                                 <GamePreview  @deleted_favorite="deleted_match(1)"
-                                    :Match_ID="current_favorites[current_display_matches+1].Match_ID" 
-                                    :Home_Team_ID="current_favorites[current_display_matches+1].Home_Team_ID" 
-                                    :Away_Team_ID="current_favorites[current_display_matches+1].Away_Team_ID" 
-                                    :Match_Date="current_favorites[current_display_matches+1].Match_Date" 
-                                    :Hour="current_favorites[current_display_matches+1].Hour" 
-                                    :Stadium="current_favorites[current_display_matches+1].Stadium"
-                                    :Stage="current_favorites[current_display_matches+1].Stage"
-                                    :Score="current_favorites[current_display_matches+1].Score"
-                                    :EventBook="current_favorites[current_display_matches+1].EventBook"
-                                    >
-                                </GamePreview>    
-                            </b-col>
-                        </b-row>
-            </b-container>
-            </div>
-             </transition>
-            <transition name="fade">
-            <div v-if="current_category !='matches'" :key="[this.current_display,this.current_category]">
-            <b-container fluid="sm" style="margin-top:10px;" >
-                    <div class="row_container2">
-                        <b-row class="row_container3">
-                            <b-col cols="12" md="2" v-if="current_display<current_favorites.length" :key="this.current_display" class="preview">
-                                <PreviewDisplay :key="re_render" @deleted_favorite="deleted(0);"
-                                    :Display_ID="parseInt(current_favorites[current_display])" 
-                                    :type="current_category"
-                                >
-                                </PreviewDisplay>
-                            </b-col>
-                            <b-col cols="12" md="2" v-if="current_display+1<current_favorites.length" :key="this.current_display" class="preview">
-                                 <PreviewDisplay  :key="re_render" @deleted_favorite="deleted(1);"
-                                    :Display_ID="parseInt(current_favorites[current_display+1])" 
-                                    :type="current_category"
-                                >
-                                </PreviewDisplay>
-                            </b-col>
-                            <b-col cols="12" md="2" v-if="current_display+2<current_favorites.length" :key="this.current_display" class="preview">
-                                 <PreviewDisplay  :key="re_render" @deleted_favorite="deleted(2);"
-                                    :Display_ID="parseInt(current_favorites[current_display+2])" 
-                                    :type="current_category"
-                                >
-                                </PreviewDisplay>
-                            </b-col>
-                            <b-col cols="12" md="2" v-if="current_display+3<current_favorites.length" :key="this.current_display" class="preview">
-                                 <PreviewDisplay  :key="re_render" @deleted_favorite="deleted(3);"
-                                    :Display_ID="parseInt(current_favorites[current_display+3])" 
-                                    :type="current_category"
-                                >
-                                </PreviewDisplay>
-                            </b-col>
-                        </b-row>
+        <div v-else>
+            <div class="top_section">
+                <div class="user_section">
+                    <div class="user">
+                        <img v-bind:src="user_photo">
                     </div>
-            </b-container>
+
+                </div>
+                <div style="text-align: center; color: #2c3e50;">
+                    <h1>{{ this.username }}'s Favorites</h1>
+                    <div>
+                        <b-nav>
+                            <b-nav-item class="nav_tab"><div @click="changeCategory('teams')" class="inner_text">Teams</div></b-nav-item>
+                            <b-nav-item class="nav_tab"><div @click="changeCategory('players')" class="inner_text">Players</div></b-nav-item>
+                            <b-nav-item class="nav_tab"><div @click="changeCategory('coaches')" class="inner_text">Coaches</div></b-nav-item>
+                            <b-nav-item class="nav_tab"><div @click="changeCategory('matches')" class="inner_text">Matches</div></b-nav-item>
+                        </b-nav>
+                    </div>
+                </div>
             </div>
-            </transition>
-            <div class="nav_button">
-                <b-button-toolbar key-nav aria-label="Toolbar with button groups">
-                    <b-button-group class="mx-1">
-                    <b-button @click="decrementDisplay">&lsaquo;</b-button>
-                    </b-button-group>
-                    <b-button-group class="mx-1">
-                    <b-button @click="incrementDisplay">&rsaquo;</b-button>
-                    </b-button-group>
-                </b-button-toolbar>
+            <div class="favorites">
+                <transition name="fade">
+                <div :key="[this.current_display_matches,this.current_category]">
+                <b-container v-if="current_category =='matches'" fluid="sm" style="width: max-content" >
+                            <b-row class="matches_row">
+                                <b-col v-if="current_display_matches<current_favorites.length" :key="this.current_display_matches" class="preview">
+                                    <GamePreview @deleted_favorite="deleted_match(0)"
+                                        :Match_ID="current_favorites[current_display_matches].Match_ID" 
+                                        :Home_Team_ID="current_favorites[current_display_matches].Home_Team_ID" 
+                                        :Away_Team_ID="current_favorites[current_display_matches].Away_Team_ID" 
+                                        :Match_Date="current_favorites[current_display_matches].Match_Date" 
+                                        :Hour="current_favorites[current_display_matches].Hour" 
+                                        :Stadium="current_favorites[current_display_matches].Stadium"
+                                        :Stage="current_favorites[current_display_matches].Stage"
+                                        :Score="current_favorites[current_display_matches].Score"
+                                        :EventBook="current_favorites[current_display_matches].EventBook"
+                                        >
+                                    </GamePreview>    
+                                </b-col>
+                                <b-col  v-if="current_display_matches+1<current_favorites.length" :key="this.current_display_matches" class="preview">
+                                    <GamePreview  @deleted_favorite="deleted_match(1)"
+                                        :Match_ID="current_favorites[current_display_matches+1].Match_ID" 
+                                        :Home_Team_ID="current_favorites[current_display_matches+1].Home_Team_ID" 
+                                        :Away_Team_ID="current_favorites[current_display_matches+1].Away_Team_ID" 
+                                        :Match_Date="current_favorites[current_display_matches+1].Match_Date" 
+                                        :Hour="current_favorites[current_display_matches+1].Hour" 
+                                        :Stadium="current_favorites[current_display_matches+1].Stadium"
+                                        :Stage="current_favorites[current_display_matches+1].Stage"
+                                        :Score="current_favorites[current_display_matches+1].Score"
+                                        :EventBook="current_favorites[current_display_matches+1].EventBook"
+                                        >
+                                    </GamePreview>    
+                                </b-col>
+                            </b-row>
+                </b-container>
+                <div v-if="current_favorites.length==0">
+                    <h4 style="width: max-content; margin-inline: auto; margin-bottom: 20px;">No avaiable favorites</h4>
+                </div>
+                </div>
+                </transition>
+                <transition name="fade">
+                <div v-if="current_category !='matches'" :key="[this.current_display,this.current_category]">
+                <b-container fluid="sm" style="margin-top:10px;" >
+                        <div class="row_container2">
+                            <b-row class="row_container3">
+                                <b-col cols="12" md="2" v-if="current_display<current_favorites.length" :key="this.current_display" class="preview">
+                                    <PreviewDisplay :key="re_render" @deleted_favorite="deleted(0);"
+                                        :Display_ID="parseInt(current_favorites[current_display])" 
+                                        :type="current_category"
+                                    >
+                                    </PreviewDisplay>
+                                </b-col>
+                                <b-col cols="12" md="2" v-if="current_display+1<current_favorites.length" :key="this.current_display" class="preview">
+                                    <PreviewDisplay  :key="re_render" @deleted_favorite="deleted(1);"
+                                        :Display_ID="parseInt(current_favorites[current_display+1])" 
+                                        :type="current_category"
+                                    >
+                                    </PreviewDisplay>
+                                </b-col>
+                                <b-col cols="12" md="2" v-if="current_display+2<current_favorites.length" :key="this.current_display" class="preview">
+                                    <PreviewDisplay  :key="re_render" @deleted_favorite="deleted(2);"
+                                        :Display_ID="parseInt(current_favorites[current_display+2])" 
+                                        :type="current_category"
+                                    >
+                                    </PreviewDisplay>
+                                </b-col>
+                                <b-col cols="12" md="2" v-if="current_display+3<current_favorites.length" :key="this.current_display" class="preview">
+                                    <PreviewDisplay  :key="re_render" @deleted_favorite="deleted(3);"
+                                        :Display_ID="parseInt(current_favorites[current_display+3])" 
+                                        :type="current_category"
+                                    >
+                                    </PreviewDisplay>
+                                </b-col>
+                            </b-row>
+                        </div>
+                </b-container>
+                </div>
+                </transition>
+                <div class="nav_button">
+                    <b-button-toolbar key-nav aria-label="Toolbar with button groups">
+                        <b-button-group class="mx-1">
+                        <b-button @click="decrementDisplay">&lsaquo;</b-button>
+                        </b-button-group>
+                        <b-button-group class="mx-1">
+                        <b-button @click="incrementDisplay">&rsaquo;</b-button>
+                        </b-button-group>
+                    </b-button-toolbar>
+                </div>
             </div>
         </div>
     </div>
@@ -133,7 +143,7 @@ export default {
     },
     methods:{
         setPhoto(){
-            this.user_photo = (localStorage.getItem("user_photo") == null) ? this.$root.user_photo : "https://www.tenforums.com/geek/gars/images/2/types/thumb_15951118880user.png"
+            this.user_photo = (localStorage.getItem("user_photo") != undefined) ? `${localStorage.getItem("user_photo")}` : "https://www.tenforums.com/geek/gars/images/2/types/thumb_15951118880user.png"
             this.username = localStorage.getItem("username");
        },
         deleted_match(offset){
@@ -147,15 +157,15 @@ export default {
             
         },
         decrementDisplay(){
-        if (this.current_display_matches - 2 >= 0)
+        if (this.current_display_matches - 2 >= 0 && this.current_category == "matches")
             this.current_display_matches = this.current_display_matches - 2;
-        if (this.current_display - 4 >= 0)
+        if (this.current_display - 4 >= 0 && this.current_category != "matches")
             this.current_display = this.current_display - 4;
         },
         incrementDisplay(){
-            if (this.current_display_matches + 2 < this.current_favorites.length)
+            if (this.current_display_matches + 2 < this.current_favorites.length && this.current_category == "matches")
                 this.current_display_matches = this.current_display_matches + 2;
-            if (this.current_display + 4 < this.current_favorites.length)
+            if (this.current_display + 4 < this.current_favorites.length && this.current_category != "matches")
                 this.current_display = this.current_display + 4;
         },  
         changeCategory(category){
@@ -204,6 +214,7 @@ export default {
                 this.re_render++;
             }
             catch(error){
+                 this.current_category = "players"
                 console.log(error.message)
             }
         }

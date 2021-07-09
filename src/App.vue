@@ -6,11 +6,15 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
           <b-nav-item :to="{ name: 'search' }">Search</b-nav-item>
-          <b-nav-item :to="{ name: 'standing' }">Standing</b-nav-item>
+          <b-nav-item :to="{ name: 'standing' }">Standings</b-nav-item>
+          <b-nav-item :to="{ name: 'about' }">About</b-nav-item>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto" v-if="!this.$session.exists()">
             <b-nav-item :to="{ name: 'login' }">Login</b-nav-item>
             <b-nav-item :to="{ name: 'register' }">Register</b-nav-item>
+             <b-navbar-brand style="font-size:16px; margin-left:10px; margin-right: -5px; opacity:0.5; margin-top:3px;"
+          >Hello,&nbsp; Guest
+          </b-navbar-brand>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto" v-else>
           <b-navbar-brand style="font-size:16px; margin-right: -5px; opacity:0.5; margin-top:3px;"
@@ -66,7 +70,8 @@ export default {
           })
         this.$session.destroy()
         console.log('session dead')
-        this.$router.go()
+        this.$router.replace("/");
+        this.$router.go(0)
 
       }
       catch(err){

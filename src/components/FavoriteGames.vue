@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div class="favorites" v-show="this.games.length == this.ready_components" :key="re_render">
+  <div class="favorites" v-show="this.games.length == this.ready_components && !this.no_favorites" :key="re_render">
     <GamePreview id="favorite" @deleted_favorite="deleted(g.Match_ID)" 
         v-for="g in games"
         :Match_ID="g.Match_ID" 
@@ -15,7 +15,7 @@
         :key="g.id">
       </GamePreview>
   </div>
-  <div v-if="this.no_favorites" style="margin-left: 80px; width: max-content;" :key="re_render">
+  <div v-if="this.no_favorites" style="margin-left: 240px; width: max-content;" :key="re_render">
     <h4>No Available Favorite Games</h4>
   </div>
 </div>
@@ -45,7 +45,8 @@ export default {
   methods: {
     deleted(Match_ID){
       this.games = this.games.filter(game => game.Match_ID == Match_ID)
-      this.re_render++;
+      // this.re_render++;
+      this.$emit("deleted_favorite")
     },
     async updateGames(){
       try {
@@ -71,11 +72,11 @@ export default {
 
 .favorites{
   margin-top: 15px;
-  margin-bottom: 100px;
+  padding-bottom: 100px;
 }
 
 #favorite{
   margin-block: 10px;
-  margin-left: 40px;
+  margin-left: 200px;
 }
 </style>

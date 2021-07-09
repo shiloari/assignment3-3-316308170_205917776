@@ -6,6 +6,7 @@ import CoachPage from "./pages/CoachPage";
 import TeamPage from "./pages/TeamPage";
 import RepresentativePage from "./pages/RepresentativePage"
 import FavoritesPage from "./pages/FavoritesPage"
+import AboutPage from "./pages/AboutPage"
 
 const routes = [{
         path: "/",
@@ -59,6 +60,11 @@ const routes = [{
         path: "/favorites",
         name: "favorites",
         component: FavoritesPage
+    },
+    {
+        path: "/about",
+        name: "about",
+        component: AboutPage
     },
     {
         path: "*",
