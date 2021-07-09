@@ -106,56 +106,49 @@ export default {
                     else
                         this.Matches.push(match);
                 })
+                this.Match_ID = [...this.Matches]
+                this.favoritesStar();
                 setTimeout(
                     ()=>{
                         this.finished = true
                     }, 1000
                 )
- 
-                
             }
         }
     },
     created() {
-        this.fetchData().catch(error => {
+        this.fetchData()
+        .then((response) =>{
+            console.log(response);
+
+        })
+        .catch(error => {
         console.error(error)
         })
     },
-    async mounted(){
-        // ************************************************************************************************************
-        // ************************************************************************************************************
-        //                                           ARiel this we need to fix
-        // ************************************************************************************************************
-        // ************************************************************************************************************
-          try{
+    methods: {
+        favoritesStar : async function(){
+            try{
                 const response = (await this.$root.server.get(`users/favoriteMatches`, {
                     withCredentials: true
                 })).data;
-                console(this.Matches)
-                response.forEach(element => {
-                    // console.log(element);
-                    // console(this.Matches)
-                    // debugger;
-                    this.Matches.map((match,index)=>{
+                for(let i=0;i<response.length;i++){
+                    let element = response[i];
+                    for(let j=0;j<this.Matches.length;j++){
+                        let match = this.Matches[j];
                         if(element.Match_ID == match.Match_ID){
                             match.Favorite = true
-                            document.getElementById(index).style.fill = 'yellow'
+                            document.getElementById(j).style.fill = 'orange'
                         }
-                    })
-                });
-                console.log("**************");
-                console(this.Matches)
-                console.log("**************");
+                    }
+                }
             }
             catch(error){
                console.log(error);
             }      
-    },
-    methods: {
+        },
         addMatchToFavorite : async function(data){
             try{
-                // console.log(document.getElementById(data.index));
-                // document.getElementById(data.index).style.backgroundColor = "yellow";
                 const match_id = data.item.Match_ID
                 if(!data.item.Favorite){
                         const response = await this.$root.server.post(`users/favoriteMatches`, {
@@ -163,7 +156,6 @@ export default {
                     }, {
                             withCredentials: true
                     });
-                    // console.log(response);
                     data.item.Favorite = true
                     document.getElementById(data.index).style.fill = "orange"
                     this.$root.toast("Add Match to Favorite", "Match add successfully", "success");
@@ -172,10 +164,9 @@ export default {
                         const response = await this.$root.server.delete(`users/favoriteMatches/${match_id}`, {
                             withCredentials: true
                     });
-                    // console.log(response);
                     data.item.Favorite = false
                     document.getElementById(data.index).style.fill = "black"
-                    this.$root.toast("Delete Match to Favorite", "Match deleted successfully", "success");
+                    this.$root.toast("Remove Match to Favorite", "Match removed successfully", "success");
                 }
             }
             catch(error){
@@ -194,7 +185,7 @@ export default {
                 }
         },
         async fetchData() {
-        this.items = await this.$root.server.get(`matches/get_all_matches`, {
+        this.items = await this.$root.server.get(`matches/`, {
                     withCredentials: true})
             .then(async (res) =>{       
                 const data = res.data;
@@ -207,6 +198,7 @@ export default {
                     this.items = result
                 })          
             })
+        return this.Matches
         }
     },
 

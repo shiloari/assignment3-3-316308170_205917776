@@ -15,55 +15,18 @@
                         <b-form-select v-model="home_selected" :options="home_options" value-field="item" text-field="name" class="mt-3"
                         ></b-form-select>
                     </b-form-group>
-                    <b-form-group
-                    label="Away team Name"
-                    label-for="Away-team-Name-input"
-                    invalid-feedback="Away-team-Name is required"
-                    >
-                    <b-form-select
-                        v-model="away_selected"
-                        :options="away_options"
-                        value-field="item"
-                        text-field="name"  
-                        class="mt-3"
-                    ></b-form-select>
+                    <b-form-group label="Away team Name" label-for="Away-team-Name-input" invalid-feedback="Away-team-Name is required">
+                        <b-form-select v-model="away_selected" :options="away_options" value-field="item" text-field="name" class="mt-3">
+                        </b-form-select>
                     </b-form-group>
-                    <b-form-group
-                    label="Date"
-                    label-for="Date-input"
-                    invalid-feedback="Date is required"
-                    >
-                    <b-form-input
-                        id="Date-input"
-                        type="date"
-                        v-model="date"
-                        required
-                    ></b-form-input>
+                        <b-form-group label="Date" label-for="Date-input" invalid-feedback="Date is required">
+                        <b-form-input id="Date-input" type="date" v-model="date" required></b-form-input>
                     </b-form-group>
-                    <b-form-group
-                    label="Hour"
-                    label-for="Hour-input"
-                    invalid-feedback="Hour is required"
-                    >
-                    <b-form-input
-                        id="Hour-input"
-                        type="time"
-                        v-model="hour"
-                        required
-                    ></b-form-input>
+                    <b-form-group label="Hour" label-for="Hour-input" invalid-feedback="Hour is required">
+                    <b-form-input id="Hour-input" type="time" v-model="hour" required></b-form-input>
                     </b-form-group>
-                    <b-form-group
-                    label="Stadium"
-                    label-for="Stadium-input"
-                    invalid-feedback="Stadium is required"
-                    >
-                    <b-form-select
-                        v-model="stadium_selected"
-                        :options="stadium_options"
-                        value-field="name"
-                        text-field="name"  
-                        class="mt-3"
-                    ></b-form-select>
+                    <b-form-group label="Stadium" label-for="Stadium-input" invalid-feedback="Stadium is required">
+                        <b-form-select v-model="stadium_selected" :options="stadium_options" value-field="name" text-field="name" class="mt-3"></b-form-select>
                     </b-form-group>
                 </form>
                 </b-modal>
@@ -162,7 +125,7 @@ export default {
             {key: 'Actions'}
         ],
         currentPage: 1,
-        perPage: 5,
+        perPage: 4,
         totalItems: 0,
         finished: false,
         hover_favorite: false,
@@ -225,11 +188,13 @@ export default {
                     })
                 let t_items = this.items;
                 this.items.splice(data.index,1)
+                this.$root.toast("Deleted Match", "Successfully deleted the match !", "success");
                 this.$router.go(0);
                 // this.items = t_items
             }
             catch(err){
                 console.log(err);
+                 this.$root.toast("Unauthorized", "Only Representative user allow to delete !", "danger");
             }
         },
         teleportToTeam(team_name){
