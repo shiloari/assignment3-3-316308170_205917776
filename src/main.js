@@ -110,7 +110,7 @@ new Vue({
             });
         },
         async get_data() {
-            const all_data = (await this.$root.server.get("league/getAll")).data;
+            const all_data = (await this.$root.server.get("league/")).data;
             localStorage.setItem("all_teams", JSON.stringify(all_data[0]));
             localStorage.setItem("all_players", JSON.stringify(all_data[1]));
             localStorage.setItem("all_coaches", JSON.stringify(all_data[2]));
