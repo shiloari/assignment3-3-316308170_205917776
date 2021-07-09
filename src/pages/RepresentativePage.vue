@@ -142,7 +142,6 @@ export default {
     watch:{
          items: function(){
             if(this.items && this.totalItems == this.items.length && !this.finished){
-                console.log("*-********************");
                 this.items.map((match) =>{
                     match.Home_Team_name = (this.$root.store.get_team_full_data(match.Home_Team_ID)).name ;
                     match.Away_Team_name = (this.$root.store.get_team_full_data(match.Away_Team_ID)).name ;
@@ -277,7 +276,7 @@ export default {
             // this.$refs.dropdown.hide(true)
         },
         async fetchData() {
-        this.items = await this.$root.server.get(`matches/get_all_matches`, {
+        this.items = await this.$root.server.get(`matches/`, {
                     withCredentials: true
                 })
             .then(async (res) =>{       

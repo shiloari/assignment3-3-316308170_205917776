@@ -16,6 +16,7 @@ const shared_data = {
         localStorage.removeItem("username");
         localStorage.removeItem("role");
         localStorage.removeItem("user_photo")
+        localStorage.removeItem("search")
         this.username = undefined;
         this.role = undefined;
         this.user_photo = undefined;

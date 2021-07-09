@@ -112,11 +112,22 @@ export default {
   methods:{
     runSearch: function (){
       if(this.searchQuery.length > 0){
-          if(this.$refs.child.filter == 'position')
-              this.$refs.child.filterBy = this.f_selected
-          else if(this.$refs.child.filter == 'team_id')
-              this.$refs.child.filterBy = this.team_selected
-          this.$refs.child.startSearch(this.searchQuery);
+        if(localStorage.getItem("username")){
+          localStorage.setItem("search",
+          JSON.stringify({
+          query:this.searchQuery,
+          PCT:this.PCT_selected,
+          fp:this.fp_selected,
+          s:this.s_selected,
+          f:this.f_selected,
+          team:this.team_selected
+          }));
+        }  
+        if(this.$refs.child.filter == 'position')
+            this.$refs.child.filterBy = this.f_selected
+        else if(this.$refs.child.filter == 'team_id')
+            this.$refs.child.filterBy = this.team_selected
+        this.$refs.child.startSearch(this.searchQuery);
       }
       else
           this.$root.toast("Search", "No given Queary to serach !", "warning");
@@ -131,6 +142,25 @@ export default {
           name : team.name
         })
       })
+  },
+  mounted(){
+    if(localStorage.getItem("username")){
+        let search = JSON.parse(localStorage.getItem("search"))
+        debugger;
+          if(search && search.query){
+            this.searchQuery = search.query;
+            this.PCT_selected = search.PCT;
+            this.fp_selected = search.fp;
+            this.s_selected = search.s;
+            this.f_selected = search.f;
+            this.team_selected = search.team;
+            this.$refs.child.Sname = this.PCT_selected
+            this.$refs.child.filter = this.fp_selected[0]
+            this.$refs.child.sort = this.s_selected[0]
+            this.$refs.child.filterBy = (this.f_selected)?this.fp_selected:this.team_selected;
+            this.runSearch();
+          }
+      }  
   },
   watch:{ 
     PCT_selected: function(newValue) {
