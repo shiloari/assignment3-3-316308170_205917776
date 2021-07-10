@@ -112,7 +112,7 @@ export default {
 <style>
 
 #next_game{
-  color: rgb(0, 0, 0);
+  color: #2c3e50;
   margin: 0 auto;
   display: block;
   text-align: center;

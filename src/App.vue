@@ -127,6 +127,7 @@ export default {
   // border: solid 5px orange;
   // position: fixed;
   width: 100%;
+  // padding-top:10px;
   top:0;
   z-index: 1;
   display: flex;

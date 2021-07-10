@@ -422,7 +422,7 @@ export default {
 
 .coach_section h1{
     text-align: center;
-    color: black;
+    color: #2c3e50;
     box-shadow: inset 0 0 200px rgba(255, 255, 255, .5);
     width: max-content;
     margin: 0 auto;
@@ -562,7 +562,7 @@ export default {
 
 .team_section h1, .team_section h2, .team_section h4{
     text-align: center;
-    color: black;
+    color: #2c3e50;
     margin-block: 5px;
 }
 
@@ -593,7 +593,7 @@ export default {
 
 .players h1{
     text-align: center;
-    color: black;
+    color: #2c3e50;
     /* margin-block: 30px; */
     box-shadow: inset 0 0 200px rgba(255, 255, 255, .5);
     width: max-content;
@@ -656,7 +656,7 @@ export default {
 }
 
 .middle_content h1{
-    color: black;
+    color: #2c3e50;
     text-align: center;
     box-shadow: inset 0 0 200px rgba(255, 255, 255, .5);
     width: max-content;

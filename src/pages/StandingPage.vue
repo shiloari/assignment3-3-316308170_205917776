@@ -256,13 +256,13 @@ export default {
 }
 
 #table1 h1{
-    color: white;
+    color: #2c3e50;
     margin-block: 20px;
     text-align: center;
 }
 
 #table2 h1{
-    color: white;
+    color: #2c3e50;
     margin-block: 20px;
     text-align: center;
 }

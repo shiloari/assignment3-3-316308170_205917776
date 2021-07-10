@@ -50,7 +50,7 @@
         <p><b>{{ this.away_team_score }}</b></p>
       </div>
     </div>
-    <EventBook v-if="this.Score != undefined" :EventBook="this.EventBook"> </EventBook>
+    <EventBook class="event_book" v-if="this.Score != undefined" :EventBook="this.EventBook"> </EventBook>
   </div>
 </template>
 

@@ -1,15 +1,19 @@
 <template>
 <div class="main_register_container">
+  <div class="left_side_text">
+    <a>want to keep track of everything that happens in the Superliga?</a>
+    <p>Register.</p>
+  </div>
   <div class="frosted_glass_register">
-    <h1 class="title">Register</h1>
+    <!-- <h1 class="title">Register</h1> -->
     <b-form @submit.prevent="onRegister" @reset.prevent="onReset">
-      <b-form-group
+      <b-form-group class="field_name"
         id="input-group-username"
         label-cols-sm="3"
         label="Username:"
         label-for="username"
       >
-        <b-form-input
+        <b-form-input class="input_field"
           id="username"
           v-model="$v.form.username.$model"
           type="text"
@@ -26,13 +30,13 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
-      <b-form-group
+      <b-form-group class="field_name"
         id="input-group-firstname"
         label-cols-sm="3"
         label="First Name:"
         label-for="firstname"
       >
-        <b-form-input
+        <b-form-input class="input_field"
           id="fistname"
           v-model="$v.form.firstname.$model"
           type="text"
@@ -49,13 +53,13 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
-      <b-form-group
+      <b-form-group class="field_name"
         id="input-group-lastname"
         label-cols-sm="3"
         label="Last Name:"
         label-for="lastname"
       >
-        <b-form-input
+        <b-form-input class="input_field"
           id="lastname"
           v-model="$v.form.lastname.$model"
           type="text"
@@ -72,13 +76,13 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
-      <b-form-group
+      <b-form-group class="field_name"
         id="input-group-country"
         label-cols-sm="3"
         label="Country:"
         label-for="country"
       >
-        <b-form-select
+        <b-form-select class="input_field"
           id="country"
           v-model="$v.form.country.$model"
           :options="countries"
@@ -89,13 +93,13 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
-      <b-form-group
+      <b-form-group class="field_name"
         id="input-group-email"
         label-cols-sm="3"
         label="Email:"
         label-for="email"
       >
-        <b-form-input
+        <b-form-input class="input_field"
           id="email"
           v-model="$v.form.email.$model"
           :state="validateState('email')"
@@ -108,13 +112,13 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
-      <b-form-group
+      <b-form-group class="field_name"
         id="input-group-Password"
         label-cols-sm="3"
         label="Password:"
         label-for="password"
       >
-        <b-form-input
+        <b-form-input class="input_field"
           id="password"
           type="password"
           v-model="$v.form.password.$model"
@@ -136,13 +140,13 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
-      <b-form-group
+      <b-form-group class="field_name"
         id="input-group-confirmedPassword"
         label-cols-sm="3"
         label="Confirm Password:"
         label-for="confirmedPassword"
       >
-        <b-form-input
+        <b-form-input class="input_field"
           id="confirmedPassword"
           type="password"
           v-model="$v.form.confirmedPassword.$model"
@@ -158,13 +162,13 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
-      <b-form-group
+      <b-form-group class="field_name"
         id="input-group-photo_url"
         label-cols-sm="3"
         label="Photo:"
         label-for="photo_url"
       >
-       <b-form-input
+       <b-form-input class="input_field"
           id="photo_url"
           v-model="$v.form.photo_url.$model"
           :state="validateState('photo_url')"
@@ -176,33 +180,21 @@
           Path is not valide
         </b-form-invalid-feedback>
       </b-form-group>
-
+      <div class="buttons">
       <b-button type="reset" variant="danger">Reset</b-button>
-      <b-button
+      <b-button 
         type="submit"
-        variant="primary"
-        style="width:250px;"
-        class="ml-5 w-75"
+        variant="dark"
+        style="width:150px;"
         >Register</b-button
       >
+      </div>
       <div class="mt-2">
         You have an account already?
         <router-link to="login"> Log in here</router-link>
       </div>
     </b-form>
-    <!-- <b-alert
-      class="mt-2"
-      v-if="form.submitError"
-      variant="warning"
-      dismissible
-      show
-    >
-      Register failed: {{ form.submitError }}
-    </b-alert> -->
-    <!-- <b-card class="mt-3 md-3" header="Form Data Result">
-      <pre class="m-0"><strong>form:</strong> {{ form }}</pre>
-      <pre class="m-0"><strong>$v.form:</strong> {{ $v.form }}</pre>
-    </b-card> -->
+
   </div>
 </div>
 </template>
@@ -305,6 +297,7 @@ export default {
           }
         );
         this.$root.toast("Successfully Registered", `${this.form.username} successfully registered `, "success");
+        // this.$router.replace("/")
         this.$router.push("/login");
       } catch (err) {
         this.form.submitError = err.response.data;
@@ -343,25 +336,29 @@ export default {
 
 .frosted_glass_register *{
   margin-inline: auto;
-  margin-block: 15px;
+  // margin-block: 15px;
   text-align: center;
 }
 
 .frosted_glass_register {
     width:max-content;
-    height: auto;
+    height: max-content;
+    // float: right;
+    margin-right: 5%;
     box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2); 
     border-radius: 5px;
     position: relative;
     z-index: 1;
     background: inherit;
-    overflow: hidden;
-    padding-bottom: 5px;
-    margin-top: 40px;
-    margin-inline: auto;
-    margin-bottom: 100px;
-    padding-left: 80px;
-    padding-right: 30px;
+    // border: solid 2px red;
+    // overflow: hidden;
+    padding-block: 5px;
+    margin-top: 10px;
+    // padding-bottom: 10px;
+    // margin-inline: auto;
+    margin-bottom: 50px;
+    // padding-left: 80px;
+    // padding-right: 30px;
 }
 
 .frosted_glass_register:before {
@@ -381,7 +378,65 @@ export default {
 .main_register_container{
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: space-between;
+  backdrop-filter: blur(5px);
   overflow: scroll;
+  // border: solid 60px red;
+  // position: absolute;
+  // margin-bottom: 100px;
+}
+
+.input_field{
+  width:300px;
+  height:40px;
+  // margin-left: px;
+  // display: flex;
+  // margin-inline: 40px;
+}
+
+.field_name {
+  // border: solid 2px red;
+  width: 600px;
+  // display: flex;
+  // vertical-align: center;
+  // padding-inline: 30px;
+  // justify-content: space-around;
+  margin-block: 10px;
+}
+
+.buttons{
+  display: flex;
+  margin-inline: auto;
+  // border: solid 2px red;
+  width: max-content;
+  // justify-content: space-around;
+}
+
+.buttons *{
+  margin-inline: 50px;
+}
+
+.left_side_text{
+  // border: solid 2px blue;
+  height: max-content;
+  width: 650px;
+  margin-top: 10%;
+  margin-left: 0%;
+}
+
+.left_side_text p{
+  font-size: 100px;
+  font-family: sans-serif;
+  text-align: center;
+  color: #2c3e50;
+}
+
+.left_side_text a{
+  font-size: 20px;
+  font-family: sans-serif;
+  margin-left: 30px;
+  color: #2c3e50;
 }
 
 </style>

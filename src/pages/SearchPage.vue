@@ -295,6 +295,7 @@ h1{
 .title h1{
   color: #2c3e50;
   text-align: center;
+  /* border: solid 2px red; */
 }
 
 .title{

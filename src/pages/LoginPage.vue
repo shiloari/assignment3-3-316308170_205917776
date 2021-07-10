@@ -43,9 +43,9 @@
         class="mx-auto w-100"
         >Login</b-button
       >
-      <div class="mt-2">
+      <div class="mt-2" style="width: max-content; margin-inline: auto;">
         Do not have an account yet?
-        <router-link to="register"> Register in here</router-link>
+        <router-link to="register"> Register here</router-link>
       </div>
     </b-form>
     <b-alert
@@ -110,7 +110,7 @@ export default {
         this.$router.replace("/");
         this.$router.go(0)
       } catch (err) {
-        this.$root.toast("Failed to log in", "Username or password are incorrect", "danger");
+        this.$root.toast("Failed to log in", "Username or password is incorrect", "danger");
         this.form.submitError = err.response.data.message;
       }
     },
@@ -159,5 +159,9 @@ export default {
     filter: blur(10px);
     backdrop-filter: blur(10px);
     margin: -20px;
+}
+
+.title{
+  margin-bottom: 20px;
 }
 </style>

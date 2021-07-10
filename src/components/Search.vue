@@ -2,7 +2,7 @@
     <div class="p_search" >
         <div class ="PD_search" > 
             <transition name="fade_search">
-            <div  v-if="this.start" :key="[this.current_display, this.start]">
+            <div v-if="this.start" :key="[this.current_display, this.start]">
             <b-container fluid="sm" style="margin-top:10px;">
                     <div class="row_container2">
                         <b-row class="row_container3">
@@ -39,17 +39,18 @@
             </b-container>
             </div>
             </transition>
-
-            <div class="nav_button">
-                    <b-button-toolbar key-nav aria-label="Toolbar with button groups">
-                        <b-button-group class="mx-1">
-                        <b-button @click="decrementDisplay">&lsaquo;</b-button>
-                        </b-button-group>
-                        <b-button-group class="mx-1">
-                        <b-button @click="incrementDisplay">&rsaquo;</b-button>
-                        </b-button-group>
-                    </b-button-toolbar>
+            <transition name="fade">
+            <div class="nav_button" v-if="this.show_paginiation">
+                <b-button-toolbar key-nav aria-label="Toolbar with button groups">
+                    <b-button-group class="mx-1">
+                    <b-button @click="decrementDisplay">&lsaquo;</b-button>
+                    </b-button-group>
+                    <b-button-group class="mx-1">
+                    <b-button @click="incrementDisplay">&rsaquo;</b-button>
+                    </b-button-group>
+                </b-button-toolbar>
             </div>
+            </transition>
         </div>
 
     </div>
@@ -72,7 +73,8 @@ export default {
       filterBy : "",
       sort: "",
       start: false,
-      current_display: 0
+      current_display: 0,
+      show_paginiation: false
     };
   },
   methods: {
@@ -117,9 +119,6 @@ export default {
             let filtered = []
             this.searches.map(
                 (element) => {
-                    // console.log(element);
-                    // console.log(this.filter)
-                    // console.log(this.filterBy)
                     if (element[this.filter] != null && element[this.filter] == this.filterBy)
                         filtered.push(element)
                         })
@@ -133,7 +132,6 @@ export default {
         this.current_display = 0;
         this.ready_components = 0;
         try {
-            console.log(`before: ${this.start}`);
             const searched =  JSON.parse(localStorage.getItem(`all_${this.Sname}`))
             this.searches = this.search_by_name(keyword, searched)
             this.fixSearchers();
@@ -142,9 +140,10 @@ export default {
             this.start = true;
             if(!lastSearch && this.start && this.searches.length == 0 ){
                 this.$root.toast("Search", `None ${this.Sname} found !`, "warning");}
-            console.log(`after: ${this.start}`);
+            else{
+                this.show_paginiation = true;
+            }
         } catch (error) {
-            console.log("error in get search")
             console.log(error);
         }
     }

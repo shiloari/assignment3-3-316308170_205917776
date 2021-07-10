@@ -107,7 +107,7 @@ export default {
   margin-left: 190px;
   margin-top: 20px;
   // text-align: center;
-  color: black;
+  color: #2c3e50;
   box-shadow: inset 0 0 200px rgba(255, 255, 255, .5);
   width: max-content;
   // margin: 0 auto;
