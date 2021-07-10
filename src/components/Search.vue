@@ -75,11 +75,6 @@ export default {
       current_display: 0
     };
   },
-  watch:{
-      searches: function(){
-          
-      }
-  },
   methods: {
     decrementDisplay(){
         if (this.current_display - 4 >= 0)
@@ -91,10 +86,14 @@ export default {
     },  
     search_by_name: function (keyword, searched) {
         let filtered = []
+        keyword = keyword.toLowerCase();
         searched.map(
             (element) => {
-                if (element.name != null && element.name.includes(keyword))
-                    filtered.push(element)
+                if (element.name != null ){
+                    let n_element = element.name.toLowerCase();
+                    if(n_element.includes(keyword))
+                        filtered.push(element)
+                }    
         }
     )
         return filtered;

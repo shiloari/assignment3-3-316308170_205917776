@@ -6,7 +6,7 @@
             </div>
         </div>
         <div class="standings">
-            <div id="table1" v-show="this.items && this.totalItems == this.items.length  && this.finished">
+            <div id="table1" v-show="this.non_match ||(this.finished && this.items && this.totalItems == this.items.length )">
                 <h1>Current Standings</h1>
                 <b-table id="table_1" ref="table" hover head-variant="dark" show-empty :items="Matches" :fields="fields" :current-page="currentPage" :per-page="perPage" style="background-color:white">
                     <template #cell(Home_Team_name)="data">
@@ -22,10 +22,10 @@
                     </template>
                 </b-table>
                 <div class="paginiation">
-                    <b-pagination aria-controls="table_1" size="md" :total-rows="Matches.length" v-model="currentPage" :per-page="perPage"></b-pagination>
+                    <b-pagination aria-controls="table_1" size="md" :total-rows="(Matches)?Matches.length:0" v-model="currentPage" :per-page="perPage"></b-pagination>
                 </div>
             </div>
-            <div id="table2" v-if="this.items && this.totalItems == this.items.length && this.finished">
+            <div id="table2" v-if="this.non_match || (this.finished && this.items && this.totalItems == this.items.length)">
                 <h1>History Standings</h1>
                 <b-table hover head-variant="dark" show-empty :items="oldMatches" :fields="oldfields" :current-page="oldCurrentPage" :per-page="perPage" style="background-color:white">
                     <template #cell(EventBook) = "data" >                        
@@ -41,7 +41,7 @@
                     </template>
                 </b-table>
                 <div class="paginiation">
-                    <b-pagination size="md" :total-rows="oldMatches.length" v-model="oldCurrentPage" :per-page="perPage"></b-pagination>
+                    <b-pagination size="md" :total-rows="(oldMatches)?oldMatches.length:0" v-model="oldCurrentPage" :per-page="perPage"></b-pagination>
                 </div>
             </div>
         </div>
@@ -52,6 +52,7 @@ export default {
     name:"StandingPage",
     data() {
         return {
+        non_match: false,
         items: [],
         Matches: [],
         fields: [{
@@ -101,6 +102,10 @@ export default {
     },
     watch:{
         items: function(){
+            if(this.non_match){
+                this.finished = true;
+                return
+            }
             if(this.items && this.totalItems == this.items.length){
                 this.items.map((match) =>{
                     match.Home_Team_name = (this.$root.store.get_team_full_data(match.Home_Team_ID)).name ;
@@ -112,7 +117,6 @@ export default {
                         this.Matches.push(match);
                 })
                 this.Match_ID = [...this.Matches]
-                this.favoritesStar();
                 setTimeout(
                     ()=>{
                         this.finished = true
@@ -126,6 +130,9 @@ export default {
         .catch(error => {
         console.error(error)
         })
+    },
+    updated(){
+        this.favoritesStar();
     },
     methods: {
         favoritesStar : async function(){
@@ -191,6 +198,10 @@ export default {
             .then(async (res) =>{       
                 const data = res.data;
                 this.totalItems = data.length
+                if(data.length == 0){
+                    this.non_match = true;
+                    return
+                }
                 var result = new Array();
                 await data.forEach(async(element) => {
                     const match = ((await this.$root.server.get(`matches/${element}`, {
