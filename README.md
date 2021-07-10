@@ -90,12 +90,12 @@ As a user, you can keep track of all your favorites in one place!
 Developers: Ariel Shilo, Gal Alkalay <br>
 IDs: 316308170, 205917776
 
-[search-teams]: ./assets/README/search_teams.png
-[sort-filter]: ./assets/README/sort_and_filter.png
-[about]: ./assets/README/about.png
-[current-standings]: ./assets/README/current_standings.png
-[history-standings]: ./assets/README/history_standings.png
-[personal-page]: ./assets/README/personal_page.png
-[favorites]: ./assets/README/favorites.png
-[game-preview]: ./assets/README/game_preview.png
-[favorite-matches]: ./assets/README/favorite_matches.png
+[search-teams]: ./src/assets/README/search_teams.png
+[sort-filter]: ./src/assets/README/sort_and_filter.png
+[about]: ./src/assets/README/about.png
+[current-standings]: ./src/assets/README/current_standings.png
+[history-standings]: ./src/assets/README/history_standings.png
+[personal-page]: ./src/assets/README/personal_page.png
+[favorites]: ./src/assets/README/favorites.png
+[game-preview]: ./src/assets/README/game_preview.png
+[favorite-matches]: ./src/assets/README/favorite_matches.png
