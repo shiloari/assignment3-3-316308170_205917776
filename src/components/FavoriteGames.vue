@@ -45,7 +45,6 @@ export default {
   methods: {
     deleted(Match_ID){
       this.games = this.games.filter(game => game.Match_ID == Match_ID)
-      // this.re_render++;
       this.$emit("deleted_favorite")
     },
     async updateGames(){

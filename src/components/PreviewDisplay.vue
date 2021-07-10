@@ -1,5 +1,4 @@
 <template>
-
 <router-link v-show="is_loaded" :event="!hover_favorite ? 'click' : ''" :to=page_route >
 <div class="display" id="display">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -172,8 +171,6 @@ export default {
 }
 
 .card {
-    /* padding-top: 20px; */
-    /* margin: 0px 0 0px 0; */
     background-color: rgba(214, 224, 226, 0.2);
     border-top-width: 0;
     border-bottom-width: 2px;
@@ -193,10 +190,6 @@ export default {
     width: 180px;
     height:200px;
 }
-.card .card-heading {
-    /* padding: 0 20px; */
-    /* margin: 0; */
-}
 .card .card-heading.simple {
     font-size: 20px;
     font-weight: 300;
@@ -207,7 +200,6 @@ export default {
     display: inline-block;
     width: 46px;
     height: 46px;
-    /* margin-right: 15px; */
     vertical-align: top;
     border: 0;
     -webkit-border-radius: 50%;
@@ -219,7 +211,6 @@ export default {
     vertical-align: top;
 }
 .card .card-heading.image .card-heading-header h3 {
-    /* margin: 0; */
     font-size: 14px;
     line-height: 16px;
     color: #262626;
@@ -247,7 +238,6 @@ export default {
     position: absolute;
     top: 150px;
     display: inline-block;
-    /* width: 100%; */
     height: 100px;
     overflow: hidden;
     background: #ffffff;
@@ -290,15 +280,9 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* height: 300px; */
 }
 .cardheader img{
-     /* display: block; */
-    /* margin: 10px auto 20px; */
-    /* display: block; */
-    /* margin: 0 auto; */
     width: 100%;
-    /* padding-top: 20px; */
     opacity: 0.2;
 }
 
@@ -317,9 +301,6 @@ export default {
     -moz-border-radius: 50%;
     border-radius: 50%;
     border: 5px solid rgba(255,255,255,0.5);
-}
-.card.hovercard .info {
-    /* padding: 4px 8px 10px; */
 }
 
 .info{
@@ -351,7 +332,6 @@ export default {
 .favorite_checked{
     width: max-content;
     position: absolute;
-    /* float: right; */
 }
 
 .favorite_checked svg{
@@ -361,7 +341,6 @@ export default {
 .favorite_unchecked{
     width: max-content;
     position: absolute;
-    /* float: right; */
 }
 
 .favorite_unchecked svg{
@@ -369,7 +348,6 @@ export default {
 }
 
 .star{
-    /* float: right; */
     transition: all .3s ease-in-out;
     margin: 5px;
     

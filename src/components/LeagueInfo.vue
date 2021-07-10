@@ -1,10 +1,5 @@
 <template>
     <div class = "league_info"> 
-    <!-- <div class="d-flex justify-content-center" v-if="!this.is_loaded" style="margin-top: 25vh;">
-        <div id="waiting" class="spinner-border text-light" style="width: 5rem; height: 5rem;" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-    </div>  -->
     <div>
     <div id="league_details">
       <img src="../assets/superliga.png" style="width: 150px; height: auto;">
@@ -90,7 +85,6 @@ export default {
             }
             
           } catch (error) {
-            console.log("error in update games")
             console.log(error);
           }
         }
