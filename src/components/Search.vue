@@ -152,7 +152,6 @@ export default {
 </script>
 
 <style>
-
 .PD_search{
     margin-left: 25px;
 }

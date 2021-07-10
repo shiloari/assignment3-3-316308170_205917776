@@ -1,7 +1,5 @@
 <template v-show="this.is_loaded">
   <div class="frosted_glass">
-    <!-- <div :title="Match_ID" class="game-title"></div> -->
-    <!-- {{ this.is_loaded }} -->
     <div id="teams">
       <div v-bind:class="favorite_state" v-show="this.$session.exists() && this.Score == undefined" id="star" @click="check_star" @mouseleave="disable_favorite">
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-star star"  viewBox="0 0 16 16">
@@ -43,8 +41,6 @@
         <div id = "stage">
           <p> {{ this.stage_name }}</p>
         </div>
-        <!-- <li> Score: {{ Score }}</li>
-        <li> Events: {{ EventBook }}</li> -->
       </div>
       <div class="score" >
         <p><b>{{ this.away_team_score }}</b></p>
@@ -114,16 +110,6 @@ export default {
     }
   },
   methods:{
-        // set_event_book(){
-        //   if (this.EventBook!=undefined){
-        //     let splited = this.EventBook.split(',')
-        //     if (splited[0] != ""){
-        //       for (let i = 0; i< splited.length;i++){
-        //         this.splited_event_book.push(splited[i])
-        //       }
-        //     }
-        //   }
-        // },
         set_score(){
           if (this.Score!=undefined){
             let splited = this.Score.split(':');
@@ -190,27 +176,22 @@ export default {
       async set_display(){
         try{
           const home_team = await this.$root.store.get_team_full_data(this.Home_Team_ID);
-          // const home_team = (await this.$root.server.get(`teams/${this.Home_Team_ID}/preview`)).data;
           this.home_team_name = home_team.name;
           this.home_team_logo = home_team.logo_path;
-          // const away_team = (await this.$root.server.get(`teams/${this.Away_Team_ID}/preview`)).data;
           const away_team = await this.$root.store.get_team_full_data(this.Away_Team_ID);
           this.away_team_name = away_team.name;
           this.away_team_logo = away_team.logo_path;
           this.stage_name = (await this.$root.server.get(`league/stages/${this.Stage}`)).data.name;
           
           
-          // console.log(this.$parent.ready_components);
         }
         catch(err){
-          console.log("in error")
           console.log(err.response)
         }
       }
   },
   mounted(){
     this.set_score();
-    // this.set_event_book();
      this.set_favorite_status();  
      this.set_display().then(()=>{
        this.is_loaded = true
@@ -383,11 +364,8 @@ margin-bottom: -2px;
 }
 
 .score{
-  /* border: solid 2px blue; */
   width: 80px;
-  /* padding-inline: 40px; */
   margin-top: -10px;
-  /* margin-inline: 0px;  */
 }
 
 .score p{
@@ -402,14 +380,12 @@ margin-bottom: -2px;
     list-style: none;
     position:absolute;
     bottom:0;
-    /* z-index: 1000; */
 }
 
 
 .favorite_checked{
     width: max-content;
     position: absolute;
-    /* float: right; */
 }
 
 .favorite_checked svg{
@@ -419,7 +395,6 @@ margin-bottom: -2px;
 .favorite_unchecked{
     width: max-content;
     position: absolute;
-    /* float: right; */
 }
 
 .favorite_unchecked svg{
@@ -427,7 +402,6 @@ margin-bottom: -2px;
 }
 
 .star{
-    /* float: right; */
     transition: all .3s ease-in-out;
     margin: 5px;
     

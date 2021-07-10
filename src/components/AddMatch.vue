@@ -46,7 +46,6 @@ export default {
     methods:{
         addNewMatch() {
             let data = this.$data
-            console.log(data);
             this.$emit('clicked',data)
         },
          getTeamsAndStaduims(){
