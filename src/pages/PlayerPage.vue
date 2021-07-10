@@ -11,7 +11,11 @@
         <div class="bottom">
             <div class="bottom_left">
                 <h2>Playing for</h2>
-                <img v-bind:src="this.team_logo_path">
+                 <router-link :event="click" :to=team_page_route >
+                    <div class="team_logo">
+                        <img v-bind:src="this.team_logo_path">
+                    </div>
+                 </router-link>
                 <div class="team_name">
                      <h3> {{ this.team_name }} </h3>
                      <h3  v-if="this.team_common_name"> {{ this.team_common_name }}</h3>
@@ -58,13 +62,14 @@ export default {
             nationality: undefined,
             height: undefined,
             weight: undefined,
-            is_loaded : false
+            is_loaded : false,
+            team_page_route: undefined,
+
         }
     },
     methods:{
         async getFullData(){
             const player_full_data = this.$root.store.get_player_full_data(this.$route.params.id);
-            // const player_full_data = (await this.$root.server.get(`players/${this.$route.params.id}/full_data`)).data;
             this.name = player_full_data.name;
             this.photo = player_full_data.photo_path;
             this.team_name = player_full_data.team_name;
@@ -77,6 +82,8 @@ export default {
             this.nationality = player_full_data.nationality;
             this.height = player_full_data.height;
             this.weight = player_full_data.weight;
+            this.team_page_route = `/teams/${player_full_data.team_id}`
+            
         }
     },
     mounted(){

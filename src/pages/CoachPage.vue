@@ -11,7 +11,11 @@
         <div class="bottom">
             <div class="bottom_left">
                 <h2>Coaching</h2>
-                <img v-bind:src="this.team_logo_path">
+                <router-link :event="click" :to=team_page_route >
+                    <div class="team_logo">
+                        <img v-bind:src="this.team_logo_path">
+                    </div>
+                </router-link>
                 <div class="team_name">
                      <h3> {{ this.team_name }} </h3>
                      <h3 v-if="this.team_common_name"> {{ this.team_common_name }}</h3>
@@ -57,7 +61,8 @@ export default {
             nationality: undefined,
             height: undefined,
             weight: undefined,
-            is_loaded : false
+            is_loaded : false,
+            team_page_route: undefined
         }
     },
     methods:{
@@ -75,6 +80,7 @@ export default {
             this.nationality = coach_full_data.nationality;
             this.height = coach_full_data.height;
             this.weight = coach_full_data.weight;
+            this.team_page_route = `/teams/${coach_full_data.team_id}`
         }
     },
     mounted(){

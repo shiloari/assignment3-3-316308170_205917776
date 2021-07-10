@@ -9,14 +9,22 @@
           </svg>
       </div>
       <div id="team_display">
-        <div id="team_logo"><img v-bind:src= "home_team_logo"></div>
+        <div class="team_logo" id="team_logo">
+          <router-link :event="click" :to=home_team_page_route >
+            <img v-bind:src= "home_team_logo">
+          </router-link>
+        </div>
         <h5>{{ this.home_team_name }}</h5>
       </div>
       <div id = "vs">
         <p><b> vs.</b> </p>
       </div>
       <div id="team_display">
-        <div id="team_logo"><img v-bind:src= "away_team_logo"></div>
+        <router-link :event="click" :to=away_team_page_route >
+          <div class="team_logo" id="team_logo">
+            <img v-bind:src= "away_team_logo">
+          </div>
+        </router-link>
         <h5>{{ this.away_team_name }}</h5>
       </div>
     </div>
@@ -100,7 +108,9 @@ export default {
       favorite_state: undefined,
       home_team_score: undefined,
       away_team_score: undefined,
-      splited_event_book: []
+      splited_event_book: [],
+      home_team_page_route: `/teams/${this.Home_Team_ID}`,
+      away_team_page_route: `/teams/${this.Away_Team_ID}`
     }
   },
   methods:{
@@ -248,6 +258,15 @@ export default {
 
 }
 
+.team_logo img{
+  transition: all .2s ease-in-out;
+  width: max-content;
+}
+
+.team_logo img:hover{
+  transform: scale(1.05);
+}
+
 #vs{
   font-size: 40px;
   display: inline;
@@ -255,7 +274,7 @@ export default {
 
 #vs p{
   margin-top: 40px;
-     color: black;
+  color: black;
 
 }
 
