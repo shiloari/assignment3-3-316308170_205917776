@@ -78,6 +78,10 @@
                             <b-form-group label="Minutes" label-for="Minutes-input" invalid-feedback="Minutes is required">
                                 <b-form-input :id="'Minutes-input_'+ data.index" type="number" min="0" max="200" required></b-form-input>
                             </b-form-group>
+                            <b-form-group label="Event" label-for="Event-input" invalid-feedback="Event is required">
+                                <b-form-select v-model="event_selected" :options="event_options" value-field="item" text-field="item" class="mt-3">
+                                </b-form-select>
+                            </b-form-group>
                             <b-form-group label="Text" label-for="Text-input" invalid-feedback="Text is required">
                                 <b-form-input :id="'Text-input_'+ data.index" type="text" required></b-form-input>
                             </b-form-group>
@@ -140,7 +144,17 @@ export default {
         stadium_selected: '',
         stadium_options:[],
         date:undefined,
-        hour:undefined
+        hour:undefined,
+        event_selected: "Goal",
+        event_options: [
+            { item: "Goal" },
+            { item: "Offside"},
+            { item: "Foul"},
+            { item: "Red Card"},
+            { item: "Yellow Card"},
+            { item: "Injury "},
+            { item: "Substitute"}
+            ],
         }},
     watch:{
          items: function(){
@@ -156,7 +170,7 @@ export default {
                 setTimeout(
                     ()=>{
                         this.finished = true
-                    }, 1000
+                    }, 500
                 )
             }
         }
@@ -274,7 +288,7 @@ export default {
                         this.$root.toast("Empty date/hour/minutes/text", "Need to select date/hour/minutes/text !", "danger");
                         return
                         }
-                    event = date.value +' '+ hour.value +' '+ minutes.value +' '+text.value ;
+                    event = date.value +' '+ hour.value +' '+ minutes.value +' '+ this.event_selected +' ' +text.value ;
                     score = (score)? score: '';
                     event = (eventBook)? eventBook.concat(`,${event}`) : event;
                 }
@@ -286,8 +300,9 @@ export default {
                     },{
                         withCredentials: true
                 })
-                this.items[data.index].Score = score
-                this.items[data.index].EventBook = event;
+                this.$router.go(0);
+                // this.items[data.index].Score = score
+                // this.items[data.index].EventBook = event;
             }
             catch(err){
                 console.log(err);
