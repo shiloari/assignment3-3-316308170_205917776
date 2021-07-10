@@ -180,7 +180,7 @@ export default {
                 }
             }
             catch(error){
-                this.$root.toast("Not logged", "user need to login for adding Match to favorite!", "danger");
+                this.$root.toast("You are not logged in!", "You must be logged in so you can add match to favorites!", "danger");
             }
 
         },
