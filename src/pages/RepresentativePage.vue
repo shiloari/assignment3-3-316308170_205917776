@@ -46,6 +46,7 @@ import AddMatch from  "../components/AddMatch.vue"
 import ActionButtons from  "../components/ActionButtons.vue"
 import InvalidAccess from "../components/InvalidAccess.vue"
 const letter = (p) => /[a-zA-Z ]/i.test(p)
+
 export default {
     name:"RepresentativePage",
     components:{
@@ -180,10 +181,8 @@ export default {
                 if(value == 'Score'){
                     let s_1 = document.getElementById(`Score-input1_${data.index}`);
                     let s_2 = document.getElementById(`Score-input2_${data.index}`);
-                    if(!(s_2.value && s_1.value)){
-                        this.$root.toast("Empty Score", "Need to select Score !", "danger");
-                        return
-                        }
+                    if(!(s_2.value && s_1.value && Number.isInteger(s_2.value) && Number.isInteger(s_1.value))){
+                        this.$root.toast("Empty Score", "Need to select Score !", "danger");return;}
                     
                     score = `${s_1.value}:${s_2.value}`
                     event = (eventBook)? eventBook+','+event_selected:event_selected;
