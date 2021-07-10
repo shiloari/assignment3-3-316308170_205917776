@@ -29,7 +29,7 @@
                 <h1>History Standings</h1>
                 <b-table hover head-variant="dark" show-empty :items="oldMatches" :fields="oldfields" :current-page="oldCurrentPage" :per-page="perPage" style="background-color:white">
                     <template #cell(EventBook) = "data" >                        
-                        <EventBook :EventBook="data.item.EventBook"></EventBook>
+                        <EventBook :EventBook="data.item.EventBook" :key="data.item.EventBook"></EventBook>
                     </template>
                     <template #cell(Home_Team_name)="data">
                         <a :href="'/#/teams/'+ teleportToTeam(data.value)">{{ data.value }}</a>

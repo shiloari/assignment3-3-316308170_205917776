@@ -22,8 +22,7 @@
                         </div>
                     </template>
                     <template #cell(EventBook) = "data" >
-                        <EventBook :EventBook="data.item.EventBook"></EventBook>
-                        {{data.item.EventBook}}
+                        <EventBook :EventBook="data.item.EventBook" :key="data.item.EventBook"></EventBook>
                     </template>
                     <template #cell(Actions) = "data" >
                         <ActionButtons :iData="data" :index="data.index+perPage" @update="UpdateMatch" @delete="deleteMatch"></ActionButtons>
@@ -241,7 +240,7 @@ export default {
     backdrop-filter: blur(5px);
 }
 #table1 h1{
-    color: #fafafa;
+    color: #2c3e50;
     margin-block: 20px;
     text-align: center;
 }
