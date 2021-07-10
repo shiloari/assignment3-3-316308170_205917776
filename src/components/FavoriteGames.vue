@@ -55,9 +55,7 @@ export default {
         );
         this.games = response.data.slice(0,Math.min(this.size,response.data.length));
         this.no_favorites = false;
-        console.log(this.no_favorites);
       } catch (error) {
-        console.log("in error");
         this.no_favorites = true;
       }
     }

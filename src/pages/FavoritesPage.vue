@@ -8,10 +8,12 @@
         <div v-else>
             <div class="top_section">
                 <div class="user_section">
-                    <div class="user">
-                        <img v-bind:src="user_photo">
+                    <div class="user" v-show="!img_verified">
+                        <img src="https://www.tenforums.com/geek/gars/images/2/types/thumb_15951118880user.png">
                     </div>
-
+                    <div class="user" v-show="img_verified">
+                        <img id="user_photo" :src = "user_photo" @error="set_default_img" @load="set_user_img">
+                    </div>
                 </div>
                 <div style="text-align: center; color: #2c3e50;">
                     <h1>{{ this.username }}'s Favorites</h1>
@@ -138,10 +140,17 @@ export default {
             fav_teams: [],
             fav_matches: [],
             user_photo: undefined,
-            username: undefined
+            username: undefined,
+            img_verified: false
         }
     },
     methods:{
+        set_default_img(){
+            this.img_verified = false;
+        },
+        set_user_img(){
+            this.img_verified = true;
+        },
         setPhoto(){
             this.user_photo = (localStorage.getItem("user_photo") != undefined) ? `${localStorage.getItem("user_photo")}` : "https://www.tenforums.com/geek/gars/images/2/types/thumb_15951118880user.png"
             this.username = localStorage.getItem("username");
@@ -215,7 +224,6 @@ export default {
             }
             catch(error){
                  this.current_category = "players"
-                console.log(error.message)
             }
         }
     },

@@ -111,9 +111,9 @@
                     <b-container fluid="sm" >
                         <div class="row_container2">
                             <b-row class="row_container3">
-                                <div class="game_preview">
-                                <b-col  v-if="current_match < matches.length" :key="this.current_match">
-                                    <GamePreview id="favorite"
+                                <b-col  v-if="current_match < matches.length" :key="this.current_match" class="game_col">
+                                <div class="game_preview_team_page">
+                                    <GamePreview class="favorite_game" id="favorite"
                                         :Match_ID="matches[current_match]['Match_ID']" 
                                         :Home_Team_ID="matches[current_match]['Home_Team_ID']" 
                                         :Away_Team_ID="matches[current_match]['Away_Team_ID']" 
@@ -125,11 +125,11 @@
                                         :EventBook="matches[current_match]['EventBook']"
                                         >
                                     </GamePreview>
-                                </b-col>
                                 </div>
-                                <div class="game_preview">
-                                <b-col  v-if="current_match + 1 <matches.length" :key="this.current_match">
-                                    <GamePreview id="favorite"
+                                </b-col>
+                                <b-col  v-if="current_match + 1 <matches.length" :key="this.current_match" class="game_col">
+                                   <div class="game_preview_team_page">
+                                    <GamePreview class="favorite_game" id="favorite"
                                         :Match_ID="matches[current_match+1]['Match_ID']" 
                                         :Home_Team_ID="matches[current_match+1]['Home_Team_ID']" 
                                         :Away_Team_ID="matches[current_match+1]['Away_Team_ID']" 
@@ -141,8 +141,9 @@
                                         :EventBook="matches[current_match+1]['EventBook']"
                                         >
                                     </GamePreview>
-                                </b-col>
                                 </div>
+                                </b-col>
+                                
                             </b-row>
                         </div>
                     </b-container>
@@ -444,6 +445,11 @@ export default {
     margin: -10px;
 }
 
+.favorite_game{
+    /* border: solid 2px red; */
+    margin-inline: auto;
+}
+
 .nav_button{
     margin: 0 auto;
     max-width: max-content;
@@ -571,9 +577,9 @@ export default {
     margin-top: 20px;
 }
 
-.game_preview{
+.game_preview_team_page{
     /* border: solid 2px blue; */
-    margin-inline: 30px;
+    /* margin-inline: 30px; */
     margin-bottom: 10px;
     /* width: 25rem; */
 }

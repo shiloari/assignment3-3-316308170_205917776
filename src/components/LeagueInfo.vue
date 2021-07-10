@@ -15,7 +15,7 @@
     <div id="next_game">
       <h2><b>Next Game</b></h2>
     </div>
-    <div>
+    <div v-if="this.upcoming_game!=undefined">
       <GamePreview id="upcoming_game" v-if="upcoming_game.Match_ID"
         :Match_ID="this.upcoming_game.Match_ID" 
         :Home_Team_ID="this.upcoming_game.Home_Team_ID" 
@@ -27,6 +27,9 @@
       @added_favorite="added_favorite_re_render()"
         @deleted_favorite="deleted_favorite_re_render()">
       </GamePreview>
+    </div>
+    <div v-else>
+      <h5 style="text-align:center;">No games at the moment</h5>
     </div>
     </div>
     </div>
@@ -70,16 +73,22 @@ export default {
             const response = await this.$root.server.get();
             let details = response.data;
             this.leagueName = details.league_name;
-            this.season = details.season_name,
-            this.stage = details.stage_name,
-            this.upcoming_game = details.upcoming_game,
-            this.upcoming_game.Match_ID = details.upcoming_game.Match_ID,
-            this.upcoming_game.Home_Team_ID = details.upcoming_game.Home_Team_ID,
-            this.upcoming_game.Away_Team_ID = details.upcoming_game.Away_Team_ID,
-            this.upcoming_game.Match_Date = details.upcoming_game.Match_Date,
-            this.upcoming_game.Hour = details.upcoming_game.Hour,
-            this.upcoming_game.Stadium = details.upcoming_game.Stadium,
-            this.upcoming_game.Stage = details.upcoming_game.Stage
+            this.season = details.season_name;
+            this.stage = details.stage_name;
+            if (details.upcoming_game != undefined){
+              this.upcoming_game = details.upcoming_game,
+              this.upcoming_game.Match_ID = details.upcoming_game.Match_ID,
+              this.upcoming_game.Home_Team_ID = details.upcoming_game.Home_Team_ID,
+              this.upcoming_game.Away_Team_ID = details.upcoming_game.Away_Team_ID,
+              this.upcoming_game.Match_Date = details.upcoming_game.Match_Date,
+              this.upcoming_game.Hour = details.upcoming_game.Hour,
+              this.upcoming_game.Stadium = details.upcoming_game.Stadium,
+              this.upcoming_game.Stage = details.upcoming_game.Stage
+            }
+            else{
+               this.upcoming_game = undefined;
+            }
+            
           } catch (error) {
             console.log("error in update games")
             console.log(error);
