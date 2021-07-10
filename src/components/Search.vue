@@ -126,31 +126,28 @@ export default {
             this.searches = filtered
         }      
     },
-    startSearch: function(keyword){
+    startSearch: function(keyword,lastSearch){
         this.start = false;
         this.searches = [];
         this.re_render++;
         this.current_display = 0;
         this.ready_components = 0;
         try {
+            console.log(`before: ${this.start}`);
             const searched =  JSON.parse(localStorage.getItem(`all_${this.Sname}`))
             this.searches = this.search_by_name(keyword, searched)
-            this.fixSearchers()
-            this.sortSearchers()
-            this.filterSearches()
+            this.fixSearchers();
+            this.sortSearchers();
+            this.filterSearches();
             this.start = true;
-            
+            if(!lastSearch && this.start && this.searches.length == 0 ){
+                this.$root.toast("Search", `None ${this.Sname} found !`, "warning");}
+            console.log(`after: ${this.start}`);
         } catch (error) {
             console.log("error in get search")
             console.log(error);
         }
     }
-  },
-  watch:{
-      start : function () {
-          if(this.start && this.searches.length == 0 ){
-                this.$root.toast("Search", `None ${this.Sname} found !`, "warning");}
-      }
   }
 };
 </script>

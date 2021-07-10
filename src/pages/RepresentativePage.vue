@@ -250,7 +250,6 @@ export default {
                         }
                     score = `${s_1.value}:${s_2.value}`
                     event = (eventBook)? eventBook:'';
-                    this.items[data.index].Score = score
                     }
                 else{
                     let date = document.getElementById(`Date-input_${data.index}`);
@@ -264,7 +263,6 @@ export default {
                     event = date.value +' '+ hour.value +' '+ minutes.value +' '+text.value ;
                     score = (score)? score: '';
                     event = (eventBook)? eventBook.concat(`,${event}`) : event;
-                    this.items[data.index].EventBook = event;
                 }
                 let response = await this.$root.server.put(`matches/`, {
                         score : `${score}`,
@@ -274,6 +272,8 @@ export default {
                     },{
                         withCredentials: true
                 })
+                this.items[data.index].Score = score
+                this.items[data.index].EventBook = event;
             }
             catch(err){
                 console.log(err);

@@ -66,7 +66,7 @@
       <b-input-group prepend="Search Query:" id="search-input" >
         <b-form-input v-model="searchQuery"></b-form-input>
         <b-input-group-append>
-          <b-button variant="dark" @click="runSearch">Search</b-button>
+          <b-button variant="dark" @click='runSearch(false)'>Search</b-button>
         </b-input-group-append>
       </b-input-group>
       </transition>
@@ -110,7 +110,7 @@ export default {
     };
   },
   methods:{
-    runSearch: function (){
+    runSearch: function (lastSearch){
       if(this.searchQuery.length > 0){
         if(localStorage.getItem("username")){
           localStorage.setItem("search",
@@ -127,7 +127,7 @@ export default {
             this.$refs.child.filterBy = this.f_selected
         else if(this.$refs.child.filter == 'team_id')
             this.$refs.child.filterBy = this.team_selected
-        this.$refs.child.startSearch(this.searchQuery);
+        this.$refs.child.startSearch(this.searchQuery,lastSearch);
       }
       else
           this.$root.toast("Search", "No given Queary to serach !", "warning");
@@ -146,7 +146,6 @@ export default {
   mounted(){
     if(localStorage.getItem("username")){
         let search = JSON.parse(localStorage.getItem("search"))
-        debugger;
           if(search && search.query){
             this.searchQuery = search.query;
             this.PCT_selected = search.PCT;
@@ -158,7 +157,7 @@ export default {
             this.$refs.child.filter = this.fp_selected[0]
             this.$refs.child.sort = this.s_selected[0]
             this.$refs.child.filterBy = (this.f_selected)?this.fp_selected:this.team_selected;
-            this.runSearch();
+            this.runSearch(true);
           }
       }  
   },
