@@ -224,7 +224,6 @@ export default {
                     withCredentials: true
                 })).data;
                 this.fav_matches = matches_response
-                console.log(this.fav_players,this.fav_teams,this.fav_matches)
                 this.current_favorites = this.fav_players
                 this.current_category = "players"
                 this.re_render++;

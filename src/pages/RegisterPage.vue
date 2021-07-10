@@ -9,7 +9,6 @@
       <p>Register.</p>
     </div>
     <div class="frosted_glass_register">
-      <!-- <h1 class="title">Register</h1> -->
       <b-form @submit.prevent="onRegister" @reset.prevent="onReset">
         <b-form-group class="field_name"
           id="input-group-username"
@@ -281,9 +280,7 @@ export default {
     }
   },
   mounted() {
-    // console.log("mounted");
     this.countries.push(...countries);
-    // console.log($v);
   },
   methods: {
     validateState(param) {
@@ -306,7 +303,6 @@ export default {
           }
         );
         this.$root.toast("Successfully Registered", `${this.form.username} successfully registered `, "success");
-        // this.$router.replace("/")
         this.$router.push("/login");
       } catch (err) {
         this.form.submitError = err.response.data;
@@ -315,12 +311,10 @@ export default {
       }
     },
     onRegister() {
-      // console.log("register method called");
       this.$v.form.$touch();
       if (this.$v.form.$anyError) {
         return;
       }
-      // console.log("register method go");
       this.Register();
     },
     onReset() {
@@ -345,7 +339,6 @@ export default {
 
 .frosted_glass_register *{
   margin-inline: auto;
-  // margin-block: 15px;
   text-align: center;
 }
 

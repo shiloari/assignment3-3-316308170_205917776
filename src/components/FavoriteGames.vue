@@ -50,7 +50,9 @@ export default {
     async updateGames(){
       try {
         const response = await this.$root.server.get(
-          `users/favoriteMatches`,
+          `users/favoriteMatches`,{
+          withCredentials: true
+          }
         );
         this.games = response.data.slice(0,Math.min(this.size,response.data.length));
         this.no_favorites = false;
