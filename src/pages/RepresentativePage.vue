@@ -29,7 +29,7 @@
                         <EventBook :EventBook="data.item.EventBook" :key="data.item.EventBook"></EventBook>
                     </template>
                     <template #cell(Actions) = "data" >
-                        <ActionButtons :iData="data" :index="data.index+perPage" @update="UpdateMatch" @delete="deleteMatch"></ActionButtons>
+                        <ActionButtons :iData="data" :key="data.index" @update="UpdateMatch" @delete="deleteMatch"></ActionButtons>
                     </template>
                 </b-table>
                 <div class="paginiation">
@@ -173,9 +173,12 @@ export default {
             let data = iData.data;
             let value = iData.value;
             let event_selected = iData.event_selected;
+            console.log(data);
+            console.log(this.items);
+            debugger;
             try{
-                let score = this.items[data.index].Score;
-                let eventBook = this.items[data.index].EventBook;
+                let score = data.item.Score;
+                let eventBook = data.item.EventBook;
                 let event;
                 if(value == 'Score'){
                     let s_1 = document.getElementById(`Score-input1_${data.index}`);
@@ -188,15 +191,13 @@ export default {
                     event = (eventBook)? eventBook:'';
                     }
                 else{
-                    let date = document.getElementById(`Date-input_${data.index}`);
-                    let hour = document.getElementById(`Hour-input_${data.index}`);
                     let text = document.getElementById(`Text-input_${data.index}`);
                     let minutes = document.getElementById(`Minutes-input_${data.index}`);
-                    if(!(date.value && hour.value && text.value && minutes.value)){
-                        this.$root.toast("Empty date/hour/minutes/text", "Need to select date/hour/minutes/text !", "danger");return;}
+                    if(!(text.value && minutes.value)){
+                        this.$root.toast("Empty minutes/text", "Need to select minutes/text !", "danger");return;}
                     if(!letter(text)){
                         this.$root.toast("Name", "Name doesnt contains only characters", "danger");return;}
-                    event = date.value +' '+ hour.value +' '+ minutes.value +' '+ event_selected +' ' +text.value ;
+                    event = data.item.Match_Date +' '+ data.item.Hour +' '+ minutes.value +' '+ event_selected +' ' +text.value ;
                     score = (score)? score: '';
                     event = (eventBook)? eventBook.concat(`,${event}`) : event;
                 }
