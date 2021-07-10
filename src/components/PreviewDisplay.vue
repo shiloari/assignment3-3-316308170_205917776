@@ -109,6 +109,8 @@ export default {
                 this.small_photo_path = player_preview.photo_path;
                 this.secondary_name = player_preview.team_name;
                 this.background_photo_path = player_preview.team_photo;
+                if (player_preview.position == null)
+                    player_preview.position = 'Not Available'
                 this.description = `Position: ${player_preview.position}`;
                 this.page_type = "players";
             }

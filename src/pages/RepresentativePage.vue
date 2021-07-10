@@ -1,5 +1,9 @@
 <template>
-    <div id="main_page_rep">
+    <div>
+    <div v-if="!(this.$session.exists() && isValidUser()) " class="container">
+        <InvalidAccess/>        
+    </div>
+    <div v-else id="main_page_rep">
         <div v-if="!this.finished" class="d-flex justify-content-center" style="margin-top: 15%;">
             <div id="waiting" class="spinner-border text-dark" style="width: 5rem; height: 5rem;" role="status">
                 <span class="sr-only">Loading...</span>
@@ -34,18 +38,21 @@
             </div>
         </div>
     </div>
+    </div>
 </template>
 <script>
 import EventBook from  "../components/EventBook.vue"
 import AddMatch from  "../components/AddMatch.vue"
 import ActionButtons from  "../components/ActionButtons.vue"
+import InvalidAccess from "../components/InvalidAccess.vue"
 const letter = (p) => /[a-zA-Z ]/i.test(p)
 export default {
     name:"RepresentativePage",
     components:{
         EventBook,
         AddMatch,
-        ActionButtons
+        ActionButtons,
+        InvalidAccess
     },
      data() {
         return {
@@ -102,6 +109,10 @@ export default {
         })
     },
     methods: {  
+        isValidUser(){
+            const role = localStorage.getItem('role');
+            return role == 'Representative'    
+        },
         async deleteMatch(iData) {
             let data = iData;
             try{

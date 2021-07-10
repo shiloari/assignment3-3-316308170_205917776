@@ -1,5 +1,9 @@
 <template>
-    <div class="main_fav_container">
+    <div>
+    <div v-if="!this.$session.exists()" class="container">
+        <InvalidAccess/>
+    </div>
+    <div v-else class="main_fav_container">
         <div v-if="this.current_category==undefined" class="d-flex justify-content-center" style="margin-top: 15%;">
             <div id="waiting" class="spinner-border text-dark" style="width: 5rem; height: 5rem;" role="status">
                 <span class="sr-only">Loading...</span>
@@ -118,15 +122,18 @@
             </div>
         </div>
     </div>
+    </div>
 </template>
 <script>
 import GamePreview from "../components/GamePreview.vue"
 import PreviewDisplay from "../components/PreviewDisplay.vue"
+import InvalidAccess from "../components/InvalidAccess.vue"
 export default {
     name: "FavoritesPage",
     components:{
         GamePreview,
-        PreviewDisplay
+        PreviewDisplay,
+        InvalidAccess
     },
     data(){
         return{

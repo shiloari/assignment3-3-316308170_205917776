@@ -1,6 +1,12 @@
 <template>
-  <div class="container">
-    <h1>Four Oh Four you didn't</h1>
-    <router-link to="/" exact>ET Go Home</router-link>
-  </div>
+  <InvalidAccess/>
 </template>
+<script>
+import InvalidAccess from "../components/InvalidAccess.vue"
+export default {
+  name: "NotFoundPage",
+  components:{
+    InvalidAccess
+  }
+}
+</script>

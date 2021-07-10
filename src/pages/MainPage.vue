@@ -6,7 +6,7 @@
       </div>
     </div>
     <div v-show="this.is_loaded" >
-      <LoginPage id="login" v-if="!this.$session.exists()"></LoginPage>
+      <Login id="login" v-if="!this.$session.exists()"></Login>
       <div v-else id="favorites">
           <h1 id="header">Your favorite matches</h1>
           <transition name="fade">
@@ -23,9 +23,9 @@
 </template>
 
 <script>
-import LeagueInfo from "../components/LeagueInfo";
-import FavoriteGames from "../components/FavoriteGames";
-import LoginPage from "../pages/LoginPage";
+import LeagueInfo from "../components/LeagueInfo.vue";
+import FavoriteGames from "../components/FavoriteGames.vue";
+import Login from "../components/Login.vue";
 import PreviewDisplay from "../components/PreviewDisplay"
 export default {
   data(){
@@ -45,7 +45,7 @@ export default {
   },
   components: {
     LeagueInfo, 
-    LoginPage, 
+    Login, 
     FavoriteGames
     // PreviewDisplay
   }
