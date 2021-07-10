@@ -3,44 +3,56 @@
     <!-- <div :title="Match_ID" class="game-title"></div> -->
     <!-- {{ this.is_loaded }} -->
     <div id="teams">
-    <div v-bind:class="favorite_state" v-show="this.$session.exists()" id="star" @click="check_star" @mouseleave="disable_favorite">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-star star"  viewBox="0 0 16 16">
-            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
-        </svg>
-    </div>
-    <div id="team_display">
-      <div id="team_logo"><img v-bind:src= "home_team_logo"></div>
-      <h5>{{ this.home_team_name }}</h5>
-    </div>
-    <div id = "vs">
-      <p><b> vs.</b> </p>
-    </div>
-    <div id="team_display">
-      <div id="team_logo"><img v-bind:src= "away_team_logo"></div>
-      <h5>{{ this.away_team_name }}</h5>
-    </div>
-    </div>
-    <div id="game_details">
-      <div id = "game_date">
-        <p><b> {{ Match_Date }}</b></p>
-        <p> {{ Hour }}</p>
+      <div v-bind:class="favorite_state" v-show="this.$session.exists() && this.Score == undefined" id="star" @click="check_star" @mouseleave="disable_favorite">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-star star"  viewBox="0 0 16 16">
+              <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+          </svg>
       </div>
-      <div id = "stadium">
-        <p><b> {{ Stadium }}</b></p>
+      <div id="team_display">
+        <div id="team_logo"><img v-bind:src= "home_team_logo"></div>
+        <h5>{{ this.home_team_name }}</h5>
       </div>
-      <div id = "stage">
-        <p> {{ this.stage_name }}</p>
+      <div id = "vs">
+        <p><b> vs.</b> </p>
       </div>
-      <!-- <li> Score: {{ Score }}</li>
-      <li> Events: {{ EventBook }}</li> -->
+      <div id="team_display">
+        <div id="team_logo"><img v-bind:src= "away_team_logo"></div>
+        <h5>{{ this.away_team_name }}</h5>
+      </div>
     </div>
+    <div class="bottom_content">
+      <div class="score">
+          <p style="text-align:right;"><b>{{ this.home_team_score }}</b></p>
+      </div>
+      <div id="game_details">
+        <div id = "game_date">
+          <p><b> {{ Match_Date }}</b></p>
+          <p> {{ Hour }}</p>
+        </div>
+        <div id = "stadium">
+          <p><b> {{ Stadium }}</b></p>
+        </div>
+        <div id = "stage">
+          <p> {{ this.stage_name }}</p>
+        </div>
+        <!-- <li> Score: {{ Score }}</li>
+        <li> Events: {{ EventBook }}</li> -->
+      </div>
+      <div class="score" >
+        <p><b>{{ this.away_team_score }}</b></p>
+      </div>
+    </div>
+    <EventBook v-if="this.Score != undefined" :EventBook="this.EventBook"> </EventBook>
   </div>
 </template>
 
 <script>
-
+import EventBook from "./EventBook.vue"
 export default {
   name: "GamePreview",
+  components:{
+    EventBook
+  },
   props: {
       Match_ID: {
         type: Number,
@@ -85,10 +97,30 @@ export default {
       away_team_logo : undefined,
       stage_name: undefined,
       is_loaded : undefined,
-      favorite_state: undefined
+      favorite_state: undefined,
+      home_team_score: undefined,
+      away_team_score: undefined,
+      splited_event_book: []
     }
   },
   methods:{
+        // set_event_book(){
+        //   if (this.EventBook!=undefined){
+        //     let splited = this.EventBook.split(',')
+        //     if (splited[0] != ""){
+        //       for (let i = 0; i< splited.length;i++){
+        //         this.splited_event_book.push(splited[i])
+        //       }
+        //     }
+        //   }
+        // },
+        set_score(){
+          if (this.Score!=undefined){
+            let splited = this.Score.split(':');
+            this.home_team_score = splited[0];
+            this.away_team_score = splited[1];
+          }
+        },
         disable_favorite(){
             this.hover_favorite = false;
         },
@@ -167,6 +199,8 @@ export default {
       }
   },
   mounted(){
+    this.set_score();
+    // this.set_event_book();
      this.set_favorite_status();  
      this.set_display().then(()=>{
        this.is_loaded = true
@@ -295,7 +329,7 @@ margin-bottom: -2px;
 
 .frosted_glass {
     width:25rem;
-    height: 11rem;
+    height: 13rem;
     box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2); 
     border-radius: 5px;
     position: relative;
@@ -322,6 +356,34 @@ margin-bottom: -2px;
 
 #game_details p{
   color: black;
+}
+
+.bottom_content{
+  display: flex;
+  margin-top: 10px;
+}
+
+.score{
+  /* border: solid 2px blue; */
+  width: 80px;
+  /* padding-inline: 40px; */
+  margin-top: -10px;
+  /* margin-inline: 0px;  */
+}
+
+.score p{
+  font-size: 40px;
+}
+
+.event_book{
+    text-align: left;
+    display: inline-block;
+    margin: 0;
+    padding: 4px 4px 4px 4px;
+    list-style: none;
+    position:absolute;
+    bottom:0;
+    /* z-index: 1000; */
 }
 
 

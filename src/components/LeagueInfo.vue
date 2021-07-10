@@ -116,7 +116,7 @@ export default {
   margin: 0 auto;
   display: block;
   text-align: center;
-  margin-block: 5px;
+  margin-bottom: 10px;
 }
 
 .league_info{  
@@ -155,6 +155,7 @@ export default {
 }
 
 #upcoming_game{
+    margin-top: -10px;
     margin-bottom: 15%;
 }
 

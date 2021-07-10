@@ -20,11 +20,12 @@
             </div>
             <div class="coach_section">
                 <h1> Team's Coach </h1>
-                <PreviewDisplay class="coach_display"
+                <PreviewDisplay class="coach_display" v-if="this.coach!=undefined"
                     :Display_ID="parseInt(this.coach.id)" 
                     :type="'coaches'"
                 >
                 </PreviewDisplay>
+                <h3 v-else style="text-align:center; margin-top:30px;">Team has no coach</h3>
             </div>
         </div>
         <div class="middle_content">
@@ -105,15 +106,15 @@
                     </b-button-toolbar>
                 </div>
             </div>
-            <h1>Team's Matches</h1>
+            <h1>Team's Upcoming Matches</h1>
             <div v-if="this.matches.length > 0">
                 <div class="matches_section">
                     <b-container fluid="sm" >
-                        <div class="row_container2">
+                        <!-- <div class="row_container2"> -->
                             <b-row class="row_container3">
                                 <b-col  v-if="current_match < matches.length" :key="this.current_match" class="game_col">
                                 <div class="game_preview_team_page">
-                                    <GamePreview class="favorite_game" id="favorite"
+                                    <GamePreview class="favorite_game" 
                                         :Match_ID="matches[current_match]['Match_ID']" 
                                         :Home_Team_ID="matches[current_match]['Home_Team_ID']" 
                                         :Away_Team_ID="matches[current_match]['Away_Team_ID']" 
@@ -129,7 +130,7 @@
                                 </b-col>
                                 <b-col  v-if="current_match + 1 <matches.length" :key="this.current_match" class="game_col">
                                    <div class="game_preview_team_page">
-                                    <GamePreview class="favorite_game" id="favorite"
+                                    <GamePreview class="favorite_game"
                                         :Match_ID="matches[current_match+1]['Match_ID']" 
                                         :Home_Team_ID="matches[current_match+1]['Home_Team_ID']" 
                                         :Away_Team_ID="matches[current_match+1]['Away_Team_ID']" 
@@ -145,7 +146,7 @@
                                 </b-col>
                                 
                             </b-row>
-                        </div>
+                        <!-- </div> -->
                     </b-container>
                 </div>
                 <div class="nav_button">
@@ -162,6 +163,64 @@
             <div v-else style="margin-bottom: 100px; text-align:center;">
                 <h4 style="margin-top: 20px;">No Avaiable Matches</h4>
             </div>
+
+            <h1>Team's Previous Matches</h1>
+            <div v-if="this.previous_matches.length > 0">
+                <div class="matches_section">
+                    <b-container fluid="sm" >
+                        <!-- <div class="row_container2"> -->
+                            <b-row class="row_container3">
+                                <b-col  v-if="current_prev_match < previous_matches.length" :key="this.current_prev_match" class="game_col">
+                                <div class="game_preview_team_page">
+                                    <GamePreview class="favorite_game" 
+                                        :Match_ID="previous_matches[current_prev_match]['Match_ID']" 
+                                        :Home_Team_ID="previous_matches[current_prev_match]['Home_Team_ID']" 
+                                        :Away_Team_ID="previous_matches[current_prev_match]['Away_Team_ID']" 
+                                        :Match_Date="previous_matches[current_prev_match]['Match_Date']" 
+                                        :Hour="previous_matches[current_prev_match]['Hour']" 
+                                        :Stadium="previous_matches[current_prev_match]['Stadium']"
+                                        :Stage="previous_matches[current_prev_match]['Stage']"
+                                        :Score="previous_matches[current_prev_match]['Score']"
+                                        :EventBook="previous_matches[current_prev_match]['EventBook']"
+                                        >
+                                    </GamePreview>
+                                </div>
+                                </b-col>
+                                <b-col  v-if="current_prev_match+1 < previous_matches.length" :key="this.current_prev_match" class="game_col">
+                                <div class="game_preview_team_page">
+                                    <GamePreview class="favorite_game" 
+                                        :Match_ID="previous_matches[current_prev_match+1]['Match_ID']" 
+                                        :Home_Team_ID="previous_matches[current_prev_match+1]['Home_Team_ID']" 
+                                        :Away_Team_ID="previous_matches[current_prev_match+1]['Away_Team_ID']" 
+                                        :Match_Date="previous_matches[current_prev_match+1]['Match_Date']" 
+                                        :Hour="previous_matches[current_prev_match+1]['Hour']" 
+                                        :Stadium="previous_matches[current_prev_match+1]['Stadium']"
+                                        :Stage="previous_matches[current_prev_match+1]['Stage']"
+                                        :Score="previous_matches[current_prev_match+1]['Score']"
+                                        :EventBook="previous_matches[current_prev_match+1]['EventBook']"
+                                        >
+                                    </GamePreview>
+                                </div>
+                                </b-col>
+                            </b-row>
+                        <!-- </div> -->
+                    </b-container>
+                </div>
+                <div class="nav_button">
+                    <b-button-toolbar key-nav aria-label="Toolbar with button groups">
+                        <b-button-group class="mx-1">
+                        <b-button @click="decrementDisplayPreviousMatches">&lsaquo;</b-button>
+                        </b-button-group>
+                        <b-button-group class="mx-1">
+                        <b-button @click="incrementDisplayPreviousMatches">&rsaquo;</b-button>
+                        </b-button-group>
+                    </b-button-toolbar>
+                </div>
+            </div>
+            <div v-else style="margin-bottom: 100px; text-align:center;">
+                <h4 style="margin-top: 20px;">No Avaiable Matches</h4>
+            </div>
+
         </div>    
     </div>
 </div>
@@ -182,9 +241,11 @@ export default {
             players: [],
             coach: undefined,
             matches: [],
+            previous_matches: [],
             is_loaded : false,
             current_player: 0,
             current_match: 0,
+            current_prev_match: 0,
             ready_components: 0,
             favorite_state: undefined
         }
@@ -247,6 +308,14 @@ export default {
         incrementDisplay(){
             if (this.current_player + 8 < this.players.length)
                 this.current_player = this.current_player + 8;
+        },
+        decrementDisplayPreviousMatches(){
+            if (this.current_prev_match - 2 >= 0)
+                this.current_prev_match = this.current_prev_match - 2;
+        },
+        incrementDisplayPreviousMatches(){
+            if (this.current_prev_match + 2 < this.previous_matches.length)
+                this.current_prev_match = this.current_prev_match + 2;
         },  
         decrementDisplayMatches(){
             if (this.current_match - 2 >= 0)
@@ -269,10 +338,11 @@ export default {
             this.stadium = team_full_data.stadium;
         },
         async getTeamMatches(){
-            const matches = (await this.$root.server.get(
+            const all_matches = (await this.$root.server.get(
                 `teams/${this.$route.params.id}/matches`
             )).data
-            this.matches = matches;
+            this.matches = all_matches.filter(match => match.Score == null);
+            this.previous_matches = all_matches.filter(match => match.Score != null);
         }
     },
     components:{
@@ -446,7 +516,7 @@ export default {
 }
 
 .favorite_game{
-    /* border: solid 2px red; */
+    /* border: solid 2px purple; */
     margin-inline: auto;
 }
 
@@ -575,6 +645,7 @@ export default {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+    /* width: max-content; */
 }
 
 .game_preview_team_page{
