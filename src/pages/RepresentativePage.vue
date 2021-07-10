@@ -193,8 +193,10 @@ export default {
                     let minutes = document.getElementById(`Minutes-input_${data.index}`);
                     if(!(text.value && minutes.value)){
                         this.$root.toast("Empty minutes/text", "Need to select minutes/text !", "danger");return;}
-                    if(!letter(text)){
+                    if(!letter(text.value)){
                         this.$root.toast("Name", "Name doesnt contains only characters", "danger");return;}
+                    if(!(validNumber(minutes.value)&& minutes.value>0 && minutes.value<=90)){
+                        this.$root.toast("asd", "asdsa", "danger");return;}
                     event = data.item.Match_Date +' '+ data.item.Hour +' '+ minutes.value +' '+ event_selected +' ' +text.value ;
                     score = (score)? score: '';
                     event = (eventBook)? eventBook.concat(`,${event}`) : event;

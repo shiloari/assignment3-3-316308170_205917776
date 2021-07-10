@@ -82,6 +82,8 @@
 </template>
 
 <script>
+const letter = (p) => /[a-zA-Z ]/i.test(p)
+const validNumber = (p) => /[0-9]/i.test(p)
 export default {
     name: "AddMatch",
     data(){
@@ -109,12 +111,20 @@ export default {
     },
     methods:{
         UpdateMatch(value) {
+            debugger;
             let send_event = this.event_selected;
             if(value == 'Score'){
                 let all_events = '';
                 for(let i=1;i<4;i++){
+                    debugger;
                     let text = document.getElementById(`${i}Text-input_${this.iData.index}`);
                     let minutes = document.getElementById(`${i}Minutes-input_${this.iData.index}`);
+                    if(!(text.value && minutes.value)){
+                        this.$root.toast("Empty minutes/text", "Need to select minutes/text !", "danger");return;}
+                    if(!letter(text.value)){
+                        this.$root.toast("Name", "Name doesnt contains only characters", "danger");return;}
+                    if(!(validNumber(minutes.value)&& minutes.value>0 && minutes.value<=90)){
+                        this.$root.toast("asd", "asdsa", "danger");return;}
                     let event = (i==1)?this.e_1:(i==2)?this.e_2:this.e_3;
                     let add_event = this.iData.item.Match_Date +' '+ this.iData.item.Hour +' '+ minutes.value +' '+ event +' ' +text.value + ((i<3)?',':'');
                     all_events = all_events.concat(add_event)
