@@ -269,7 +269,8 @@ export default {
                 let response = await this.$root.server.put(`matches/`, {
                         score : `${score}`,
                         event_book : `${event}`,
-                        match_id : `${data.item.Match_ID}`
+                        match_id : `${data.item.Match_ID}`,
+                        finished : (value == 'Score')?true:false
                     },{
                         withCredentials: true
                 })
