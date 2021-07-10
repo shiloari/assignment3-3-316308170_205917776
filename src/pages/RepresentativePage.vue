@@ -23,52 +23,10 @@
                     </template>
                     <template #cell(EventBook) = "data" >
                         <EventBook :EventBook="data.item.EventBook"></EventBook>
+                        {{data.item.EventBook}}
                     </template>
                     <template #cell(Actions) = "data" >
-                        <b-button :id="'aB_'+ data.index" v-b-modal.modal-prevent="'modal-Score_'+ data.index" style="background:none;border:none;" v-show="!data.item.Score">
-                            <b-icon :id="'add_' + data.index" icon="file-plus" aria-hidden="true" style="color:green;"></b-icon>
-                        </b-button>
-                        <b-modal ok-only ok-title="add" :id="'modal-Score_'+ data.index" ref="modal3" title="Add Score"
-                         @ok="UpdateMatch(data,'Score')">
-                            <form ref="form" @submit.stop.prevent="handleSubmit">
-                                 <b-form-group label="Score" label-for="Score-input" invalid-feedback="Score is required">
-                                <div style="display:flex">
-                                <b-form-input :id="'Score-input1_' + data.index" type="number" min="0" max="50" size="sm" 
-                                style="width:60px;"></b-form-input>
-                                -:-
-                                <b-form-input :id="'Score-input2_' + data.index" type="number" min="0" max="50" size="sm"
-                                style="width:60px;"></b-form-input>
-                                </div>
-                            </b-form-group>
-                            </form>
-                        </b-modal>
-                        <b-button :id="'eB_'+ data.index" v-b-modal.modal-prevent="'modal-prevent_'+ data.index" style="background:none;border:none;">
-                            <b-icon :id="'e_' + data.index" icon="pencil" aria-hidden="true" style="color:orange;"></b-icon>
-                        </b-button>
-                        <b-modal ok-only ok-title="Ok" :id="'modal-prevent_'+ data.index" ref="modal2" title="Edit Event"
-                         @ok="UpdateMatch(data)">
-                            <form ref="form" @submit.stop.prevent="handleSubmit">
-                            <b-form-group label="Date" label-for="Date-input" invalid-feedback="Date is required">
-                                <b-form-input :id="'Date-input_' + data.index" type="date" required></b-form-input>
-                            </b-form-group>
-                            <b-form-group label="Hour" label-for="Hour-input" invalid-feedback="Hour is required">
-                                <b-form-input :id="'Hour-input_'+ data.index" type="time" required></b-form-input>
-                            </b-form-group>
-                            <b-form-group label="Minutes" label-for="Minutes-input" invalid-feedback="Minutes is required">
-                                <b-form-input :id="'Minutes-input_'+ data.index" type="number" min="0" max="200" required></b-form-input>
-                            </b-form-group>
-                            <b-form-group label="Event" label-for="Event-input" invalid-feedback="Event is required">
-                                <b-form-select v-model="event_selected" :options="event_options" value-field="item" text-field="item" class="mt-3">
-                                </b-form-select>
-                            </b-form-group>
-                            <b-form-group label="Text" label-for="Text-input" invalid-feedback="Text is required">
-                                <b-form-input :id="'Text-input_'+ data.index" type="text" required></b-form-input>
-                            </b-form-group>
-                            </form>
-                        </b-modal>
-                        <button type="button" class="btn btn-primary" style="background:none;border:none;" @click="deleteMatch(data)" >
-                            <b-icon v-bind:id="'x_' + data.index" icon="x-circle" aria-hidden="true" style="background:none;fill:red;" ></b-icon>
-                        </button>
+                        <ActionButtons :iData="data" :index="data.index+perPage" @update="UpdateMatch" @delete="deleteMatch"></ActionButtons>
                     </template>
                 </b-table>
                 <div class="paginiation">
@@ -81,11 +39,14 @@
 <script>
 import EventBook from  "../components/EventBook.vue"
 import AddMatch from  "../components/AddMatch.vue"
+import ActionButtons from  "../components/ActionButtons.vue"
+const letter = (p) => /[a-zA-Z ]/i.test(p)
 export default {
     name:"RepresentativePage",
     components:{
         EventBook,
-        AddMatch
+        AddMatch,
+        ActionButtons
     },
      data() {
         return {
@@ -115,19 +76,7 @@ export default {
         currentPage: 1,
         perPage: 4,
         totalItems: 0,
-        finished: false,
-        hover_favorite: false,
-        favorite_state: undefined,
-        event_selected: "Goal",
-        event_options: [
-            { item: "Goal" },
-            { item: "Offside"},
-            { item: "Foul"},
-            { item: "Red Card"},
-            { item: "Yellow Card"},
-            { item: "Injury "},
-            { item: "Substitute"}
-            ],
+        finished: false
         }},
     watch:{
          items: function(){
@@ -154,7 +103,8 @@ export default {
         })
     },
     methods: {  
-        async deleteMatch(data) {
+        async deleteMatch(iData) {
+            let data = iData;
             try{
                 let response = await this.$root.server.delete(`matches/${data.item.Match_ID}`,{
                             withCredentials: true
@@ -189,13 +139,6 @@ export default {
                 this.$root.toast("Empty date/hour", "Need to select date/hour !", "danger");
                 return false;
                 }
-            // let d = new Date();
-            // let toDay_date =`${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
-            // debugger;
-            // if(!(this.date >= toDay_date)){
-            //     this.$root.toast("Empty date", "Need to select valid date !", "danger");
-            //     return false
-            // }
             return true;
         },
         async addNewMatch(data){
@@ -217,7 +160,11 @@ export default {
                 console.log(error);
             }
         },
-        async UpdateMatch(data,value) {
+        async UpdateMatch(iData) {
+            let data = iData.data;
+            let value = iData.value;
+            let event_selected = iData.event_selected;
+            console.log(iData);
             try{
                 let score = this.items[data.index].Score;
                 let eventBook = this.items[data.index].EventBook;
@@ -239,7 +186,9 @@ export default {
                     let minutes = document.getElementById(`Minutes-input_${data.index}`);
                     if(!(date.value && hour.value && text.value && minutes.value)){
                         this.$root.toast("Empty date/hour/minutes/text", "Need to select date/hour/minutes/text !", "danger");return;}
-                    event = date.value +' '+ hour.value +' '+ minutes.value +' '+ this.event_selected +' ' +text.value ;
+                    if(!letter(text)){
+                        this.$root.toast("Name", "Name doesnt contains only characters", "danger");return;}
+                    event = date.value +' '+ hour.value +' '+ minutes.value +' '+ event_selected +' ' +text.value ;
                     score = (score)? score: '';
                     event = (eventBook)? eventBook.concat(`,${event}`) : event;
                 }
@@ -251,15 +200,12 @@ export default {
                     },{
                         withCredentials: true
                 })
-                this.$router.go(0);
-                // this.items[data.index].Score = score
-                // this.items[data.index].EventBook = event;
+               this.$router.go(0);
             }
             catch(err){
                 console.log(err);
                 this.$root.toast("Not logged", "admin need to login for changeing Match!", "danger");
             }
-            // this.$refs.dropdown.hide(true)
         },
         async fetchData() {
         this.items = await this.$root.server.get(`matches/`, {
