@@ -8,28 +8,7 @@
         <div class="standings">
             <div id="table1" v-show="this.non_match || (this.finished && this.items && this.totalItems == this.items.length )">
                 <h1>Fixtures</h1>
-                <b-button v-b-modal.modal-prevent-closing  style="background:#1B87EE;border:none;margin-bottom: 10px;" ><b style="color:#fafafa">Create New Match</b></b-button>
-                <b-modal ok-only ok-title="Add" id="modal-prevent-closing" ref="modal" title="Create New Match" @ok="addNewMatch">
-                <form ref="form" @submit.stop.prevent="handleSubmit">
-                    <b-form-group label="Home team Name" label-for="Home-team-Name-input" invalid-feedback="Home team Name is required">
-                        <b-form-select v-model="home_selected" :options="home_options" value-field="item" text-field="name" class="mt-3"
-                        ></b-form-select>
-                    </b-form-group>
-                    <b-form-group label="Away team Name" label-for="Away-team-Name-input" invalid-feedback="Away-team-Name is required">
-                        <b-form-select v-model="away_selected" :options="away_options" value-field="item" text-field="name" class="mt-3">
-                        </b-form-select>
-                    </b-form-group>
-                        <b-form-group label="Date" label-for="Date-input" invalid-feedback="Date is required">
-                        <b-form-input id="Date-input" type="date" v-model="date" required></b-form-input>
-                    </b-form-group>
-                    <b-form-group label="Hour" label-for="Hour-input" invalid-feedback="Hour is required">
-                    <b-form-input id="Hour-input" type="time" v-model="hour" required></b-form-input>
-                    </b-form-group>
-                    <b-form-group label="Stadium" label-for="Stadium-input" invalid-feedback="Stadium is required">
-                        <b-form-select v-model="stadium_selected" :options="stadium_options" value-field="name" text-field="name" class="mt-3"></b-form-select>
-                    </b-form-group>
-                </form>
-                </b-modal>
+                <AddMatch @clicked="addNewMatch"></AddMatch>
                 <b-table ref="table" hover head-variant="dark" show-empty :items="items" :fields="fields" :current-page="currentPage" :per-page="perPage" style="background-color:#fafafa">
                     <template #cell(Home_Team_name)="data">
                         <a :href="'/#/teams/'+ teleportToTeam(data.value)">{{ data.value }}</a>
@@ -101,10 +80,12 @@
 </template>
 <script>
 import EventBook from  "../components/EventBook.vue"
+import AddMatch from  "../components/AddMatch.vue"
 export default {
     name:"RepresentativePage",
     components:{
-        EventBook
+        EventBook,
+        AddMatch
     },
      data() {
         return {
@@ -137,14 +118,6 @@ export default {
         finished: false,
         hover_favorite: false,
         favorite_state: undefined,
-        home_selected: '',
-        home_options:[],
-        away_selected: '',
-        away_options:[],
-        stadium_selected: '',
-        stadium_options:[],
-        date:undefined,
-        hour:undefined,
         event_selected: "Goal",
         event_options: [
             { item: "Goal" },
@@ -179,28 +152,8 @@ export default {
         this.fetchData().catch(error => {
         console.error(error)
         })
-        this.getTeamsAndStaduims();
     },
-    methods: {
-        getTeamsAndStaduims(){
-            let all_teams = JSON.parse(localStorage.getItem("all_teams"));
-            this.home_selected = all_teams[0].id;
-            this.away_selected = all_teams[0].id;
-            this.stadium_selected = all_teams[0].stadium;
-            all_teams.map( team => {
-                this.home_options.push({
-                    item : team.id,
-                    name : team.name
-                })
-                this.away_options.push({
-                    item : team.id,
-                    name : team.name
-                })
-                this.stadium_options.push({
-                    name : team.stadium
-                })
-            })
-        },     
+    methods: {  
         async deleteMatch(data) {
             try{
                 let response = await this.$root.server.delete(`matches/${data.item.Match_ID}`,{
@@ -227,12 +180,12 @@ export default {
                     return match.Away_Team_ID
                 }
         },
-        validation(){
-            if(this.home_selected == this.away_selected){
+        validationNewMatch(data){
+            if(data.home_selected == data.away_selected){
                 this.$root.toast("Same team selected", "Same team selected !", "danger");
                 return false;
                 }
-            if(!(this.date && this.hour)){
+            if(!(data.date && data.hour)){
                 this.$root.toast("Empty date/hour", "Need to select date/hour !", "danger");
                 return false;
                 }
@@ -245,16 +198,16 @@ export default {
             // }
             return true;
         },
-        async addNewMatch(){
-           if(!this.validation())
+        async addNewMatch(data){
+            if(!this.validationNewMatch(data))
                 return;
             try {
                 let response = await this.$root.server.post(`matches/`, {
-                        home_team_id : `${this.home_selected}`,
-                        away_team_id : `${this.away_selected}`,
-                        stadium : `${this.stadium_selected}`,
-                        date : `${this.date}`,
-                        hour : `${this.hour}`
+                        home_team_id : `${data.home_selected}`,
+                        away_team_id : `${data.away_selected}`,
+                        stadium : `${data.stadium_selected}`,
+                        date : `${data.date}`,
+                        hour : `${data.hour}`
                     },{
                         withCredentials: true
                 })  
@@ -285,9 +238,7 @@ export default {
                     let text = document.getElementById(`Text-input_${data.index}`);
                     let minutes = document.getElementById(`Minutes-input_${data.index}`);
                     if(!(date.value && hour.value && text.value && minutes.value)){
-                        this.$root.toast("Empty date/hour/minutes/text", "Need to select date/hour/minutes/text !", "danger");
-                        return
-                        }
+                        this.$root.toast("Empty date/hour/minutes/text", "Need to select date/hour/minutes/text !", "danger");return;}
                     event = date.value +' '+ hour.value +' '+ minutes.value +' '+ this.event_selected +' ' +text.value ;
                     score = (score)? score: '';
                     event = (eventBook)? eventBook.concat(`,${event}`) : event;
