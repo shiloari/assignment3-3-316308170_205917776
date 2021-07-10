@@ -45,7 +45,7 @@
                     </b-form-group>
                 </b-form-group>
                 <b-form-group>
-                    <h5><b>Event 1</b></h5>
+                    <h5><b>Event 3</b></h5>
                     <b-form-group label="Minute" label-for="Minutes-input" invalid-feedback="Minutes is required">
                         <b-form-input :id="'3Minutes-input_'+ this.iData.index" type="number" min="1" max="90" required
                         style="width=40px"></b-form-input>
@@ -89,7 +89,7 @@
 const letter = (p) => /[a-zA-Z ]/i.test(p)
 const validNumber = (p) => /[0-9]/i.test(p)
 export default {
-    name: "AddMatch",
+    name: "ActionButton",
     data(){
         return{
             e_1:"Goal",
@@ -110,7 +110,7 @@ export default {
     props :{
         iData :{
             type: Object,
-            require
+            required: true
         }
     },
     methods:{
@@ -144,9 +144,6 @@ export default {
         deleteMatch() {
             this.$emit('delete',this.iData)
         }
-    },
+    }
 }
 </script>
-
-<style>
-</style>

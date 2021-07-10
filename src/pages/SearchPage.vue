@@ -96,7 +96,7 @@ export default {
         { item: 'team_id', name: "Team Name" ,notEnabled: false}],
       s_selected: [],
       s_options: [
-        { item: 'name', name: "Alpha",notEnabled: false },
+        { item: 'name', name: "AlphaBet Order",notEnabled: false },
         { item: 'team', name: "Team Name" ,notEnabled: true}],
       f_selected: '1',
       f_options : [

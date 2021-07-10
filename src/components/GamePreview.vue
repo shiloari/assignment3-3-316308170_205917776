@@ -8,9 +8,7 @@
       </div>
       <div id="team_display">
         <div class="team_logo" id="team_logo">
-          <router-link :event="click" :to=home_team_page_route >
-            <img v-bind:src= "home_team_logo">
-          </router-link>
+            <img v-bind:src= "home_team_logo" @click="move_to_page('home')">
         </div>
         <h5>{{ this.home_team_name }}</h5>
       </div>
@@ -18,11 +16,9 @@
         <p><b> vs.</b> </p>
       </div>
       <div id="team_display">
-        <router-link :event="click" :to=away_team_page_route >
           <div class="team_logo" id="team_logo">
-            <img v-bind:src= "away_team_logo">
+            <img v-bind:src= "away_team_logo" @click="move_to_page('away')">
           </div>
-        </router-link>
         <h5>{{ this.away_team_name }}</h5>
       </div>
     </div>
@@ -110,6 +106,16 @@ export default {
     }
   },
   methods:{
+        move_to_page(team){
+          if (team == "home"){
+            this.$router.push(this.home_team_page_route);
+            this.$router.go(0);
+          }
+          else{
+            this.$router.push(this.away_team_page_route);
+            this.$router.go(0);
+          }
+        },
         set_score(){
           if (this.Score!=undefined){
             let splited = this.Score.split(':');
