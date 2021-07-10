@@ -207,31 +207,37 @@ export default {
         },
         async fetchFavorites(){
             try{
-                
                 const players_response = (await this.$root.server.get(`users/favoritePlayers`, {
                     withCredentials: true
                 })).data
                 this.fav_players = players_response
+            }
+            catch(error){}
+            try{
                 const coaches_response = (await this.$root.server.get(`users/favoriteCoaches`, {
                     withCredentials: true
                 })).data
                 this.fav_coaches = coaches_response
+            }
+            catch(error){}
+            try{
                 const teams_response = (await this.$root.server.get(`users/favoriteTeams`, {
                     withCredentials: true
                 })).data;
                 this.fav_teams = teams_response
+            }
+            catch(error){}
+            try{
                 const matches_response = (await this.$root.server.get(`users/favoriteMatches`, {
                     withCredentials: true
                 })).data;
                 this.fav_matches = matches_response
                 this.current_favorites = this.fav_players
-                this.current_category = "players"
-                this.re_render++;
             }
-            catch(error){
-                 this.current_category = "players"
+            catch(error){}
+            this.current_category = "players"
+            this.re_render++;
             }
-        }
     },
     created(){
       this.fetchFavorites();

@@ -122,12 +122,12 @@ export default {
                     })
                 let t_items = this.items;
                 this.items.splice(data.index,1)
-                this.$root.toast("Deleted Match", "Successfully deleted the match !", "success");
+                this.$root.toast("Deleted Match", "Successfully deleted the match!", "success");
                 this.$router.go(0);
             }
             catch(err){
                 console.log(err);
-                 this.$root.toast("Unauthorized", "Only Representative user allow to delete !", "danger");
+                 this.$root.toast("Unauthorized", "Only Representative user allowed to delete!", "danger");
             }
         },
         teleportToTeam(team_name){
@@ -142,11 +142,11 @@ export default {
         },
         validationNewMatch(data){
             if(data.home_selected == data.away_selected){
-                this.$root.toast("Same team selected", "Same team selected !", "danger");
+                this.$root.toast("Invalid Input", "Same team selected!", "danger");
                 return false;
                 }
             if(!(data.date && data.hour)){
-                this.$root.toast("Empty date/hour", "Need to select date/hour !", "danger");
+                this.$root.toast("Invalid Input", "Invalid date or hour provided!", "danger");
                 return false;
                 }
             return true;
@@ -182,7 +182,7 @@ export default {
                     let s_1 = document.getElementById(`Score-input1_${data.index}`);
                     let s_2 = document.getElementById(`Score-input2_${data.index}`);
                     if(!(s_2.value && s_1.value && Number.isInteger(s_2.value) && Number.isInteger(s_1.value))){
-                        this.$root.toast("Empty Score", "Need to select Score !", "danger");return;}
+                        this.$root.toast("Invalid Input", "Provided score is invalid!", "danger");return;}
                     
                     score = `${s_1.value}:${s_2.value}`
                     event = (eventBook)? eventBook+','+event_selected:event_selected;
@@ -191,11 +191,11 @@ export default {
                     let text = document.getElementById(`Text-input_${data.index}`);
                     let minutes = document.getElementById(`Minutes-input_${data.index}`);
                     if(!(text.value && minutes.value)){
-                        this.$root.toast("Empty minutes/text", "Need to select minutes/text !", "danger");return;}
+                        this.$root.toast("Invalid Input", "Empty input is not valid!", "danger");return;}
                     if(!letter(text.value)){
-                        this.$root.toast("Name", "Name doesnt contains only characters", "danger");return;}
+                        this.$root.toast("Invalid Input", "Provided player name should be alphabetic only!", "danger");return;}
                     if(!(validNumber(minutes.value)&& minutes.value>0 && minutes.value<=90)){
-                        this.$root.toast("asd", "asdsa", "danger");return;}
+                        this.$root.toast("Invalid Input", "Provided minute is not valid!", "danger");return;}
                     event = data.item.Match_Date +' '+ data.item.Hour +' '+ minutes.value +' '+ event_selected +' ' +text.value ;
                     score = (score)? score: '';
                     event = (eventBook)? eventBook.concat(`,${event}`) : event;
@@ -212,7 +212,7 @@ export default {
             }
             catch(err){
                 console.log(err);
-                this.$root.toast("Not logged", "admin need to login for changeing Match!", "danger");
+                this.$root.toast("Invalid Operation", "Only admin can edit in this page!", "danger");
             }
         },
         async fetchData() {
