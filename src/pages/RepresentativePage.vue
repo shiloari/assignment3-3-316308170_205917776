@@ -173,9 +173,6 @@ export default {
             let data = iData.data;
             let value = iData.value;
             let event_selected = iData.event_selected;
-            console.log(data);
-            console.log(this.items);
-            debugger;
             try{
                 let score = data.item.Score;
                 let eventBook = data.item.EventBook;
@@ -187,8 +184,9 @@ export default {
                         this.$root.toast("Empty Score", "Need to select Score !", "danger");
                         return
                         }
+                    
                     score = `${s_1.value}:${s_2.value}`
-                    event = (eventBook)? eventBook:'';
+                    event = (eventBook)? eventBook+','+event_selected:event_selected;
                     }
                 else{
                     let text = document.getElementById(`Text-input_${data.index}`);
