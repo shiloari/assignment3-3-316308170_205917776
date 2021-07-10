@@ -47,7 +47,6 @@ export default {
     LeagueInfo, 
     Login, 
     FavoriteGames
-    // PreviewDisplay
   }
 };
 </script>
@@ -57,7 +56,7 @@ export default {
   margin: 10px 0 10px;
 }
 .blur {
-  -webkit-filter: blur(5px); /* Safari 6.0 - 9.0 */
+  -webkit-filter: blur(5px); 
   filter: blur(2px);
 }
 ::v-deep .blur .recipe-preview {
@@ -68,8 +67,6 @@ export default {
 
 .main_page{
   overflow: scroll;
-  // position: relative;
-  // display:inline-flex;
   width: 100%;
   height: 100%;
 }
@@ -97,20 +94,16 @@ export default {
 .favorites{
   height: 110%;
   margin-left: 40px;
-  // margin-bottom: 50px;
 }
 
 
 
 #header{
-  // color: white;
   margin-left: 190px;
   margin-top: 20px;
-  // text-align: center;
   color: #2c3e50;
   box-shadow: inset 0 0 200px rgba(255, 255, 255, .5);
   width: max-content;
-  // margin: 0 auto;
   padding-inline: 15px;
   padding-block: 1px;
   border-radius: 5px;

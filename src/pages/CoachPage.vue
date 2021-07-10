@@ -68,7 +68,6 @@ export default {
     methods:{
         async getFullData(){
             const coach_full_data = this.$root.store.get_coach_full_data(this.$route.params.id);
-            // const coach_full_data = (await this.$root.server.get(`coaches/${this.$route.params.id}/full_data`)).data;
             this.name = coach_full_data.name;
             this.photo = coach_full_data.photo_path;
             this.team_name = coach_full_data.team_name;
@@ -95,7 +94,6 @@ export default {
 
 .main_container{
     background: rgba(5, 5, 5, 0.76);
-    /* border: solid 2px red; */
     width: 50vw;
     height: 85vh;
     backdrop-filter: blur(10px);
@@ -107,7 +105,6 @@ export default {
 }
 
 .top{
-  /* border: solid 2px red;   */
   display: flex;
   margin: 0 auto;
   border-bottom: double 5px white;
@@ -116,7 +113,6 @@ export default {
 }
 
 .coach{
-    /* border: solid 2px blue; */
     width: max-content;
     border-radius: 50%;
     
@@ -142,13 +138,11 @@ export default {
 }
 
 .bottom{
-    /* border: solid 2px blue; */
     display: flex; 
     flex-wrap: wrap;
 }
 
 .bottom_left{
-    /* border: solid 2px red; */
     flex: 0 0 50%;
     padding: 10px;
 
@@ -167,7 +161,6 @@ export default {
 }
 
 .team_name h3, .bottom_left h2, .bottom_left h4{
-    /* line-height: 40px; */
     text-align: center;
     color: white;
     margin-block: 5px;
@@ -175,7 +168,6 @@ export default {
 
 
 .bottom_right{
-    /* border: solid 2px pink; */
     flex: 0 0 50%;
     padding: 10px;
 }
@@ -183,7 +175,6 @@ export default {
 .personal_info{
     text-align: center;
     color: white;
-    /* margin-block: 5px; */
 }
 
 .personal_info p{
@@ -196,7 +187,6 @@ export default {
 .row_info{
     display: flex;
     justify-content: space-evenly;
-    /* border-bottom: dashed 2px rgba(255, 255, 255, 0.596); */
     margin-top:20px;
 }
 

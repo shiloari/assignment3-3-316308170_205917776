@@ -227,13 +227,9 @@ export default {
   overflow: scroll;
   height: 100%;
   backdrop-filter: blur(5px);
-  /* border: solid 2px blue; */
-  /* margin-left: 15px; */
 }
 
 h1{
-  /* text-align: center; */
-  /* margin-inline: auto; */
   color: white;
   margin-top: 20px;
 }
@@ -244,13 +240,10 @@ h1{
   text-align: center;
   display: flex;
   color: black;
-  /* border: solid 2px red; */
 }
 
 .search_const{
   width: max-content;
-  /* margin-top:50px; */
-  /* border: solid 2px red; */
 }
 
 .chose_type{
@@ -295,12 +288,10 @@ h1{
 .title h1{
   color: #2c3e50;
   text-align: center;
-  /* border: solid 2px red; */
 }
 
 .title{
   margin-inline: auto;
-  /* width: max-content; */
 }
 
 .fade-enter-active, .fade-leave-active {

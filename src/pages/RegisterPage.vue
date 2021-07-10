@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="reg_container">
   <div v-if="this.$session.exists()" class="container">
         <InvalidAccess/>
   </div>
@@ -352,22 +352,15 @@ export default {
 .frosted_glass_register {
     width:max-content;
     height: max-content;
-    // float: right;
     margin-right: 5%;
     box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2); 
     border-radius: 5px;
     position: relative;
     z-index: 1;
     background: inherit;
-    // border: solid 2px red;
-    // overflow: hidden;
     padding-block: 5px;
     margin-top: 10px;
-    // padding-bottom: 10px;
-    // margin-inline: auto;
     margin-bottom: 50px;
-    // padding-left: 80px;
-    // padding-right: 30px;
 }
 
 .frosted_glass_register:before {
@@ -384,42 +377,32 @@ export default {
     backdrop-filter: blur(10px);
 }
 
-.main_register_container{
+.reg_container{
   width: 100%;
   height: 100%;
+   backdrop-filter: blur(5px);
+  overflow: scroll;
+}
+
+.main_register_container{
   display: flex;
   justify-content: space-between;
-  backdrop-filter: blur(5px);
-  overflow: scroll;
-  // border: solid 60px red;
-  // position: absolute;
-  // margin-bottom: 100px;
 }
 
 .input_field{
   width:300px;
   height:40px;
-  // margin-left: px;
-  // display: flex;
-  // margin-inline: 40px;
 }
 
 .field_name {
-  // border: solid 2px red;
   width: 600px;
-  // display: flex;
-  // vertical-align: center;
-  // padding-inline: 30px;
-  // justify-content: space-around;
   margin-block: 10px;
 }
 
 .buttons{
   display: flex;
   margin-inline: auto;
-  // border: solid 2px red;
   width: max-content;
-  // justify-content: space-around;
 }
 
 .buttons *{
@@ -427,7 +410,6 @@ export default {
 }
 
 .left_side_text{
-  // border: solid 2px blue;
   height: max-content;
   width: 650px;
   margin-top: 10%;

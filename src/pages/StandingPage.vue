@@ -238,9 +238,7 @@ export default {
 }
 
 .star{
-    transition: all .3s ease-in-out;
-    /* margin: 5px; */
-    
+    transition: all .3s ease-in-out;    
 }
 
 .star:hover{

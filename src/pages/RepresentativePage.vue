@@ -1,9 +1,9 @@
 <template>
-    <div>
+    <div id="main_page_rep">
     <div v-if="!(this.$session.exists() && isValidUser()) " class="container">
         <InvalidAccess/>        
     </div>
-    <div v-else id="main_page_rep">
+    <div v-else>
         <div v-if="!this.finished" class="d-flex justify-content-center" style="margin-top: 15%;">
             <div id="waiting" class="spinner-border text-dark" style="width: 5rem; height: 5rem;" role="status">
                 <span class="sr-only">Loading...</span>
@@ -123,7 +123,6 @@ export default {
                 this.items.splice(data.index,1)
                 this.$root.toast("Deleted Match", "Successfully deleted the match !", "success");
                 this.$router.go(0);
-                // this.items = t_items
             }
             catch(err){
                 console.log(err);
@@ -174,7 +173,6 @@ export default {
             let data = iData.data;
             let value = iData.value;
             let event_selected = iData.event_selected;
-            console.log(iData);
             try{
                 let score = this.items[data.index].Score;
                 let eventBook = this.items[data.index].EventBook;

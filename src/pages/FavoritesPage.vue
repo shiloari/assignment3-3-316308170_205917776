@@ -284,7 +284,6 @@ export default {
 }
 
 .main_fav_container{
-    /* overflow: scroll; */
     width: 100%;
     height: 100%;
 }
@@ -298,14 +297,12 @@ export default {
 }
 
 .matches_row{
-    /* border: solid 2px red; */
     justify-content: space-evenly;
     width: max-content;
     margin-inline: auto;
 }
 
 .user{
-    /* border: solid 2px blue; */
     width: max-content;
     border-radius: 50%;
     margin-inline: auto;

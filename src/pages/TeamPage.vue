@@ -110,7 +110,6 @@
             <div v-if="this.matches.length > 0">
                 <div class="matches_section">
                     <b-container fluid="sm" >
-                        <!-- <div class="row_container2"> -->
                             <b-row class="row_container3">
                                 <b-col  v-if="current_match < matches.length" :key="this.current_match" class="game_col">
                                 <div class="game_preview_team_page">
@@ -146,7 +145,6 @@
                                 </b-col>
                                 
                             </b-row>
-                        <!-- </div> -->
                     </b-container>
                 </div>
                 <div class="nav_button">
@@ -168,7 +166,6 @@
             <div v-if="this.previous_matches.length > 0">
                 <div class="matches_section">
                     <b-container fluid="sm" >
-                        <!-- <div class="row_container2"> -->
                             <b-row class="row_container3">
                                 <b-col  v-if="current_prev_match < previous_matches.length" :key="this.current_prev_match" class="game_col">
                                 <div class="game_preview_team_page">
@@ -203,7 +200,6 @@
                                 </div>
                                 </b-col>
                             </b-row>
-                        <!-- </div> -->
                     </b-container>
                 </div>
                 <div class="nav_button">
@@ -282,7 +278,6 @@ export default {
         },
         async set_favorite_status(){
             try{
-                // document.getElementById("team_star").style.pointerEvents = "none";
                 const response = (await this.$root.server.get(`users/favoriteTeams`, {
                     withCredentials: true
                 })).data;
@@ -293,11 +288,9 @@ export default {
                 else{
                     this.favorite_state = "favorite_checked"
                 }
-                // document.getElementById("team_star").style.pointerEvents = "auto";
             }
             catch(error){
                this.favorite_state = "favorite_unchecked";
-            //    document.getElementById("team_star").style.pointerEvents = "auto";
             }
            
         },
@@ -327,8 +320,6 @@ export default {
         },   
         async getFullData(){
             const team_full_data = this.$root.store.get_team_full_data(this.$route.params.id);
-            // const team_full_data = (await this.$root.server.get(`teams/${this.$route.params.id}`)).data;
-            // const team_preview = (await  this.$root.server.get(`teams/${this.$route.params.id}/preview`)).data;
             this.team_name = team_full_data.name;
             this.team_logo_path = team_full_data.logo_path;
             this.short_code = team_full_data.short_code;
@@ -374,7 +365,6 @@ export default {
 
 .main_container{
     background: rgba(5, 5, 5, 0.507);
-    /* border: solid 2px red; */
     width: 50vw;
     height: 85vh;
     backdrop-filter: blur(10px);
@@ -386,7 +376,6 @@ export default {
 }
 
 .top{
-  /* border: solid 2px red;   */
   display: flex;
   margin: 0 auto;
   border-bottom: double 5px white;
@@ -397,8 +386,6 @@ export default {
 .top_content{
     display: flex;
     justify-content: space-around;
-    /* margin-bottom: 30px; */
-    /* backdrop-filter: blur(5px); */
 }
 
 .coach_section{
@@ -441,13 +428,11 @@ export default {
 }
 
 .bottom{
-    /* border: solid 2px blue; */
     display: flex; 
     flex-wrap: wrap;
 }
 
 .bottom_left{
-    /* border: solid 2px red; */
     flex: 0 0 50%;
     padding: 10px;
 
@@ -466,7 +451,6 @@ export default {
 }
 
 .team_name h3, .bottom_left h2, .bottom_left h4{
-    /* line-height: 40px; */
     text-align: center;
     color: white;
     margin-block: 5px;
@@ -474,7 +458,6 @@ export default {
 
 
 .bottom_right{
-    /* border: solid 2px pink; */
     flex: 0 0 50%;
     padding: 10px;
 }
@@ -482,7 +465,6 @@ export default {
 .personal_info{
     text-align: center;
     color: white;
-    /* margin-block: 5px; */
 }
 
 .personal_info p{
@@ -495,28 +477,21 @@ export default {
 .row_info{
     display: flex;
     justify-content: space-evenly;
-    /* border-bottom: dashed 2px rgba(255, 255, 255, 0.596); */
     margin-top:20px;
 }
 
 .main{
-    /* border: solid 2px red; */
-    /* margin: 0 auto; */
     height: 100%;
     overflow:scroll;
     backdrop-filter: blur(5px);
-    /* margin-block: 30px; */
-    /* display: flex; */
 }
 
 .row_container3{
-    /* border: solid 2px green; */
     justify-content: center ;
     margin: -10px;
 }
 
 .favorite_game{
-    /* border: solid 2px purple; */
     margin-inline: auto;
 }
 
@@ -530,20 +505,15 @@ export default {
 .team_section{
     width: max-content;
     display: block;
-    /* background-color: rgba(245, 255, 208, 0.068); */
     width: 30vw;
     height: 55vh;
-    /* backdrop-filter: blur(10px); */
     border-radius: 5%;
     margin-top: 15px;
-    /* margin-left: 100px; */
     padding-top: 15px;
     background-color: rgba(255, 255, 255, 0.199);
     box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2); 
-    /* margin-top: 15px; */
     padding: 20px;
     backdrop-filter: blur(20px);
-    /* border-radius: 5%; */
     z-index: 1;
 }
 
@@ -575,38 +545,23 @@ export default {
 .players{
     margin-top: 15px;
     margin-bottom: 0px;
-    /* margin-left: 100px; */
-    /* padding-block: 5px; */
     width: 100vw;
     margin-inline: auto;
-    /* height: 80vh; */
-    /* margin: 0 auto; */
-    /* border: solid 0.5px black; */
-    /* background: rgba(5, 5, 5, 0.76); */
     height: max-content;
-    /* width: 30vw;
-    height: 65vh; */
-    /* backdrop-filter: blur(5px); */
     border-radius: 3%;
-    /* z-index: -10; */
 }
 
 .players h1{
     text-align: center;
     color: #2c3e50;
-    /* margin-block: 30px; */
     box-shadow: inset 0 0 200px rgba(255, 255, 255, .5);
     width: max-content;
-    /* margin: 0 auto; */
-    /* padding-inline: 15px; */
-    /* padding-block: 1px; */
 }
 
 
 .favorite_checked{
     width: max-content;
     position: absolute;
-    /* float: right; */
 }
 
 .favorite_checked svg{
@@ -616,7 +571,6 @@ export default {
 .favorite_unchecked{
     width: max-content;
     position: absolute;
-    /* float: right; */
 }
 
 .favorite_unchecked svg{
@@ -624,7 +578,6 @@ export default {
 }
 
 #team_star{
-    /* float: right; */
     transition: all .3s ease-in-out;
 }
 
@@ -636,23 +589,17 @@ export default {
 }
 
 #waiting{
-    /* border: solid 2px red; */
     margin: 0 auto;
 }
 
 .matches_section{
-    /* border: solid 2px red; */
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
-    /* width: max-content; */
 }
 
 .game_preview_team_page{
-    /* border: solid 2px blue; */
-    /* margin-inline: 30px; */
     margin-bottom: 10px;
-    /* width: 25rem; */
 }
 
 .middle_content h1{
