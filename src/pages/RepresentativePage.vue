@@ -42,10 +42,8 @@
                             {{data.item.Score}}
                         </div>
                     </template>
-                    <template #cell(EventBook) = "data" >                        
-                            <b-dropdown id="dropdown-form" text="Show Events" ref="dropdown" class="m-2">
-                                {{data.item.EventBook}}
-                            </b-dropdown>
+                    <template #cell(EventBook) = "data" >
+                        <EventBook :EventBook="data.item.EventBook"></EventBook>
                     </template>
                     <template #cell(Actions) = "data" >
                         <b-button :id="'aB_'+ data.index" v-b-modal.modal-prevent="'modal-Score_'+ data.index" style="background:none;border:none;" v-show="!data.item.Score">
@@ -68,7 +66,7 @@
                         <b-button :id="'eB_'+ data.index" v-b-modal.modal-prevent="'modal-prevent_'+ data.index" style="background:none;border:none;">
                             <b-icon :id="'e_' + data.index" icon="pencil" aria-hidden="true" style="color:orange;"></b-icon>
                         </b-button>
-                        <b-modal ok-only ok-title="Ok" :id="'modal-prevent_'+ data.index" ref="modal2" title="Edit Match"
+                        <b-modal ok-only ok-title="Ok" :id="'modal-prevent_'+ data.index" ref="modal2" title="Edit Event"
                          @ok="UpdateMatch(data)">
                             <form ref="form" @submit.stop.prevent="handleSubmit">
                             <b-form-group label="Date" label-for="Date-input" invalid-feedback="Date is required">
@@ -98,8 +96,12 @@
     </div>
 </template>
 <script>
+import EventBook from  "../components/EventBook.vue"
 export default {
     name:"RepresentativePage",
+    components:{
+        EventBook
+    },
      data() {
         return {
         items: [],
@@ -211,15 +213,27 @@ export default {
                     return match.Away_Team_ID
                 }
         },
-        async addNewMatch(){
+        validation(){
             if(this.home_selected == this.away_selected){
                 this.$root.toast("Same team selected", "Same team selected !", "danger");
-                return
+                return false;
                 }
             if(!(this.date && this.hour)){
                 this.$root.toast("Empty date/hour", "Need to select date/hour !", "danger");
-                return
+                return false;
                 }
+            // let d = new Date();
+            // let toDay_date =`${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+            // debugger;
+            // if(!(this.date >= toDay_date)){
+            //     this.$root.toast("Empty date", "Need to select valid date !", "danger");
+            //     return false
+            // }
+            return true;
+        },
+        async addNewMatch(){
+           if(!this.validation())
+                return;
             try {
                 let response = await this.$root.server.post(`matches/`, {
                         home_team_id : `${this.home_selected}`,

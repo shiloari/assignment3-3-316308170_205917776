@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="event_book">
+        <div >
             <b-button id="toggle-btn" size="sm" @click="toggleModal">Event Book</b-button>
         </div>
         <b-modal ref="my-modal" hide-footer title="Match's Event Book">
