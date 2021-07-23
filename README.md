@@ -88,7 +88,7 @@ As a user, you can keep track of all your favorites in one place!
 
 ## Developers
 Developers: Ariel Shilo, Gal Alkalay <br>
-IDs: 316308170, 205917776
+
 
 [search-teams]: ./src/assets/README/search_teams.png
 [sort-filter]: ./src/assets/README/sort_and_filter.png
